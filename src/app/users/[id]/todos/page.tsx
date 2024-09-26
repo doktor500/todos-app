@@ -7,15 +7,18 @@ const Page = async ({ params }: Params) => {
   if (!user) return null; //TODO redirect to login page
 
   return (
-    <div className="flex flex-col items-center justify-center">
-      <ul>
-        {user.todos.map((todo) => (
-          <li key={todo.id} className="pt-3">
-            <span>{todo.content}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <h1 className="text-2xl text-center pt-10 font-bold">Todo list</h1>
+      <div className="flex flex-col items-center justify-center">
+        <ul className="text-sm text-center sm:text-left">
+          {user.todos.map((todo) => (
+            <li key={todo.id} className="pt-3">
+              <span>{todo.content}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 

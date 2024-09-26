@@ -1,6 +1,7 @@
 import { PlusIcon } from "lucide-react";
 
-import { Checkbox } from "@/ui/Checkbox";
+import { createTodo } from "@/actions/createTodo";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 
 type Params = { params: { id: number } };
@@ -11,16 +12,18 @@ const Page = async ({ params }: Params) => {
 
   return (
     <>
-      <h1 className="pt-12 text-center text-2xl font-bold">Todo list</h1>
+      <h1 className="pt-12 text-center text-2xl font-bold">Inbox</h1>
       <div className="flex cursor-pointer items-center justify-center pt-3">
         <ul>
           <li>
             <div className="h-11 w-96 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/30">
               <div className="flex items-center text-gray-800 dark:text-white">
                 <PlusIcon size="20" />
-                <form>
+                <form action={createTodo} data-testid="new-todo-form">
                   <input
                     type="text"
+                    name="todo"
+                    aria-label="new-todo"
                     placeholder="Add a to-do..."
                     className="w-80 border-none bg-transparent pl-1 text-sm outline-none"
                   />

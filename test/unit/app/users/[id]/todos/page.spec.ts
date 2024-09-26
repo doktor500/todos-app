@@ -1,4 +1,4 @@
-import { screen } from "@testing-library/dom";
+import { screen, fireEvent} from '@testing-library/react'
 import { expect } from "vitest";
 
 import Page from "@/app/users/[id]/todos/page";
@@ -6,8 +6,10 @@ import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRe
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { renderAsync } from "@/test/unit/utils/reactTestUtils";
+import { createTodo } from "@/actions/createTodo";
 
 vi.mock("@/modules/infrastructure/repositories/usersDBRepository");
+vi.mock("@/actions/createTodo", () => ({ createTodo: vi.fn() }));
 
 describe("todos page", () => {
   it("renders user todos successfully", async () => {
@@ -19,4 +21,22 @@ describe("todos page", () => {
 
     expect(screen.getByText(todo.content)).toBeVisible();
   });
+
+  it("calls create todo action when the form is submitted", async () => {
+    const user = aUser();
+    const newTodo = "New todo";
+    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+    
+    await renderAsync(Page, { params: { id: user.id } });
+
+    fireEvent.change(screen.getByLabelText("new-todo"), { target: { value: newTodo } });
+    fireEvent.submit(screen.getByTestId("new-todo-form"));
+    expect(createTodo).toHaveBeenCalledWith(formData({ todo: newTodo }));
+  });
 });
+
+const formData = (data: object) => {
+  const formData = new FormData();
+  Object.entries(data).forEach(([key, value]) => formData.set(key, value));
+  return formData;
+} 

@@ -3,8 +3,8 @@ import { eq } from "drizzle-orm";
 import UsersRepository from "@/modules/application/repositories/usersRepository";
 import { Todo } from "@/modules/domain/todo";
 import { User } from "@/modules/domain/user";
-import { db } from "@/modules/infrastructure/db";
 import { Optional } from "@/modules/domain/utils/optional";
+import { db } from "@/modules/infrastructure/db";
 
 export const usersRepository: UsersRepository = {
   findById: async (id: number): Promise<Optional<User>> => {

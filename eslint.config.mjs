@@ -122,7 +122,6 @@ export default [
         props: "never",
         children: "never"
       }],
-      "react/jsx-props-no-spreading": "error",
       "react/react-in-jsx-scope": "off",
     },
   },

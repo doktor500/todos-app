@@ -8,9 +8,9 @@ const Page = async ({ params }: Params) => {
 
   return (
     <>
-      <h1 className="text-2xl text-center pt-10 font-bold">Todo list</h1>
+      <h1 className="pt-10 text-center text-2xl font-bold">Todo list</h1>
       <div className="flex flex-col items-center justify-center">
-        <ul className="text-sm text-center sm:text-left">
+        <ul className="text-center text-sm sm:text-left">
           {user.todos.map((todo) => (
             <li key={todo.id} className="pt-3">
               <span>{todo.content}</span>

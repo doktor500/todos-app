@@ -1,11 +1,14 @@
-import type { Metadata } from "next";
-import { Barlow_Condensed } from "next/font/google";
+/* eslint-disable no-restricted-imports */
 import "./globals.css";
 
-const barlowCondensed = Barlow_Condensed({
+import type { Metadata } from "next";
+import { Barlow_Condensed as BarlowCondensed } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+
+const barlowCondensed = BarlowCondensed({
   weight: "700",
   subsets: ["latin"],
-  variable: "--font-barlow-condensed",	
+  variable: "--font-barlow-condensed",
 });
 
 export const metadata: Metadata = {
@@ -20,8 +23,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="font-[family-name:var(--font-barlow-condensed)] antialiased" >
-        {children}
+      <body className={`${barlowCondensed.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

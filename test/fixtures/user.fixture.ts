@@ -4,7 +4,7 @@ import { aTodo } from "@/test/fixtures/todo.fixture";
 
 export const aUser = (user?: Partial<User>): User => {
     return {
-        id: randomDataGenerator.anId(),
+        id: randomDataGenerator.aNumber(),
         name: randomDataGenerator.aString(),
         todos: [aTodo()],
         ...user

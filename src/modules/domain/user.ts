@@ -1,7 +1,7 @@
 import { Todo } from "@/modules/domain/todo";
 
 export type User = {
-    id: string;
+    id: number;
     name: string;
     todos: Todo[];
-}
+};

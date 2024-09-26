@@ -1,6 +1,20 @@
 ## Getting Started
 
-First, run the development server:
+Install `pnpm`
+
+Start database with docker compose:
+
+```bash
+docker-compose up -d
+```
+
+Execute database migrations:
+
+```bash
+pnpm run db:migrate
+```
+
+Run the development server:
 
 ```bash
 pnpm dev

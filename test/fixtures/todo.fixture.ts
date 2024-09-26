@@ -3,7 +3,7 @@ import { randomDataGenerator } from "@/test/utils/randomDataGenerator";
 
 export const aTodo = (todo?: Partial<Todo>): Todo => {
     return {
-        id: randomDataGenerator.anId(),
+        id: randomDataGenerator.aNumber(),
         content: randomDataGenerator.aString(),
         ...todo
     }

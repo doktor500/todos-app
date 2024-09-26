@@ -4,10 +4,10 @@ import { screen } from "@testing-library/dom";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { renderAsync } from "@/test/unit/utils/reactTestUtils";
-import { usersRepository } from "@/modules/infrastructure/usersDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 import Page from "@/app/users/[id]/todos/page";
 
-vi.mock("@/modules/infrastructure/usersDBRepository");
+vi.mock("@/modules/infrastructure/repositories/usersDBRepository");
 
 describe("todos page", () => {
     it("renders user todos successfully", async () => {

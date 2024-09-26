@@ -23,7 +23,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${barlowCondensed.variable} antialiased`}>
+      <body
+        className={`${barlowCondensed.variable} antialiased dark:bg-gray-900`}
+      >
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

@@ -19,7 +19,7 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    expect(screen.getByText(todo.content)).toBeVisible();
+    expect(screen.getByLabelText(todo.content)).toBeVisible();
   });
 
   it("calls create todo action when the form is submitted", async () => {

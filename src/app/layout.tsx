@@ -1,5 +1,7 @@
-import type { Metadata } from "next";
+/* eslint-disable no-restricted-imports */
 import "./globals.css";
+
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Todo App",
@@ -9,9 +11,7 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en">
-      <body>
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 };

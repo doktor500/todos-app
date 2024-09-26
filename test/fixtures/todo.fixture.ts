@@ -2,9 +2,9 @@ import { Todo } from "@/modules/domain/todo";
 import { randomDataGenerator } from "@/test/utils/randomDataGenerator";
 
 export const aTodo = (todo?: Partial<Todo>): Todo => {
-    return {
-        id: randomDataGenerator.aNumber(),
-        content: randomDataGenerator.aString(),
-        ...todo
-    }
-}
+  return {
+    id: randomDataGenerator.aNumber(),
+    content: randomDataGenerator.aString(),
+    ...todo,
+  };
+};

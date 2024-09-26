@@ -7,8 +7,10 @@ import postgres from "postgres";
 const client = postgres(process.env.DATABASE_URL as string, { max: 1 });
 
 const main = async () => {
-    await migrate(drizzle(client), { migrationsFolder: "./src/drizzle/migrations"});
-    await client.end();
+  await migrate(drizzle(client), {
+    migrationsFolder: "./src/drizzle/migrations",
+  });
+  await client.end();
 };
 
 main().catch(console.error);

@@ -4,9 +4,10 @@ import UsersRepository from "@/modules/application/repositories/usersRepository"
 import { Todo } from "@/modules/domain/todo";
 import { User } from "@/modules/domain/user";
 import { db } from "@/modules/infrastructure/db";
+import { Optional } from "@/modules/domain/utils/optional";
 
 export const usersRepository: UsersRepository = {
-  findById: async (id: number): Promise<User | undefined> => {
+  findById: async (id: number): Promise<Optional<User>> => {
     const user = await db.query.UsersTable.findFirst({
       columns: { id: true, name: true },
       with: { todos: true },

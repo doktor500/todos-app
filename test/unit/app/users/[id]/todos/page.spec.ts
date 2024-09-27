@@ -23,6 +23,16 @@ describe("todos page", () => {
     expect(screen.getByLabelText(todo.content)).toBeVisible();
   });
 
+  it("marks todo as completed", async () => {
+    const todo = aTodo({ completed: true });
+    const user = aUser({ todos: [todo] });
+    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", "true");
+  });
+
   it("calls create todo action when the form is submitted", async () => {
     const user = aUser();
     const newTodo = "New todo";

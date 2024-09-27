@@ -15,8 +15,8 @@ export const usersTestRepository = {
       .returning({ id: UsersTable.id });
 
     await Promise.all(
-      user.todos.map(({ id, content }) => {
-        return db.insert(TodosTable).values({ id, content, userId: user.id });
+      user.todos.map((todo) => {
+        return db.insert(TodosTable).values({ ...todo, userId: user.id });
       }),
     );
   },

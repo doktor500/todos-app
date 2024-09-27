@@ -1,7 +1,7 @@
 import "dotenv/config";
 
 import { relations } from "drizzle-orm";
-import { integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, serial, varchar } from "drizzle-orm/pg-core";
 
 export const UsersTable = pgTable("users", {
   id: serial("id").primaryKey(),
@@ -11,6 +11,7 @@ export const UsersTable = pgTable("users", {
 export const TodosTable = pgTable("todos", {
   id: serial("id").primaryKey(),
   content: varchar("content", { length: 255 }).notNull(),
+  completed: boolean("completed").default(false),
   userId: integer("userId")
     .references(() => UsersTable.id, { onDelete: "cascade" })
     .notNull(),

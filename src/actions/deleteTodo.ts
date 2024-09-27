@@ -8,20 +8,15 @@ import { webCache } from "@/web/webCache";
 type Command = {
   userId: number;
   todoId: number;
-  completed: boolean;
 };
 
 const schema = z.object({
   userId: z.number().positive(),
   todoId: z.number().positive(),
-  completed: z.boolean(),
 });
 
-export const toggleTodo = async (command: Command) => {
+export const deleteTodo = async (command: Command) => {
   const todo = schema.parse(command);
-  await todosRepository.update({
-    todoId: todo.todoId,
-    completed: todo.completed,
-  });
+  await todosRepository.delete(todo.todoId);
   webCache.revalidatePath(`users/${todo.userId}`);
 };

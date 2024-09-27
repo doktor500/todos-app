@@ -13,4 +13,7 @@ export const todosRepository: TodosRepository = {
       .set({ completed })
       .where(eq(TodosTable.id, todoId));
   },
+  async delete(todoId: number): Promise<void> {
+    await db.delete(TodosTable).where(eq(TodosTable.id, todoId));
+  },
 };

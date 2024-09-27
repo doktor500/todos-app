@@ -26,4 +26,21 @@ describe("Todos repository", () => {
       }),
     );
   });
+
+  it("can delete a todo successfully", async () => {
+    const todo = aTodo({ id: undefined, completed: false });
+    const user = aUser({ todos: [todo] });
+    await usersTestRepository.save(user);
+
+    const existingUser = await usersTestRepository.findById(user.id);
+    const todoId = existingUser!.todos.at(0)!.id;
+
+    await todosRepository.delete(todoId);
+
+    const existingUserWithUpdatedTodo = await usersTestRepository.findById(
+      user.id,
+    );
+
+    expect(existingUserWithUpdatedTodo?.todos).toEqual([]);
+  });
 });

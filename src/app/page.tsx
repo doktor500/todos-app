@@ -1,5 +1,7 @@
+import { redirect } from 'next/navigation'
+
 const Page = () => {
-  return <div>TBD</div>;
+  redirect("users/1/todos");
 };
 
 export default Page;

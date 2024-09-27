@@ -15,6 +15,13 @@
       "when": 1727434647487,
       "tag": "0001_salty_centennial",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1727450773567,
+      "tag": "0002_familiar_norman_osborn",
+      "breakpoints": true
     }
   ]
 }

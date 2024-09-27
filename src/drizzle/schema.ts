@@ -17,7 +17,7 @@ export const UsersTable = pgTable("users", {
 export const TodosTable = pgTable("todos", {
   id: serial("id").primaryKey(),
   content: varchar("content", { length: 255 }).notNull(),
-  completed: boolean("completed").default(false),
+  completed: boolean("completed").default(false).notNull(),
   userId: integer("userId")
     .references(() => UsersTable.id, { onDelete: "cascade" })
     .notNull(),

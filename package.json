@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prebuild": "npx pnpm db:migrate",
     "build": "next build",
     "db:generate": "npx drizzle-kit generate",
     "db:migrate": "tsx src/drizzle/migrate.ts",

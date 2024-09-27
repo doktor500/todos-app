@@ -6,7 +6,11 @@ describe("Users repository", () => {
   it("can find a user by id", async () => {
     const todo1 = aTodo({ id: 1, content: "Buy milk" });
     const todo2 = aTodo({ id: 2, content: "Buy bread" });
-    const user = aUser({ id: 1, name: "David", todos: [todo1, todo2] });
+    const user = aUser({
+      id: 1,
+      name: "David",
+      todos: [todo1, todo2].reverse(),
+    });
 
     await usersTestRepository.save(user);
     const fetchedUser = await usersTestRepository.findById(user.id);

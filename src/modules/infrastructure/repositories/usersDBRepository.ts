@@ -11,7 +11,10 @@ export const usersRepository: UsersRepository = {
     return db.query.UsersTable.findFirst({
       columns: { id: true, name: true },
       with: {
-        todos: { columns: { id: true, content: true, completed: true } },
+        todos: {
+          columns: { id: true, content: true, completed: true },
+          orderBy: (todo, { desc }) => [desc(todo.id)],
+        },
       },
       where: (user) => eq(user.id, userId),
     });

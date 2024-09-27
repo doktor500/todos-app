@@ -1,4 +1,4 @@
-import { fireEvent, screen } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { expect } from "vitest";
 
 import { createTodo } from "@/actions/createTodo";
@@ -27,8 +27,12 @@ describe("todos page", () => {
     expect(screen.getByLabelText(todo.content)).toBeVisible();
   });
 
-  it("marks todo as completed", async () => {
-    const todo = aTodo({ completed: true });
+  it.each`
+    completed
+    ${true}
+    ${false}
+  `("marks completed todos as checked when the list of todos is rendered", async ({ completed }) => {
+    const todo = aTodo({ completed });
     const user = aUser({ todos: [todo] });
     vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
 
@@ -36,7 +40,7 @@ describe("todos page", () => {
 
     expect(screen.getByRole("checkbox")).toHaveAttribute(
       "aria-checked",
-      "true",
+      `${completed}`,
     );
   });
 
@@ -51,9 +55,41 @@ describe("todos page", () => {
       target: { value: newTodo },
     });
 
-    fireEvent.submit(screen.getByLabelText("Create todo"));
+    await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
     expect(createTodo).toHaveBeenCalledWith(
       expect.objectContaining(formData({ todo: newTodo, userId: user.id })),
+    );
+  });
+
+  it("clears the input field to create a todo when the form is submitted", async () => {
+    const user = aUser();
+    const newTodo = "New todo";
+    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    const newTodoInputField = screen.getByLabelText("New todo");
+    fireEvent.change(newTodoInputField, { target: { value: newTodo } });
+
+    await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
+    expect(newTodoInputField).toHaveTextContent("");
+  });
+
+  it("adds the new todo to the list when the form is submitted", async () => {
+    const user = aUser({ todos: [] });
+    const newTodo = "New todo";
+    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    const newTodoInputField = screen.getByLabelText("New todo");
+    fireEvent.change(newTodoInputField, { target: { value: newTodo } });
+
+    await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
+    waitFor(() =>
+      expect(screen.getByLabelText("Todo description")).toHaveTextContent(
+        newTodo,
+      ),
     );
   });
 
@@ -73,6 +109,28 @@ describe("todos page", () => {
     });
   });
 
+  it.each`
+    completed
+    ${true}
+    ${false}
+  `("toggles todo completed state when the checkbox is clicked", async ({ completed }) => {
+    const todo = aTodo({ completed });
+    const user = aUser({ todos: [todo] });
+
+    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    fireEvent.click(screen.getByRole("checkbox"));
+
+    waitFor(() =>
+      expect(screen.getByRole("checkbox")).toHaveAttribute(
+        "aria-checked",
+        `${completed}`,
+      ),
+    );
+  });
+
   it("calls delete todo action when the trash icon is clicked", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });
@@ -86,5 +144,19 @@ describe("todos page", () => {
       userId: user.id,
       todoId: todo.id,
     });
+  });
+
+  it("deletes todo from the list of todos when the trash icon is clicked", async () => {
+    const todo = aTodo();
+    const user = aUser({ todos: [todo] });
+
+    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    fireEvent.click(screen.getByLabelText("Delete todo"));
+    waitFor(() =>
+      expect(screen.getByLabelText("Todo description")).not.toBeInTheDocument(),
+    );
   });
 });

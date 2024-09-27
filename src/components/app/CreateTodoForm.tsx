@@ -1,13 +1,41 @@
 import { PlusIcon } from "lucide-react";
 
 import { createTodo } from "@/actions/createTodo";
+import { useForm } from "@/hooks/useForm";
+import {
+  TodoAction,
+  TodoActionHandler,
+  TodoActionType,
+} from "@/hooks/useTodos";
 
-export const CreateTodoForm = ({ userId }: { userId: number }) => {
+type Props = {
+  userId: number;
+  todoActionHandler: TodoActionHandler;
+  pendingTransaction: boolean;
+};
+
+const { CREATE_TODO } = TodoActionType;
+
+export const CreateTodoForm = (props: Props) => {
+  const { userId, todoActionHandler, pendingTransaction } = props;
+  const { formRef, resetForm } = useForm();
+
+  const handleCreateTodo = (formData: FormData) => {
+    const content = formData.get("todo")?.toString();
+    if (content && !pendingTransaction) {
+      const action: TodoAction = { type: CREATE_TODO, payload: { content } };
+      todoActionHandler.handle(action);
+      resetForm();
+
+      return createTodo(formData);
+    }
+  };
+
   return (
     <div className="h-11 w-96 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/30">
       <div className="flex items-center text-gray-800 dark:text-white">
         <PlusIcon size="20" />
-        <form action={createTodo} aria-label="Create todo">
+        <form ref={formRef} action={handleCreateTodo} aria-label="Create todo">
           <input type="hidden" name="userId" value={userId} />
           <input
             type="text"

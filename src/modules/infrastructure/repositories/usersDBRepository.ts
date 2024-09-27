@@ -3,7 +3,7 @@ import { eq } from "drizzle-orm";
 import { TodosTable } from "@/drizzle/schema";
 import UsersRepository from "@/modules/application/repositories/usersRepository";
 import { User } from "@/modules/domain/user";
-import { Optional } from "@/modules/domain/utils/optional";
+import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { db } from "@/modules/infrastructure/db";
 
 export const usersRepository: UsersRepository = {

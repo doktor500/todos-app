@@ -1,7 +1,7 @@
 import { PlusIcon } from "lucide-react";
 
 import { createTodo } from "@/actions/createTodo";
-import { Checkbox } from "@/components/ui/Checkbox";
+import { TodoCheckbox } from "@/components/app/TodoCheckbox";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 
 type Params = { params: { id: number } };
@@ -34,14 +34,12 @@ const Page = async ({ params }: Params) => {
           </li>
           {user.todos.map((todo) => (
             <li key={todo.id} className="pt-1">
-              <div className="h-11 w-96 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/40">
-                <div className="flex items-center text-gray-800 dark:text-white">
-                  <Checkbox id={`todo-${todo.id}`} checked={todo.completed} />
-                  <label htmlFor={`todo-${todo.id}`} className="pl-2 text-sm">
-                    {todo.content}
-                  </label>
-                </div>
-              </div>
+              <TodoCheckbox
+                userId={user.id}
+                todoId={todo.id}
+                content={todo.content}
+                completed={todo.completed}
+              />
             </li>
           ))}
         </ul>

@@ -1,3 +1,4 @@
+import { client } from "@/modules/infrastructure/db";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { usersTestRepository } from "@/test/repositories/usersTestRepository";
@@ -9,7 +10,7 @@ const seed = async () => {
 
   await usersTestRepository.deleteAll();
   await usersTestRepository.save(user);
-  await usersTestRepository.end();
+  await client.end();
 };
 
 seed().catch(console.error);

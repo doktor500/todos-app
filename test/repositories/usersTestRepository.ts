@@ -1,6 +1,6 @@
 import { TodosTable, UsersTable } from "@/drizzle/schema";
 import { User } from "@/modules/domain/user";
-import { client, db } from "@/modules/infrastructure/db";
+import { db } from "@/modules/infrastructure/db";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 
 export const usersTestRepository = {
@@ -19,8 +19,5 @@ export const usersTestRepository = {
         return db.insert(TodosTable).values({ ...todo, userId: user.id });
       }),
     );
-  },
-  end: async () => {
-    return client.end();
   },
 };

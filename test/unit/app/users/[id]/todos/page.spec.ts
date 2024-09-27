@@ -2,6 +2,7 @@ import { fireEvent, screen } from "@testing-library/react";
 import { expect } from "vitest";
 
 import { createTodo } from "@/actions/createTodo";
+import { toggleTodo } from "@/actions/toggleTodo";
 import Page from "@/app/users/[id]/todos/page";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 import { aTodo } from "@/test/fixtures/todo.fixture";
@@ -11,6 +12,7 @@ import { renderAsync } from "@/test/unit/utils/reactTestUtils";
 
 vi.mock("@/modules/infrastructure/repositories/usersDBRepository");
 vi.mock("@/actions/createTodo", () => ({ createTodo: vi.fn() }));
+vi.mock("@/actions/toggleTodo", () => ({ toggleTodo: vi.fn() }));
 
 describe("todos page", () => {
   it("renders user todos successfully", async () => {
@@ -30,7 +32,10 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", "true");
+    expect(screen.getByRole("checkbox")).toHaveAttribute(
+      "aria-checked",
+      "true",
+    );
   });
 
   it("calls create todo action when the form is submitted", async () => {
@@ -48,5 +53,21 @@ describe("todos page", () => {
     expect(createTodo).toHaveBeenCalledWith(
       expect.objectContaining(formData({ todo: newTodo, userId: user.id })),
     );
+  });
+
+  it("calls toggle todo action when the todo checkbox is clicked", async () => {
+    const todo = aTodo();
+    const user = aUser({ todos: [todo] });
+
+    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    fireEvent.click(screen.getByRole("checkbox"));
+    expect(toggleTodo).toHaveBeenCalledWith({
+      userId: user.id,
+      todoId: todo.id,
+      completed: true,
+    });
   });
 });

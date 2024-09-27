@@ -1,3 +1,5 @@
+"use server";
+
 import z from "zod";
 
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
@@ -9,8 +11,6 @@ const schema = z.object({
 });
 
 export const createTodo = async (formData: FormData) => {
-  "use server";
-
   const data = schema.parse({
     userId: Number(formData.get("userId")),
     todo: formData.get("todo"),

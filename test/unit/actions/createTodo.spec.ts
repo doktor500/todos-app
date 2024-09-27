@@ -1,5 +1,6 @@
 import { createTodo } from "@/actions/createTodo";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
+import { aUser } from "@/test/fixtures/user.fixture";
 import { formData } from "@/test/unit/utils/formDataUtils";
 import { webCache } from "@/web/webCache";
 
@@ -23,12 +24,12 @@ describe("create todo action", () => {
   });
 
   it("calls repository to create a todo when the form data is valid", async () => {
-    const userId = 1;
-    const todo = "New todo";
+    const user = aUser();
+    const newTodo = "New todo";
 
-    await createTodo(formData({ userId: userId.toString(), todo }));
-    expect(usersRepository.saveTodo).toHaveBeenCalledWith(userId, todo);
+    await createTodo(formData({ userId: user.id.toString(), todo: newTodo }));
+    expect(usersRepository.saveTodo).toHaveBeenCalledWith(user.id, newTodo);
 
-    expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${userId}`);
+    expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });
 });

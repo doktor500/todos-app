@@ -10,7 +10,9 @@ export const usersRepository: UsersRepository = {
   findById: async (userId: number): Promise<Optional<User>> => {
     return db.query.UsersTable.findFirst({
       columns: { id: true, name: true },
-      with: { todos: { columns: { id: true, content: true, completed: true } } },
+      with: {
+        todos: { columns: { id: true, content: true, completed: true } },
+      },
       where: (user) => eq(user.id, userId),
     });
   },

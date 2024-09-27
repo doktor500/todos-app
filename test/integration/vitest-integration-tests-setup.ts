@@ -1,7 +1,11 @@
-/* eslint-disable no-restricted-imports */
-import { usersTestRepository } from "../repositories/usersTestRepository";
+import { client } from "@/modules/infrastructure/db";
+import { usersTestRepository } from "@/test/repositories/usersTestRepository";
+
+export const setup = async () => {
+  await usersTestRepository.deleteAll();
+};
 
 export const teardown = async () => {
   await usersTestRepository.deleteAll();
-  await usersTestRepository.end();
+  await client.end();
 };

@@ -3,9 +3,6 @@ import { aUser } from "@/test/fixtures/user.fixture";
 import { usersTestRepository } from "@/test/repositories/usersTestRepository";
 
 describe("Users repository", () => {
-  beforeEach(() => usersTestRepository.deleteAll());
-  afterAll(() => usersTestRepository.end());
-
   it("can find a user by id", async () => {
     const todo1 = aTodo({ id: 1, content: "Buy milk" });
     const todo2 = aTodo({ id: 2, content: "Buy bread" });

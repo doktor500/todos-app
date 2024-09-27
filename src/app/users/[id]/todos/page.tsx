@@ -20,6 +20,7 @@ const Page = async ({ params }: Params) => {
               <div className="flex items-center text-gray-800 dark:text-white">
                 <PlusIcon size="20" />
                 <form action={createTodo} data-testid="new-todo-form">
+                  <input type="hidden" name="userId" value={user.id} />
                   <input
                     type="text"
                     name="todo"

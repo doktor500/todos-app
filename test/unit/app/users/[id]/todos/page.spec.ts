@@ -34,13 +34,13 @@ describe("todos page", () => {
     });
     
     fireEvent.submit(screen.getByTestId("new-todo-form"));
-    expect(createTodo).toHaveBeenCalledWith(formData({ todo: newTodo }));
+    expect(createTodo).toHaveBeenCalledWith(expect.objectContaining(formData({ todo: newTodo, userId: user.id })));
   });
 });
 
 const formData = (data: object) => {
   const formData = new FormData();
-  Object.entries(data).forEach(([key, value]) => formData.set(key, value));
+  Object.entries(data).forEach(([key, value]) => formData.set(key, value.toString()));
 
   return formData;
 };

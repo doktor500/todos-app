@@ -123,6 +123,7 @@ export default [
         children: "never"
       }],
       "react/react-in-jsx-scope": "off",
+      "vitest/valid-expect": "off",
     },
   },
   {

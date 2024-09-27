@@ -16,4 +16,21 @@ describe("Users repository", () => {
 
     expect(fetchedUser).toEqual(user);
   });
+
+  it("can save a todo successfully", async () => {
+    const newTodo = aTodo({ id: undefined });
+    const user = aUser({ id: 2, name: "Sarah", todos: [] });
+    await usersTestRepository.save(user);
+
+    await usersTestRepository.saveTodo(user.id, newTodo.content);
+
+    const fetchedUser = await usersTestRepository.findById(user.id);
+
+    expect(fetchedUser?.todos).toContainEqual(
+      expect.objectContaining({
+        content: newTodo.content,
+        id: expect.any(Number),
+      }),
+    );
+  });
 });

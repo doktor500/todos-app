@@ -6,6 +6,7 @@ import Page from "@/app/users/[id]/todos/page";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
+import { formData } from "@/test/unit/utils/formDataUtils";
 import { renderAsync } from "@/test/unit/utils/reactTestUtils";
 
 vi.mock("@/modules/infrastructure/repositories/usersDBRepository");
@@ -32,15 +33,10 @@ describe("todos page", () => {
     fireEvent.change(screen.getByLabelText("new-todo"), {
       target: { value: newTodo },
     });
-    
+
     fireEvent.submit(screen.getByTestId("new-todo-form"));
-    expect(createTodo).toHaveBeenCalledWith(expect.objectContaining(formData({ todo: newTodo, userId: user.id })));
+    expect(createTodo).toHaveBeenCalledWith(
+      expect.objectContaining(formData({ todo: newTodo, userId: user.id })),
+    );
   });
 });
-
-const formData = (data: object) => {
-  const formData = new FormData();
-  Object.entries(data).forEach(([key, value]) => formData.set(key, value.toString()));
-
-  return formData;
-};

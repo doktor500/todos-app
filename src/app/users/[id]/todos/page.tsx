@@ -1,6 +1,6 @@
-import { PlusIcon } from "lucide-react";
+import { redirect } from "next/navigation";
 
-import { createTodo } from "@/actions/createTodo";
+import { CreateTodoForm } from "@/components/app/CreateTodoForm";
 import { TodoCheckbox } from "@/components/app/TodoCheckbox";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 
@@ -8,7 +8,7 @@ type Params = { params: { id: number } };
 
 const Page = async ({ params }: Params) => {
   const user = await usersRepository.findById(params.id);
-  if (!user) return null; //TODO redirect to login page
+  if (!user) return redirect("/");
 
   return (
     <>
@@ -16,21 +16,7 @@ const Page = async ({ params }: Params) => {
       <div className="flex cursor-pointer items-center justify-center pt-3">
         <ul>
           <li>
-            <div className="h-11 w-96 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/30">
-              <div className="flex items-center text-gray-800 dark:text-white">
-                <PlusIcon size="20" />
-                <form action={createTodo} aria-label="Create todo">
-                  <input type="hidden" name="userId" value={user.id} />
-                  <input
-                    type="text"
-                    name="todo"
-                    aria-label="New todo"
-                    placeholder="Add a to-do..."
-                    className="w-80 border-none bg-transparent pl-1 text-sm outline-none"
-                  />
-                </form>
-              </div>
-            </div>
+            <CreateTodoForm userId={user.id} />
           </li>
           {user.todos.map((todo) => (
             <li key={todo.id} className="pt-1">

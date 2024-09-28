@@ -31,18 +31,21 @@ describe("todos page", () => {
     completed
     ${true}
     ${false}
-  `("marks completed todos as checked when the list of todos is rendered", async ({ completed }) => {
-    const todo = aTodo({ completed });
-    const user = aUser({ todos: [todo] });
-    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+  `(
+    "marks completed todos as checked when the list of todos is rendered",
+    async ({ completed }) => {
+      const todo = aTodo({ completed });
+      const user = aUser({ todos: [todo] });
+      vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+      await renderAsync(Page, { params: { id: user.id } });
 
-    expect(screen.getByRole("checkbox")).toHaveAttribute(
-      "aria-checked",
-      `${completed}`,
-    );
-  });
+      expect(screen.getByRole("checkbox")).toHaveAttribute(
+        "aria-checked",
+        `${completed}`,
+      );
+    },
+  );
 
   it("calls create todo action when the form is submitted", async () => {
     const user = aUser();
@@ -113,23 +116,26 @@ describe("todos page", () => {
     completed
     ${true}
     ${false}
-  `("toggles todo completed state when the checkbox is clicked", async ({ completed }) => {
-    const todo = aTodo({ completed });
-    const user = aUser({ todos: [todo] });
+  `(
+    "toggles todo completed state when the checkbox is clicked",
+    async ({ completed }) => {
+      const todo = aTodo({ completed });
+      const user = aUser({ todos: [todo] });
 
-    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+      vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+      await renderAsync(Page, { params: { id: user.id } });
 
-    fireEvent.click(screen.getByRole("checkbox"));
+      fireEvent.click(screen.getByRole("checkbox"));
 
-    waitFor(() =>
-      expect(screen.getByRole("checkbox")).toHaveAttribute(
-        "aria-checked",
-        `${completed}`,
-      ),
-    );
-  });
+      waitFor(() =>
+        expect(screen.getByRole("checkbox")).toHaveAttribute(
+          "aria-checked",
+          `${completed}`,
+        ),
+      );
+    },
+  );
 
   it("calls delete todo action when the trash icon is clicked", async () => {
     const todo = aTodo();

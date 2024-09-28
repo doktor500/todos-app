@@ -6,7 +6,8 @@ import { UIEvent } from "react";
 import { deleteTodo } from "@/actions/deleteTodo";
 import { toggleTodo } from "@/actions/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
-import { TodoAction, TodoActionHandler, TodoActionType } from "@/hooks/useTodos";
+import { TodoActionHandler } from "@/hooks/useTodos";
+import { TodoAction, TodoActionType } from "@/modules/domain/todo";
 
 type Props = {
   userId: number;

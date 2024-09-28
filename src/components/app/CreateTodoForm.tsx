@@ -2,7 +2,8 @@ import { PlusIcon } from "lucide-react";
 
 import { createTodo } from "@/actions/createTodo";
 import { useForm } from "@/hooks/useForm";
-import { TodoAction, TodoActionHandler, TodoActionType } from "@/hooks/useTodos";
+import { TodoActionHandler } from "@/hooks/useTodos";
+import { TodoAction, TodoActionType } from "@/modules/domain/todo";
 
 type Props = {
   userId: number;

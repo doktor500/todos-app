@@ -1,11 +1,11 @@
 import { toggleTodo } from "@/actions/toggleTodo";
 import { todosRepository } from "@/modules/infrastructure/repositories/todosDBRepository";
+import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
-import { webCache } from "@/web/webCache";
 
 vi.mock("@/modules/infrastructure/repositories/todosDBRepository");
-vi.mock("@/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
+vi.mock("@/modules/infrastructure/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
 
 describe("toggle todo action", () => {
   it.each`

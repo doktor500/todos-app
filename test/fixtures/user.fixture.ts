@@ -1,6 +1,6 @@
 import { User } from "@/modules/domain/user";
 import { aTodo } from "@/test/fixtures/todo.fixture";
-import { randomDataGenerator } from "@/test/utils/randomDataGenerator";
+import { randomDataGenerator } from "@/test/fixtures/utils/randomDataGenerator";
 
 export const aUser = (user?: Partial<User>): User => {
   return {

@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
 
-import { TodosTable } from "@/drizzle/schema";
+import { TodosTable } from "@/datastore/schema";
 import TodosRepository, { UpdateTodo } from "@/modules/application/repositories/todosRepository";
-import { db } from "@/modules/infrastructure/db";
+import { db } from "@/modules/infrastructure/repositories/db";
 
 export const todosRepository: TodosRepository = {
   async update({ todoId, completed }: UpdateTodo): Promise<void> {

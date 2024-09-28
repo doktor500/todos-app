@@ -1,7 +1,7 @@
-import { client } from "@/modules/infrastructure/db";
+import { client } from "@/modules/infrastructure/repositories/db";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
-import { usersTestRepository } from "@/test/repositories/usersTestRepository";
+import { usersTestRepository } from "@/test/integration/application/repositories/usersTestRepository";
 
 const seed = async () => {
   const todo1 = aTodo({ id: 1, content: "Buy milk" });

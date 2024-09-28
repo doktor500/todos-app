@@ -3,7 +3,7 @@
 import z from "zod";
 
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
-import { webCache } from "@/web/webCache";
+import { webCache } from "@/modules/infrastructure/web/webCache";
 
 const schema = z.object({
   userId: z.number().positive(),

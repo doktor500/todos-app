@@ -132,7 +132,7 @@ export default [
     },
   },
   {
-    files: ["src/drizzle/**/*.ts"],
+    files: ["src/datastore/**/*.ts"],
     rules: {
       "no-console": "off",
     },

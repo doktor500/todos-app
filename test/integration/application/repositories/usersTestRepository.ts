@@ -1,6 +1,6 @@
-import { TodosTable, UsersTable } from "@/drizzle/schema";
+import { TodosTable, UsersTable } from "@/datastore/schema";
 import { User } from "@/modules/domain/user";
-import { db } from "@/modules/infrastructure/db";
+import { db } from "@/modules/infrastructure/repositories/db";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 
 export const usersTestRepository = {

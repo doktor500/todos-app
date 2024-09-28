@@ -1,11 +1,11 @@
 import { createTodo } from "@/actions/createTodo";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
+import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { formData } from "@/test/unit/utils/formDataUtils";
-import { webCache } from "@/web/webCache";
 
 vi.mock("@/modules/infrastructure/repositories/usersDBRepository");
-vi.mock("@/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
+vi.mock("@/modules/infrastructure/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
 
 describe("create todo action", () => {
   it.each`

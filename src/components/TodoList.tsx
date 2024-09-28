@@ -1,4 +1,4 @@
-import { TodoEntry } from "@/components/app/TodoEntry";
+import { TodoEntry } from "@/components/TodoEntry";
 import { TodoActionHandler } from "@/hooks/useTodos";
 import { Todo } from "@/modules/domain/todo";
 

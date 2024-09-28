@@ -3,7 +3,7 @@
 import z from "zod";
 
 import { todosRepository } from "@/modules/infrastructure/repositories/todosDBRepository";
-import { webCache } from "@/web/webCache";
+import { webCache } from "@/modules/infrastructure/web/webCache";
 
 type Command = {
   userId: number;

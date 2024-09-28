@@ -1,6 +1,6 @@
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
-import { usersTestRepository } from "@/test/repositories/usersTestRepository";
+import { usersTestRepository } from "@/test/integration/application/repositories/usersTestRepository";
 
 describe("Users repository", () => {
   it("can find a user by id", async () => {

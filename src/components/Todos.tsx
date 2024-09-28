@@ -1,7 +1,7 @@
 "use client";
 
-import { CreateTodoForm } from "@/components/app/CreateTodoForm";
-import { TodoList } from "@/components/app/TodoList";
+import { CreateTodoForm } from "@/components/CreateTodoForm";
+import { TodoList } from "@/components/TodoList";
 import { useTodos } from "@/hooks/useTodos";
 import { User } from "@/modules/domain/user";
 

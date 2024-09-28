@@ -1,5 +1,5 @@
-import { client } from "@/modules/infrastructure/db";
-import { usersTestRepository } from "@/test/repositories/usersTestRepository";
+import { client } from "@/modules/infrastructure/repositories/db";
+import { usersTestRepository } from "@/test/integration/application/repositories/usersTestRepository";
 
 export const setup = async () => {
   await usersTestRepository.deleteAll();

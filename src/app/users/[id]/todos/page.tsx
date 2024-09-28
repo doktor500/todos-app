@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { Todos } from "@/components/app/Todos";
+import { Todos } from "@/components/Todos";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 
 type Params = { params: { id: number } };

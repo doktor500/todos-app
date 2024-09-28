@@ -14,16 +14,14 @@ describe("Todos repository", () => {
 
     await todosRepository.update({ todoId, completed: true });
 
-    const existingUserWithUpdatedTodo = await usersTestRepository.findById(
-      user.id,
-    );
+    const existingUserWithUpdatedTodo = await usersTestRepository.findById(user.id);
 
     expect(existingUserWithUpdatedTodo?.todos).toContainEqual(
       expect.objectContaining({
         id: todoId,
         content: todo.content,
         completed: true,
-      }),
+      })
     );
   });
 
@@ -37,9 +35,7 @@ describe("Todos repository", () => {
 
     await todosRepository.delete(todoId);
 
-    const existingUserWithUpdatedTodo = await usersTestRepository.findById(
-      user.id,
-    );
+    const existingUserWithUpdatedTodo = await usersTestRepository.findById(user.id);
 
     expect(existingUserWithUpdatedTodo?.todos).toEqual([]);
   });

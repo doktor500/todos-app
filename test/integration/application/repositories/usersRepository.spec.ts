@@ -31,7 +31,7 @@ describe("Users repository", () => {
       expect.objectContaining({
         content: newTodo.content,
         id: expect.any(Number),
-      }),
+      })
     );
   });
 });

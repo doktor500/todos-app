@@ -6,11 +6,7 @@ import { UIEvent } from "react";
 import { deleteTodo } from "@/actions/deleteTodo";
 import { toggleTodo } from "@/actions/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
-import {
-  TodoAction,
-  TodoActionHandler,
-  TodoActionType,
-} from "@/hooks/useTodos";
+import { TodoAction, TodoActionHandler, TodoActionType } from "@/hooks/useTodos";
 
 type Props = {
   userId: number;
@@ -44,19 +40,11 @@ export const TodoEntry = (props: Props) => {
       <div className="flex items-center text-gray-800 dark:text-white">
         <div className="flex w-80 items-center" onClick={handleToggleTodo}>
           <Checkbox id={`todo-${todoId}`} checked={completed} />
-          <label
-            htmlFor={`todo-${todoId}`}
-            className="truncate pl-2 text-sm"
-            aria-label="Todo description"
-          >
+          <label htmlFor={`todo-${todoId}`} className="truncate pl-2 text-sm" aria-label="Todo description">
             {content}
           </label>
         </div>
-        <div
-          className="ml-auto pr-4"
-          aria-label="Delete todo"
-          onClick={handleDeleteTodo}
-        >
+        <div className="ml-auto pr-4" aria-label="Delete todo" onClick={handleDeleteTodo}>
           <TrashIcon size="20" />
         </div>
       </div>

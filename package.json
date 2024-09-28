@@ -56,7 +56,6 @@
     "drizzle-kit": "^0.24.2",
     "eslint": "^9",
     "eslint-config-next": "14.2.13",
-    "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-hexagonal-architecture": "^1.0.3",
     "eslint-plugin-import": "^2.30.0",

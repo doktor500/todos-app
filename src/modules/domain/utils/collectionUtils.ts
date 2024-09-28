@@ -5,13 +5,9 @@ const replace = <TYPE>(item: TYPE) => {
     in: (list: TYPE[]) => ({
       with: (newItem: TYPE) => {
         const listWithoutItem = without([item], list);
-        const foundItem = find((currentItem) => equals(currentItem, item))(
-          list,
-        );
+        const foundItem = find((currentItem) => equals(currentItem, item))(list);
 
-        return foundItem
-          ? insert(indexOf(item, list), newItem, listWithoutItem)
-          : list;
+        return foundItem ? insert(indexOf(item, list), newItem, listWithoutItem) : list;
       },
     }),
   };

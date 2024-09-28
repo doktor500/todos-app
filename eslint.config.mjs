@@ -34,12 +34,12 @@ export default [
   },
   {
     plugins: {
-      import: fixupPluginRules(eslintImport),
-      "simple-import-sort": eslintSimpleImportSort,
-      "unused-imports": eslintUnusedImports,
-      react: fixupPluginRules(eslintReact),
+      "import": fixupPluginRules(eslintImport),
+      "react": fixupPluginRules(eslintReact),
       "react-hooks": fixupPluginRules(eslintReactHooks),
-      vitest: fixupPluginRules(eslintVitest)
+      "simple-import-sort": fixupPluginRules(eslintSimpleImportSort),
+      "unused-imports": fixupPluginRules(eslintUnusedImports),
+      "vitest": fixupPluginRules(eslintVitest)
     },
     languageOptions: {
       parser: eslintTsParser
@@ -63,25 +63,21 @@ export default [
       ...eslintReact.configs.recommended.rules,
       ...eslintVitest.configs.recommended.rules,
       "array-callback-return": "error",
-      camelcase: "error",
-      eqeqeq: ["error", "always"],
+      "camelcase": "error",
+      "eqeqeq": ["error", "always"],
       "func-style": ["error", "expression"],
       "import/first": "error",
       "import/no-duplicates": "error",
       "import/no-extraneous-dependencies": "error",
       "import/no-unresolved": "error",
+      "lines-between-class-members": ["error", "always"],
       "max-params": ["error", 3],
       "no-array-constructor": "error",
       "no-await-in-loop": "error",
       "no-console": "error",
       "no-constant-binary-expression": "error",
       "no-constructor-return": "error",
-      "lines-between-class-members": ["error", "always", {
-        exceptAfterSingleLine: true
-      }],
-      "no-else-return": ["error", {
-        allowElseIf: false
-      }],
+      "no-else-return": ["error", { allowElseIf: false }],
       "no-extend-native": "error",
       "no-lonely-if": "error",
       "no-param-reassign": "error",
@@ -111,6 +107,20 @@ export default [
       "prefer-rest-params": "error",
       "prefer-spread": "error",
       "prefer-template": "error",
+      "prettier/prettier": [
+        "error",
+        {
+          "printWidth": 120,
+          "singleQuote": false,
+          "tabWidth": 2,
+          "trailingComma": "es5"
+        }
+      ],
+      "react/jsx-curly-brace-presence": ["error", {
+        props: "never",
+        children: "never"
+      }],
+      "react/react-in-jsx-scope": "off",
       "require-atomic-updates": "error",
       "simple-import-sort/imports": "error",
       "simple-import-sort/exports": "error",
@@ -118,11 +128,6 @@ export default [
       "unused-imports/no-unused-vars": "error",
       "vitest/no-disabled-tests": "error",
       "vitest/no-focused-tests": "error",
-      "react/jsx-curly-brace-presence": ["error", {
-        props: "never",
-        children: "never"
-      }],
-      "react/react-in-jsx-scope": "off",
       "vitest/valid-expect": "off",
     },
   },

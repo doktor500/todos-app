@@ -29,10 +29,7 @@ describe("toggle todo action", () => {
     const user = aUser({ todos: [todo] });
 
     await toggleTodo({ userId: user.id, todoId: todo.id, completed: true });
-    expect(todosRepository.update).toHaveBeenCalledWith({
-      todoId: todo.id,
-      completed: true,
-    });
+    expect(todosRepository.update).toHaveBeenCalledWith({ id: todo.id, completed: true });
 
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });

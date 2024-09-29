@@ -5,21 +5,22 @@ import { usersTestRepository } from "@/test/integration/application/repositories
 
 describe("Todos repository", () => {
   it("can update a todo successfully", async () => {
-    const todo = aTodo({ id: undefined, completed: false });
+    const todo = aTodo({ id: undefined, completed: false, content: "original content" });
     const user = aUser({ todos: [todo] });
+    const newTodoContent = "new content";
     await usersTestRepository.save(user);
 
     const existingUser = await usersTestRepository.findById(user.id);
     const todoId = existingUser!.todos.at(0)!.id;
 
-    await todosRepository.update({ todoId, completed: true });
+    await todosRepository.update({ id: todoId, completed: true, content: newTodoContent });
 
     const existingUserWithUpdatedTodo = await usersTestRepository.findById(user.id);
 
     expect(existingUserWithUpdatedTodo?.todos).toContainEqual(
       expect.objectContaining({
         id: todoId,
-        content: todo.content,
+        content: newTodoContent,
         completed: true,
       })
     );

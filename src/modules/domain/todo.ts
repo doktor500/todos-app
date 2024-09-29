@@ -7,6 +7,8 @@ export type Todo = {
   completed: boolean;
 };
 
+export type ExistingTodo = Partial<Todo> & { id: number };
+
 export enum TodoActionType {
   CREATE_TODO = "CREATE_TODO",
   TOGGLE_TODO = "TOGGLE_TODO",

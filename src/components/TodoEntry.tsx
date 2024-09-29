@@ -1,9 +1,10 @@
 "use client";
 
 import { Trash2 as TrashIcon } from "lucide-react";
-import { UIEvent } from "react";
+import { FocusEvent, UIEvent } from "react";
 
 import { deleteTodo } from "@/actions/deleteTodo";
+import { editTodo } from "@/actions/editTodo";
 import { toggleTodo } from "@/actions/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { TodoActionHandler } from "@/hooks/useTodos";
@@ -36,14 +37,23 @@ export const TodoEntry = (props: Props) => {
     await deleteTodo({ userId, todoId });
   };
 
+  const handleEditTodo = async (event: FocusEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    await editTodo({ userId, todoId, content: event.target.value });
+  };
+
   return (
     <div className="h-11 w-96 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/40">
       <div className="flex items-center text-gray-800 dark:text-white">
-        <div className="flex w-80 items-center" onClick={handleToggleTodo}>
-          <Checkbox id={`todo-${todoId}`} checked={completed} />
-          <label htmlFor={`todo-${todoId}`} className="truncate pl-2 text-sm" aria-label="Todo description">
-            {content}
-          </label>
+        <div className="flex w-80 items-center">
+          <Checkbox checked={completed} onClick={handleToggleTodo} />
+          <input
+            type="text"
+            className="w-80 truncate bg-transparent pl-2 text-sm outline-none"
+            aria-label="Todo description"
+            defaultValue={content}
+            onBlur={(event) => handleEditTodo(event)}
+          />
         </div>
         <div className="ml-auto pr-4" aria-label="Delete todo" onClick={handleDeleteTodo}>
           <TrashIcon size="20" />

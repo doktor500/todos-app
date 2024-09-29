@@ -3,6 +3,7 @@ import { expect } from "vitest";
 
 import { createTodo } from "@/actions/createTodo";
 import { deleteTodo } from "@/actions/deleteTodo";
+import { editTodo } from "@/actions/editTodo";
 import { toggleTodo } from "@/actions/toggleTodo";
 import Page from "@/app/users/[id]/todos/page";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
@@ -14,6 +15,7 @@ import { renderAsync } from "@/test/unit/utils/reactTestUtils";
 vi.mock("@/modules/infrastructure/repositories/usersDBRepository");
 vi.mock("@/actions/createTodo", () => ({ createTodo: vi.fn() }));
 vi.mock("@/actions/toggleTodo", () => ({ toggleTodo: vi.fn() }));
+vi.mock("@/actions/editTodo", () => ({ editTodo: vi.fn() }));
 vi.mock("@/actions/deleteTodo", () => ({ deleteTodo: vi.fn() }));
 
 describe("todos page", () => {
@@ -24,7 +26,7 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    expect(screen.getByLabelText(todo.content)).toBeVisible();
+    expect(screen.getByLabelText("Todo description")).toHaveValue(todo.content);
   });
 
   it.each`
@@ -115,6 +117,26 @@ describe("todos page", () => {
     fireEvent.click(screen.getByRole("checkbox"));
 
     waitFor(() => expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", `${completed}`));
+  });
+
+  it("calls edit todo action when the todo input looses focus", async () => {
+    const todo = aTodo({ content: "original content" });
+    const newTodoContent = "new content";
+    const user = aUser({ todos: [todo] });
+
+    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    const todoInputField = screen.getByLabelText("Todo description");
+    fireEvent.change(todoInputField, { target: { value: newTodoContent } });
+    fireEvent.blur(todoInputField);
+
+    expect(editTodo).toHaveBeenCalledWith({
+      userId: user.id,
+      todoId: todo.id,
+      content: newTodoContent,
+    });
   });
 
   it("calls delete todo action when the trash icon is clicked", async () => {

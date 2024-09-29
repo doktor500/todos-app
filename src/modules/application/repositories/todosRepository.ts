@@ -1,10 +1,7 @@
-export type UpdateTodo = {
-  todoId: number;
-  completed: boolean;
-};
+import { ExistingTodo } from "@/modules/domain/todo";
 
 interface TodosRepository {
-  update({ todoId, completed }: UpdateTodo): Promise<void>;
+  update(todo: ExistingTodo): Promise<void>;
   delete(todoId: number): Promise<void>;
 }
 

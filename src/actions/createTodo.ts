@@ -7,15 +7,15 @@ import { webCache } from "@/modules/infrastructure/web/webCache";
 
 const schema = z.object({
   userId: z.number().positive(),
-  todo: z.string().min(1).max(80),
+  content: z.string().min(1).max(80),
 });
 
 export const createTodo = async (formData: FormData) => {
   const data = schema.parse({
     userId: Number(formData.get("userId")),
-    todo: formData.get("todo"),
+    content: formData.get("content"),
   });
 
-  await usersRepository.saveTodo(data.userId, data.todo);
+  await usersRepository.saveTodo(data.userId, data.content);
   webCache.revalidatePath(`users/${data.userId}`);
 };

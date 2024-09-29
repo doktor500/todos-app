@@ -19,7 +19,7 @@ export const usersRepository: UsersRepository = {
       where: (user) => eq(user.id, userId),
     });
   },
-  saveTodo: async (userId: number, todo: string): Promise<void> => {
-    await db.insert(TodosTable).values({ userId, content: todo });
+  saveTodo: async (userId: number, content: string): Promise<void> => {
+    await db.insert(TodosTable).values({ userId, content });
   },
 };

@@ -27,7 +27,7 @@ describe("create todo action", () => {
     const user = aUser();
     const newTodo = "New todo";
 
-    await createTodo(formData({ userId: user.id.toString(), todo: newTodo }));
+    await createTodo(formData({ userId: user.id.toString(), content: newTodo }));
     expect(usersRepository.saveTodo).toHaveBeenCalledWith(user.id, newTodo);
 
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);

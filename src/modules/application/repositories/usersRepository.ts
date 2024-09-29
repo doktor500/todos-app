@@ -3,7 +3,7 @@ import { Optional } from "@/modules/domain/utils/optionalUtils";
 
 interface UsersRepository {
   findById(userId: number): Promise<Optional<User>>;
-  saveTodo(userId: number, todo: string): Promise<void>;
+  saveTodo(userId: number, content: string): Promise<void>;
 }
 
 export default UsersRepository;

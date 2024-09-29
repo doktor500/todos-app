@@ -18,7 +18,7 @@ export const CreateTodoForm = (props: Props) => {
   const { formRef, resetForm } = useForm();
 
   const handleCreateTodo = async (formData: FormData) => {
-    const content = formData.get("todo")?.toString();
+    const content = formData.get("content")?.toString();
     if (content && !pendingTransaction) {
       const action: TodoAction = { type: CREATE_TODO, payload: { content } };
       todoActionHandler.handle(action);
@@ -36,7 +36,7 @@ export const CreateTodoForm = (props: Props) => {
           <input type="hidden" name="userId" value={userId} />
           <input
             type="text"
-            name="todo"
+            name="content"
             aria-label="New todo"
             placeholder="Add a to-do..."
             className="w-80 border-none bg-transparent pl-1 text-sm outline-none"

@@ -10,18 +10,20 @@ type Props = {
 
 export const TodoList = ({ userId, todos, todoActionHandler }: Props) => {
   return (
-    <ul>
-      {todos.map((todo) => (
-        <li key={todo.id} className="pt-1">
-          <TodoEntry
-            userId={userId}
-            todoId={todo.id}
-            content={todo.content}
-            completed={todo.completed}
-            todoActionHandler={todoActionHandler}
-          />
-        </li>
-      ))}
-    </ul>
+    <div className="h-[68.5vh] overflow-y-scroll">
+      <ul>
+        {todos.map((todo) => (
+          <li key={todo.id} className="pt-1">
+            <TodoEntry
+              userId={userId}
+              todoId={todo.id}
+              content={todo.content}
+              completed={todo.completed}
+              todoActionHandler={todoActionHandler}
+            />
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 };

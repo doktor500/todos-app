@@ -10,7 +10,7 @@ export const Todos = ({ user }: { user: User }) => {
   const { todos, todoActionHandler, pendingTransaction } = useTodos(user.todos);
 
   return (
-    <>
+    <div>
       <div className="flex h-8 items-center justify-center">{pendingTransaction && <Spinner />}</div>
       <div className="flex cursor-pointer flex-col items-center justify-center pt-3">
         <CreateTodoForm
@@ -20,6 +20,6 @@ export const Todos = ({ user }: { user: User }) => {
         />
         <TodoList userId={user.id} todos={todos} todoActionHandler={todoActionHandler} />
       </div>
-    </>
+    </div>
   );
 };

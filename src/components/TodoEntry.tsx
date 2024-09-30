@@ -43,13 +43,13 @@ export const TodoEntry = (props: Props) => {
   };
 
   return (
-    <div className="h-11 w-96 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/40">
+    <div className="h-11 w-80 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/40 md:w-96">
       <div className="flex items-center text-gray-800 dark:text-white">
         <div className="flex w-80 items-center">
           <Checkbox checked={completed} onClick={handleToggleTodo} />
           <input
             type="text"
-            className="w-80 truncate bg-transparent pl-2 text-sm outline-none"
+            className="w-64 truncate bg-transparent pl-2 text-sm outline-none md:w-80"
             aria-label="Todo description"
             defaultValue={content}
             onBlur={(event) => handleEditTodo(event)}

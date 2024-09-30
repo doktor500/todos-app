@@ -29,7 +29,7 @@ export const CreateTodoForm = (props: Props) => {
   };
 
   return (
-    <div className="h-11 w-96 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/30">
+    <div className="h-11 w-80 rounded-sm bg-black/20 pl-4 pt-3 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/30 md:w-96">
       <div className="flex items-center text-gray-800 dark:text-white">
         <PlusIcon size="20" />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo">
@@ -39,7 +39,7 @@ export const CreateTodoForm = (props: Props) => {
             name="content"
             aria-label="New todo"
             placeholder="Add a to-do..."
-            className="w-80 border-none bg-transparent pl-1 text-sm outline-none"
+            className="w-64 border-none bg-transparent pl-1 text-sm outline-none md:w-80"
           />
         </form>
       </div>

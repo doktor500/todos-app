@@ -12,7 +12,7 @@ export const Todos = ({ user }: { user: User }) => {
   return (
     <div>
       <div className="flex h-8 items-center justify-center">{pendingTransaction && <Spinner />}</div>
-      <div className="flex cursor-pointer flex-col items-center justify-center pt-3">
+      <div className="flex flex-col items-center justify-center pt-3">
         <CreateTodoForm
           userId={user.id}
           todoActionHandler={todoActionHandler}

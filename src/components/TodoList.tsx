@@ -10,7 +10,7 @@ type Props = {
 
 export const TodoList = ({ userId, todos, todoActionHandler }: Props) => {
   return (
-    <div className="h-[68.5vh] overflow-y-scroll px-2">
+    <div className="h-[68.5vh] cursor-pointer overflow-y-scroll px-2">
       <ul>
         {todos.map((todo) => (
           <li key={todo.id} className="pt-1">

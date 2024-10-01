@@ -15,7 +15,7 @@ export const SearchInput = ({ onChange: setSearchTerm }: Props) => {
   };
 
   return (
-    <div className="flex w-80 items-center rounded-lg border border-gray-300 px-5 py-1.5 md:w-96">
+    <div className="flex w-80 items-center rounded-lg border-2 border-gray-600 px-5 py-1.5 md:w-96">
       <Search className="mr-2.5 size-4" />
       <input
         type="search"

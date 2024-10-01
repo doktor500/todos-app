@@ -1,4 +1,5 @@
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
+import { userEvent } from "@testing-library/user-event";
 import { expect } from "vitest";
 
 import { createTodo } from "@/actions/createTodo";
@@ -51,9 +52,10 @@ describe("todos page", () => {
     await renderAsync(Page, { params: { id: user.id } });
 
     const newTodoInputField = screen.getByLabelText("New todo");
-    fireEvent.change(newTodoInputField, { target: { value: newTodo } });
+    await userEvent.type(newTodoInputField, newTodo);
 
     await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
+
     expect(createTodo).toHaveBeenCalledWith(expect.objectContaining(formData({ todo: newTodo, userId: user.id })));
   });
 
@@ -65,7 +67,7 @@ describe("todos page", () => {
     await renderAsync(Page, { params: { id: user.id } });
 
     const newTodoInputField = screen.getByLabelText("New todo");
-    fireEvent.change(newTodoInputField, { target: { value: newTodo } });
+    await userEvent.type(newTodoInputField, newTodo);
 
     await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
     expect(newTodoInputField).toHaveTextContent("");

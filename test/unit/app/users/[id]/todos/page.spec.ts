@@ -26,7 +26,7 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    expect(screen.getByLabelText(`todo-${todo.id}`)).toHaveValue(todo.content);
+    expect(screen.getByRole("textbox", { name: "" })).toHaveValue(todo.content);
   });
 
   it.each`
@@ -109,7 +109,7 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    const todoInputField = screen.getByLabelText(`todo-${todo.id}`);
+    const todoInputField = screen.getByRole("textbox", { name: "" });
     fireEvent.change(todoInputField, { target: { value: newTodoContent } });
     fireEvent.blur(todoInputField);
 
@@ -137,15 +137,18 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    expect(screen.getByLabelText(`todo-${todo1.id}`)).toHaveValue(todo1.content);
-    expect(screen.getByLabelText(`todo-${todo2.id}`)).toHaveValue(todo2.content);
+    const todoElements = screen.getAllByRole("textbox", { name: "" });
+    expect(todoElements).toHaveLength(2);
+    expect(todoElements[0]).toHaveValue(todo1.content);
+    expect(todoElements[1]).toHaveValue(todo2.content);
 
     const searchInput = screen.getByRole("searchbox");
     fireEvent.change(searchInput, { target: { value: "Milk" } });
 
     await waitFor(() => {
-      expect(screen.queryByLabelText(`todo-${todo2.id}`)).not.toBeInTheDocument();
-      expect(screen.queryByLabelText(`todo-${todo1.id}`)).toBeInTheDocument();
+      const todoElements = screen.getAllByRole("textbox", { name: "" });
+      expect(todoElements).toHaveLength(1);
+      expect(todoElements[0]).toHaveValue(todo1.content);
     });
   });
 });

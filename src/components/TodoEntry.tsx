@@ -50,7 +50,7 @@ export const TodoEntry = (props: Props) => {
           <input
             type="text"
             className="w-64 truncate bg-transparent pl-2 text-sm outline-none md:w-80"
-            aria-label="Todo description"
+            aria-label={`todo-${todoId}`}
             defaultValue={content}
             onBlur={(event) => handleEditTodo(event)}
           />

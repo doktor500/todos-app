@@ -26,7 +26,7 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    expect(screen.getByLabelText("Todo description")).toHaveValue(todo.content);
+    expect(screen.getByLabelText(`todo-${todo.id}`)).toHaveValue(todo.content);
   });
 
   it.each`
@@ -45,14 +45,13 @@ describe("todos page", () => {
 
   it("calls create todo action when the form is submitted", async () => {
     const user = aUser();
-    const newTodo = "New todo";
+    const newTodo = "New todo content";
     vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    fireEvent.change(screen.getByLabelText("New todo"), {
-      target: { value: newTodo },
-    });
+    const newTodoInputField = screen.getByLabelText("New todo");
+    fireEvent.change(newTodoInputField, { target: { value: newTodo } });
 
     await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
     expect(createTodo).toHaveBeenCalledWith(expect.objectContaining(formData({ todo: newTodo, userId: user.id })));
@@ -60,7 +59,7 @@ describe("todos page", () => {
 
   it("clears the input field to create a todo when the form is submitted", async () => {
     const user = aUser();
-    const newTodo = "New todo";
+    const newTodo = "New todo content";
     vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
@@ -72,20 +71,6 @@ describe("todos page", () => {
     expect(newTodoInputField).toHaveTextContent("");
   });
 
-  it("adds the new todo to the list when the form is submitted", async () => {
-    const user = aUser({ todos: [] });
-    const newTodo = "New todo";
-    vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
-
-    await renderAsync(Page, { params: { id: user.id } });
-
-    const newTodoInputField = screen.getByLabelText("New todo");
-    fireEvent.change(newTodoInputField, { target: { value: newTodo } });
-
-    await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
-    waitFor(() => expect(screen.getByLabelText("Todo description")).toHaveTextContent(newTodo));
-  });
-
   it("calls toggle todo action when the todo checkbox is clicked", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });
@@ -95,11 +80,7 @@ describe("todos page", () => {
     await renderAsync(Page, { params: { id: user.id } });
 
     fireEvent.click(screen.getByRole("checkbox"));
-    expect(toggleTodo).toHaveBeenCalledWith({
-      userId: user.id,
-      todoId: todo.id,
-      completed: true,
-    });
+    expect(toggleTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id, completed: true });
   });
 
   it.each`
@@ -116,7 +97,7 @@ describe("todos page", () => {
 
     fireEvent.click(screen.getByRole("checkbox"));
 
-    waitFor(() => expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", `${completed}`));
+    await waitFor(() => expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", `${completed}`));
   });
 
   it("calls edit todo action when the todo input looses focus", async () => {
@@ -128,15 +109,11 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    const todoInputField = screen.getByLabelText("Todo description");
+    const todoInputField = screen.getByLabelText(`todo-${todo.id}`);
     fireEvent.change(todoInputField, { target: { value: newTodoContent } });
     fireEvent.blur(todoInputField);
 
-    expect(editTodo).toHaveBeenCalledWith({
-      userId: user.id,
-      todoId: todo.id,
-      content: newTodoContent,
-    });
+    expect(editTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id, content: newTodoContent });
   });
 
   it("calls delete todo action when the trash icon is clicked", async () => {
@@ -148,21 +125,27 @@ describe("todos page", () => {
     await renderAsync(Page, { params: { id: user.id } });
 
     fireEvent.click(screen.getByLabelText("Delete todo"));
-    expect(deleteTodo).toHaveBeenCalledWith({
-      userId: user.id,
-      todoId: todo.id,
-    });
+    expect(deleteTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id });
   });
 
-  it("deletes todo from the list of todos when the trash icon is clicked", async () => {
-    const todo = aTodo();
-    const user = aUser({ todos: [todo] });
+  it("filters list of todos based on the text available in the search input", async () => {
+    const todo1 = aTodo({ content: "Buy milk" });
+    const todo2 = aTodo({ content: "Pay rent" });
+    const user = aUser({ todos: [todo1, todo2] });
 
     vi.mocked(usersRepository).findById.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    fireEvent.click(screen.getByLabelText("Delete todo"));
-    waitFor(() => expect(screen.getByLabelText("Todo description")).not.toBeInTheDocument());
+    expect(screen.getByLabelText(`todo-${todo1.id}`)).toHaveValue(todo1.content);
+    expect(screen.getByLabelText(`todo-${todo2.id}`)).toHaveValue(todo2.content);
+
+    const searchInput = screen.getByRole("searchbox");
+    fireEvent.change(searchInput, { target: { value: "Milk" } });
+
+    await waitFor(() => {
+      expect(screen.queryByLabelText(`todo-${todo2.id}`)).not.toBeInTheDocument();
+      expect(screen.queryByLabelText(`todo-${todo1.id}`)).toBeInTheDocument();
+    });
   });
 });

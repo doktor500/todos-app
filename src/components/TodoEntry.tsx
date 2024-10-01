@@ -57,7 +57,7 @@ export const TodoEntry = (props: Props) => {
             onBlur={(event) => handleEditTodo(event)}
           />
         </div>
-        <div className="ml-auto pr-4" aria-label="Delete todo" onClick={handleDeleteTodo}>
+        <div className="ml-auto cursor-pointer pr-4" aria-label="Delete todo" onClick={handleDeleteTodo}>
           <TrashIcon size="20" />
         </div>
       </div>

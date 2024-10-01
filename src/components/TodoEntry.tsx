@@ -47,8 +47,11 @@ export const TodoEntry = (props: Props) => {
       <div className="flex items-center text-gray-800 dark:text-white">
         <div className="flex w-80 items-center">
           <Checkbox checked={completed} onClick={handleToggleTodo} />
+          <label className="hidden" htmlFor={`todo-${todoId}`}>
+            {content}
+          </label>
           <input
-            type="text"
+            id={`todo-${todoId}`}
             className="w-64 truncate bg-transparent pl-2 text-sm outline-none md:w-80"
             defaultValue={content}
             onBlur={(event) => handleEditTodo(event)}

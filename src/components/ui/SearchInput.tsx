@@ -20,7 +20,7 @@ export const SearchInput = ({ onChange: setSearchTerm }: Props) => {
       <input
         type="search"
         placeholder="Search..."
-        className="w-full border-0 bg-transparent outline-none"
+        className="w-full border-0 bg-transparent text-sm outline-none"
         onChange={handleInputChange}
       />
     </div>

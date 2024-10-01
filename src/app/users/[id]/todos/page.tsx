@@ -11,7 +11,7 @@ const Page = async ({ params }: Params) => {
 
   return (
     <>
-      <h1 className="pt-12 text-center text-2xl font-bold">Inbox</h1>
+      <h1 className="pt-4 text-center text-2xl font-bold">Inbox</h1>
       <Todos user={user} />
     </>
   );

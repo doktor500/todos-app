@@ -1,9 +1,17 @@
+import { Viewport } from "next";
 import { redirect } from "next/navigation";
 
 import { Todos } from "@/components/Todos";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
 
 type Params = { params: { id: number } };
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  width: "device-width",
+  maximumScale: 1,
+  viewportFit: "cover",
+};
 
 const Page = async ({ params }: Params) => {
   const user = await usersRepository.findById(params.id);

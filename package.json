@@ -1,6 +1,7 @@
 {
   "name": "todos",
   "version": "0.1.0",
+  "license": "CC BY-NC-ND",
   "private": true,
   "scripts": {
     "prebuild": "npx pnpm db:migrate",

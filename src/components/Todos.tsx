@@ -19,11 +19,7 @@ export const Todos = ({ user }: { user: User }) => {
     <div className="flex flex-col items-center justify-center pt-5">
       <SearchInput onChange={setSearchTerm} />
       <Spinner display={pendingTransaction} />
-      <CreateTodoForm
-        userId={user.id}
-        todoActionHandler={todoActionHandler}
-        pendingTransaction={pendingTransaction}
-      />
+      <CreateTodoForm userId={user.id} todoActionHandler={todoActionHandler} pendingTransaction={pendingTransaction} />
       <TodoList userId={user.id} todos={filter(todos).by(searchTerm)} todoActionHandler={todoActionHandler} />
     </div>
   );

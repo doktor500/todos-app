@@ -8,9 +8,9 @@ type Params = { params: { id: number } };
 
 export const viewport: Viewport = {
   initialScale: 1,
-  width: "device-width",
   maximumScale: 1,
   viewportFit: "cover",
+  width: "device-width",
 };
 
 const Page = async ({ params }: Params) => {

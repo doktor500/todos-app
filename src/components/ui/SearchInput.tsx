@@ -1,6 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
+import { Search as SearchIcon } from "lucide-react";
 import { ChangeEvent, Dispatch, SetStateAction } from "react";
 
 import { Optional } from "@/modules/domain/utils/optionalUtils";
@@ -15,8 +15,8 @@ export const SearchInput = ({ onChange: setSearchTerm }: Props) => {
   };
 
   return (
-    <div className="flex w-80 items-center rounded-lg border-2 border-gray-600 px-5 py-1.5 md:w-96">
-      <Search className="mr-2.5 size-4" />
+    <div className="flex w-80 items-center rounded-lg border-2 border-gray-600 px-5 py-1.5 hover:border-gray-500 md:w-96">
+      <SearchIcon className="mr-2.5 size-4" />
       <input
         type="search"
         placeholder="Search..."

@@ -63,7 +63,7 @@ export const TodoEntry = (props: Props) => {
           onClick={handleDeleteTodo}
         >
           <button className="outline-offset-2 outline-gray-300">
-            <TrashIcon size="20" />
+            <TrashIcon className="size-5" />
           </button>
         </div>
       </div>

@@ -1,10 +1,10 @@
 import { deleteTodo } from "@/actions/deleteTodo";
-import { todosRepository } from "@/modules/infrastructure/repositories/todosDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 
-vi.mock("@/modules/infrastructure/repositories/todosDBRepository");
+vi.mock("@/modules/infrastructure/repositories/usersRepository");
 vi.mock("@/modules/infrastructure/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
 
 describe("delete todo action", () => {
@@ -29,7 +29,7 @@ describe("delete todo action", () => {
     const user = aUser({ todos: [todo] });
 
     await deleteTodo({ userId: user.id, todoId: todo.id });
-    expect(todosRepository.delete).toHaveBeenCalledWith(todo.id);
+    expect(usersRepository.deleteTodo).toHaveBeenCalledWith(user.id, todo.id);
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });
 });

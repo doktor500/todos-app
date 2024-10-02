@@ -1,4 +1,10 @@
-import { equals, find, indexOf, insert, without } from "ramda";
+import { equals, find, indexOf, insert, isEmpty, prop, sortBy, without } from "ramda";
+
+const sort = <T extends object>(items: T[]) => {
+  return {
+    by: (property: keyof T) => sortBy(prop(property))(items),
+  };
+};
 
 const replace = <TYPE>(item: TYPE) => {
   return {
@@ -13,4 +19,4 @@ const replace = <TYPE>(item: TYPE) => {
   };
 };
 
-export { replace };
+export { isEmpty, replace, sort };

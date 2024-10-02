@@ -9,3 +9,6 @@
 next-env.d.ts
 .eslintcache
 .vscode
+db/
+playwright-report/
+test-results/

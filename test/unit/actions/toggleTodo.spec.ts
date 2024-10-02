@@ -1,10 +1,10 @@
 import { toggleTodo } from "@/actions/toggleTodo";
-import { todosRepository } from "@/modules/infrastructure/repositories/todosDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 
-vi.mock("@/modules/infrastructure/repositories/todosDBRepository");
+vi.mock("@/modules/infrastructure/repositories/usersRepository");
 vi.mock("@/modules/infrastructure/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
 
 describe("toggle todo action", () => {
@@ -29,7 +29,7 @@ describe("toggle todo action", () => {
     const user = aUser({ todos: [todo] });
 
     await toggleTodo({ userId: user.id, todoId: todo.id, completed: true });
-    expect(todosRepository.update).toHaveBeenCalledWith({ id: todo.id, completed: true });
+    expect(usersRepository.updateTodo).toHaveBeenCalledWith(user.id, { id: todo.id, completed: true });
 
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });

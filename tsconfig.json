@@ -22,12 +22,9 @@
       }
     ],
     "paths": {
-      "@/*": [
-        "./src/*"
-      ],
-      "@/test/*": [
-        "./test/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/fakes/*": ["./fakes/*"],
+      "@/test/*": ["./test/*"],
     },
     "types": [
       "vitest/globals",

@@ -1,7 +1,8 @@
 import { TodosTable, UsersTable } from "@/datastore/schema";
+import { usersRepository as usersFakeRepository } from "@/fakes/modules/infrastructure/repositories/usersRepository";
 import { User } from "@/modules/domain/user";
 import { db } from "@/modules/infrastructure/repositories/db";
-import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
 export const usersTestRepository = {
   ...usersRepository,
@@ -17,4 +18,8 @@ export const usersTestRepository = {
       })
     );
   },
+};
+
+export const getUsersRepository = () => {
+  return process.env.ENVIRONMENT === "local" ? usersFakeRepository : usersTestRepository;
 };

@@ -1,9 +1,9 @@
 import { editTodo } from "@/actions/editTodo";
-import { todosRepository } from "@/modules/infrastructure/repositories/todosDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 
-vi.mock("@/modules/infrastructure/repositories/todosDBRepository");
+vi.mock("@/modules/infrastructure/repositories/usersRepository");
 
 describe("edit todo action", () => {
   it.each`
@@ -28,6 +28,6 @@ describe("edit todo action", () => {
     const content = "New content";
 
     await editTodo({ userId: user.id, todoId: todo.id, content });
-    expect(todosRepository.update).toHaveBeenCalledWith({ id: todo.id, content });
+    expect(usersRepository.updateTodo).toHaveBeenCalledWith(user.id, { id: todo.id, content });
   });
 });

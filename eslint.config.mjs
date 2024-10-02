@@ -132,7 +132,7 @@ export default [
     },
   },
   {
-    files: ["src/datastore/**/*.ts"],
+    files: ["src/datastore/**/*.ts", "test/**/*.ts"],
     rules: {
       "no-console": "off",
     },

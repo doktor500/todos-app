@@ -2,7 +2,7 @@ import { Viewport } from "next";
 import { redirect } from "next/navigation";
 
 import { Todos } from "@/components/Todos";
-import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
 type Params = { params: { id: number } };
 
@@ -14,7 +14,7 @@ export const viewport: Viewport = {
 };
 
 const Page = async ({ params }: Params) => {
-  const user = await usersRepository.findById(params.id);
+  const user = await usersRepository.get(params.id);
   if (!user) return redirect("/");
 
   return (

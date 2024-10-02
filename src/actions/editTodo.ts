@@ -2,7 +2,7 @@
 
 import z from "zod";
 
-import { todosRepository } from "@/modules/infrastructure/repositories/todosDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
 type Command = {
   userId: number;
@@ -18,8 +18,5 @@ const schema = z.object({
 
 export const editTodo = async (command: Command) => {
   const todo = schema.parse(command);
-  await todosRepository.update({
-    id: todo.todoId,
-    content: todo.content,
-  });
+  await usersRepository.updateTodo(todo.userId, { id: todo.todoId, content: todo.content });
 };

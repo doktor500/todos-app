@@ -2,7 +2,7 @@
 
 import z from "zod";
 
-import { todosRepository } from "@/modules/infrastructure/repositories/todosDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 
 type Command = {
@@ -19,9 +19,6 @@ const schema = z.object({
 
 export const toggleTodo = async (command: Command) => {
   const todo = schema.parse(command);
-  await todosRepository.update({
-    id: todo.todoId,
-    completed: todo.completed,
-  });
+  await usersRepository.updateTodo(todo.userId, { id: todo.todoId, completed: todo.completed });
   webCache.revalidatePath(`users/${todo.userId}`);
 };

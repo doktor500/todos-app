@@ -2,7 +2,7 @@
 
 import z from "zod";
 
-import { todosRepository } from "@/modules/infrastructure/repositories/todosDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 
 type Command = {
@@ -17,6 +17,6 @@ const schema = z.object({
 
 export const deleteTodo = async (command: Command) => {
   const todo = schema.parse(command);
-  await todosRepository.delete(todo.todoId);
+  await usersRepository.deleteTodo(todo.userId, todo.todoId);
   webCache.revalidatePath(`users/${todo.userId}`);
 };

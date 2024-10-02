@@ -2,7 +2,7 @@
 
 import z from "zod";
 
-import { usersRepository } from "@/modules/infrastructure/repositories/usersDBRepository";
+import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 
 const schema = z.object({

@@ -7,39 +7,36 @@ import { deleteTodo } from "@/actions/deleteTodo";
 import { editTodo } from "@/actions/editTodo";
 import { toggleTodo } from "@/actions/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
-import { TodoActionHandler } from "@/hooks/useTodos";
-import { TodoAction, TodoActionType } from "@/modules/domain/todo";
+import { useTodos } from "@/hooks/useTodos";
+import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticsActionReducer";
 
 type Props = {
-  userId: number;
   todoId: number;
   content: string;
   completed: boolean;
-  todoActionHandler: TodoActionHandler;
 };
 
-const { TOGGLE_TODO, DELETE_TODO } = TodoActionType;
+const { TOGGLE_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
 export const TodoEntry = (props: Props) => {
-  const { userId, todoId, content, completed, todoActionHandler } = props;
+  const { todoId, content, completed } = props;
+  const { userId, dispatchOptimisticAction } = useTodos();
 
   const handleToggleTodo = async (event: UIEvent) => {
-    const action: TodoAction = { type: TOGGLE_TODO, payload: { todoId } };
     event.preventDefault();
-    todoActionHandler.handle(action);
+    dispatchOptimisticAction({ type: TOGGLE_TODO, payload: { todoId } });
     await toggleTodo({ userId, todoId, completed: !completed });
-  };
-
-  const handleDeleteTodo = async (event: UIEvent) => {
-    const action: TodoAction = { type: DELETE_TODO, payload: { todoId } };
-    event.preventDefault();
-    todoActionHandler.handle(action);
-    await deleteTodo({ userId, todoId });
   };
 
   const handleEditTodo = async (event: FocusEvent<HTMLInputElement>) => {
     event.preventDefault();
     await editTodo({ userId, todoId, content: event.target.value });
+  };
+
+  const handleDeleteTodo = async (event: UIEvent) => {
+    event.preventDefault();
+    dispatchOptimisticAction({ type: DELETE_TODO, payload: { todoId } });
+    await deleteTodo({ userId, todoId });
   };
 
   return (

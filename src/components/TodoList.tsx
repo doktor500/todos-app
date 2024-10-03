@@ -1,26 +1,15 @@
+"use client";
+
 import { TodoEntry } from "@/components/TodoEntry";
-import { TodoActionHandler } from "@/hooks/useTodos";
 import { Todo } from "@/modules/domain/todo";
 
-type Props = {
-  userId: number;
-  todos: Todo[];
-  todoActionHandler: TodoActionHandler;
-};
-
-export const TodoList = ({ userId, todos, todoActionHandler }: Props) => {
+export const TodoList = ({ todos }: { todos: Todo[] }) => {
   return (
-    <div className="no-scrollbar h-[432px] overflow-y-auto pb-1 md:h-[484px]">
+    <div className="no-scrollbar max-h-[432px] overflow-y-auto pb-1 md:max-h-[484px]">
       <ul>
         {todos.map((todo) => (
           <li key={todo.id} className="pt-1">
-            <TodoEntry
-              userId={userId}
-              todoId={todo.id}
-              content={todo.content}
-              completed={todo.completed}
-              todoActionHandler={todoActionHandler}
-            />
+            <TodoEntry todoId={todo.id} content={todo.content} completed={todo.completed} />
           </li>
         ))}
       </ul>

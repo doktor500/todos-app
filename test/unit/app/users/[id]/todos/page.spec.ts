@@ -150,4 +150,38 @@ describe("todos page", () => {
       expect(screen.queryByRole("textbox", { name: todo2.content })).not.toBeInTheDocument();
     });
   });
+
+  it("filters list of todos based on the status", async () => {
+    const todo1 = aTodo({ content: "Buy milk", completed: true });
+    const todo2 = aTodo({ content: "Pay rent", completed: false });
+    const user = aUser({ todos: [todo1, todo2] });
+
+    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(screen.getByRole("option", { name: "Active" }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("textbox", { name: todo1.content })).not.toBeInTheDocument();
+      expect(screen.queryByRole("textbox", { name: todo2.content })).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(screen.getByRole("option", { name: "Done" }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("textbox", { name: todo1.content })).toBeInTheDocument();
+      expect(screen.queryByRole("textbox", { name: todo2.content })).not.toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(screen.getByRole("option", { name: "All" }));
+
+    await waitFor(() => {
+      expect(screen.queryByRole("textbox", { name: todo1.content })).toBeInTheDocument();
+      expect(screen.queryByRole("textbox", { name: todo2.content })).toBeInTheDocument();
+    });
+  });
 });

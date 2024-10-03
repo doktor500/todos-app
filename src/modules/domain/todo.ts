@@ -1,4 +1,3 @@
-import { replace } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
@@ -10,47 +9,41 @@ export type Todo = {
 
 export type ExistingTodo = Partial<Todo> & { id: number };
 
-export enum TodoActionType {
-  CREATE_TODO = "CREATE_TODO",
-  TOGGLE_TODO = "TOGGLE_TODO",
-  DELETE_TODO = "DELETE_TODO",
-}
+export const toggle = (todo: Todo): Todo => {
+  return { ...todo, completed: !todo.completed };
+};
 
-export type TodoAction =
-  | { type: TodoActionType.CREATE_TODO; payload: { content: string } }
-  | { type: TodoActionType.TOGGLE_TODO; payload: { todoId: number } }
-  | { type: TodoActionType.DELETE_TODO; payload: { todoId: number } };
-
-export const filter = (todos: Todo[]) => {
+export const filterTodos = (todos: Todo[]) => {
   return {
-    by: (searchTerm: Optional<string>): Todo[] => {
-      return searchTerm ? todos.filter((todo) => todo.content.toLowerCase().includes(searchTerm.toLowerCase())) : todos;
+    by: ({ searchTerm, todosFilter }: { searchTerm: Optional<string>; todosFilter: TodosFilter }): Todo[] => {
+      const filteredTodosBySearchTerm = filter(todos).bySearchTerm(searchTerm);
+
+      return filter(filteredTodosBySearchTerm).byTodosFilter(todosFilter);
     },
   };
 };
 
-export const todoActionsReducer = (todos: Todo[], action: TodoAction): Todo[] => {
-  return match(action)
-    .with({ type: TodoActionType.CREATE_TODO }, ({ payload }) => addTodo(todos, payload))
-    .with({ type: TodoActionType.TOGGLE_TODO }, ({ payload }) => toggleTodo(todos, payload))
-    .with({ type: TodoActionType.DELETE_TODO }, ({ payload }) => deleteTodo(todos, payload))
-    .exhaustive();
+const filter = (todos: Todo[]) => {
+  return {
+    byTodosFilter: (todosFilter: TodosFilter) => {
+      return match(todosFilter)
+        .with(TodosFilter.ACTIVE, () => todos.filter((todo) => !todo.completed))
+        .with(TodosFilter.COMPLETED, () => todos.filter((todo) => todo.completed))
+        .with(TodosFilter.NONE, () => todos)
+        .exhaustive();
+    },
+    bySearchTerm: (term: Optional<string>) => {
+      return term ? todos.filter((todo) => todo.content.toLowerCase().includes(term.toLowerCase())) : todos;
+    },
+  };
 };
 
-const addTodo = (todos: Todo[], { content }: { content: string }) => {
-  return [{ id: 0, content, completed: false }, ...todos];
-};
+export enum TodosFilter {
+  NONE = "NONE",
+  ACTIVE = "ACTIVE",
+  COMPLETED = "COMPLETED",
+}
 
-const toggleTodo = (todos: Todo[], { todoId }: { todoId: number }) => {
-  const todo = todos.find((todo) => todo.id === todoId);
-
-  return todo ? replace(todo).in(todos).with(toggle(todo)) : todos;
-};
-
-const deleteTodo = (todos: Todo[], { todoId }: { todoId: number }) => {
-  return todos.filter((todo) => todo.id !== todoId);
-};
-
-const toggle = (todo: Todo): Todo => {
-  return { ...todo, completed: !todo.completed };
+export const findTodoFilter = (value: Optional<string>): Optional<TodosFilter> => {
+  return Object.values(TodosFilter).find((filter) => filter === value);
 };

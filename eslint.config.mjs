@@ -137,4 +137,10 @@ export default [
       "no-console": "off",
     },
   },
+  {
+    files: ["src/components/ui/**/*.tsx"],
+    rules: {
+      "react/prop-types": "off",
+    },
+  },
 ];

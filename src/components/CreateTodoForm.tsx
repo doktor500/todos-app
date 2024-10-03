@@ -2,26 +2,19 @@ import { PlusIcon } from "lucide-react";
 
 import { createTodo } from "@/actions/createTodo";
 import { useForm } from "@/hooks/common/useForm";
-import { TodoActionHandler } from "@/hooks/useTodos";
-import { TodoAction, TodoActionType } from "@/modules/domain/todo";
+import { useTodos } from "@/hooks/useTodos";
+import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticsActionReducer";
 
-type Props = {
-  userId: number;
-  todoActionHandler: TodoActionHandler;
-  pendingTransaction: boolean;
-};
+const { CREATE_TODO } = TodoOptimisticActionType;
 
-const { CREATE_TODO } = TodoActionType;
-
-export const CreateTodoForm = (props: Props) => {
-  const { userId, todoActionHandler, pendingTransaction } = props;
+export const CreateTodoForm = () => {
+  const { userId, dispatchOptimisticAction, pendingTransaction } = useTodos();
   const { formRef, resetForm } = useForm();
 
   const handleCreateTodo = async (formData: FormData) => {
     const content = formData.get("content")?.toString();
     if (content && !pendingTransaction) {
-      const action: TodoAction = { type: CREATE_TODO, payload: { content } };
-      todoActionHandler.handle(action);
+      dispatchOptimisticAction({ type: CREATE_TODO, payload: { content } });
       resetForm();
 
       await createTodo(formData);

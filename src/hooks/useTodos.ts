@@ -1,15 +1,28 @@
-import { useOptimistic, useTransition } from "react";
+import { useContext, useEffect, useReducer } from "react";
 
-import { Todo, TodoAction, todoActionsReducer } from "@/modules/domain/todo";
+import { filterTodos, TodosFilter } from "@/modules/domain/todo";
+import { TodoBaseActionType, todosActionReducer } from "@/providers/reducers/todosActionReducer";
+import { TodosContext } from "@/providers/TodosProvider";
 
-export type TodoActionHandler = { handle: (action: TodoAction) => void };
+const { UPDATE_TODOS } = TodoBaseActionType;
 
-export const useTodos = (initialTodos: Todo[]) => {
-  const [pendingTransaction, startTransition] = useTransition();
-  const [todos, actionHandler] = useOptimistic(initialTodos, todoActionsReducer);
-  const todoActionHandler = {
-    handle: (action: TodoAction) => startTransition(() => actionHandler(action)),
+export const useTodos = () => {
+  const context = useContext(TodosContext);
+  if (!context) throw new Error("userTodos must be used within a CountProvider");
+
+  const { todos } = context;
+  const initialState = { todos, searchTerm: undefined, todosFilter: TodosFilter.NONE };
+  const [state, dispatchAction] = useReducer(todosActionReducer, initialState);
+  const { searchTerm, todosFilter } = state;
+
+  useEffect(() => {
+    const updatedTodos = filterTodos(todos).by({ searchTerm, todosFilter });
+    dispatchAction({ type: UPDATE_TODOS, payload: { todos: updatedTodos } });
+  }, [todos, searchTerm, todosFilter]);
+
+  return {
+    ...context,
+    todos: state.todos,
+    dispatchAction,
   };
-
-  return { pendingTransaction, todos, todoActionHandler };
 };

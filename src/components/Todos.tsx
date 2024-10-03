@@ -1,26 +1,20 @@
 "use client";
 
-import { useState } from "react";
-
 import { CreateTodoForm } from "@/components/CreateTodoForm";
 import { TodoList } from "@/components/TodoList";
-import { SearchInput } from "@/components/ui/SearchInput";
+import { TodosSearchBar } from "@/components/TodosSearchBar";
 import { Spinner } from "@/components/ui/Spinner";
 import { useTodos } from "@/hooks/useTodos";
-import { filter } from "@/modules/domain/todo";
-import { User } from "@/modules/domain/user";
-import { Optional } from "@/modules/domain/utils/optionalUtils";
 
-export const Todos = ({ user }: { user: User }) => {
-  const { todos, todoActionHandler, pendingTransaction } = useTodos(user.todos);
-  const [searchTerm, setSearchTerm] = useState<Optional<string>>(undefined);
+export const Todos = () => {
+  const { pendingTransaction, dispatchAction, todos } = useTodos();
 
   return (
-    <div className="flex flex-col items-center justify-center pt-5">
-      <SearchInput onChange={setSearchTerm} />
+    <div className="flex flex-col items-center justify-center">
+      <TodosSearchBar dispatchAction={dispatchAction} />
+      <CreateTodoForm />
+      <TodoList todos={todos} />
       <Spinner display={pendingTransaction} />
-      <CreateTodoForm userId={user.id} todoActionHandler={todoActionHandler} pendingTransaction={pendingTransaction} />
-      <TodoList userId={user.id} todos={filter(todos).by(searchTerm)} todoActionHandler={todoActionHandler} />
     </div>
   );
 };

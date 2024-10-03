@@ -7,7 +7,7 @@ import { TodoList } from "@/components/TodoList";
 import { SearchInput } from "@/components/ui/SearchInput";
 import { Spinner } from "@/components/ui/Spinner";
 import { useTodos } from "@/hooks/useTodos";
-import { Todo } from "@/modules/domain/todo";
+import { filter } from "@/modules/domain/todo";
 import { User } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 
@@ -23,12 +23,4 @@ export const Todos = ({ user }: { user: User }) => {
       <TodoList userId={user.id} todos={filter(todos).by(searchTerm)} todoActionHandler={todoActionHandler} />
     </div>
   );
-};
-
-const filter = (todos: Todo[]) => {
-  return {
-    by: (searchTerm: Optional<string>): Todo[] => {
-      return searchTerm ? todos.filter((todo) => todo.content.toLowerCase().includes(searchTerm.toLowerCase())) : todos;
-    },
-  };
 };

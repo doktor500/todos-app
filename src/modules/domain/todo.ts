@@ -1,4 +1,5 @@
 import { replace } from "@/modules/domain/utils/collectionUtils";
+import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
 export type Todo = {
@@ -19,6 +20,14 @@ export type TodoAction =
   | { type: TodoActionType.CREATE_TODO; payload: { content: string } }
   | { type: TodoActionType.TOGGLE_TODO; payload: { todoId: number } }
   | { type: TodoActionType.DELETE_TODO; payload: { todoId: number } };
+
+export const filter = (todos: Todo[]) => {
+  return {
+    by: (searchTerm: Optional<string>): Todo[] => {
+      return searchTerm ? todos.filter((todo) => todo.content.toLowerCase().includes(searchTerm.toLowerCase())) : todos;
+    },
+  };
+};
 
 export const todoActionsReducer = (todos: Todo[], action: TodoAction): Todo[] => {
   return match(action)

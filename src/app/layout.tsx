@@ -1,6 +1,7 @@
 /* eslint-disable-next-line no-restricted-imports */
 import "./globals.css";
 
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Barlow_Condensed as BarlowCondensed } from "next/font/google";
 import { ThemeProvider } from "next-themes";
@@ -23,6 +24,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           {children}
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

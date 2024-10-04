@@ -2,6 +2,7 @@
 import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Barlow_Condensed as BarlowCondensed } from "next/font/google";
 import { ThemeProvider } from "next-themes";
@@ -25,6 +26,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
           {children}
         </ThemeProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

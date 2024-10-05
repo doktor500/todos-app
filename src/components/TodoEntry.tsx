@@ -16,7 +16,7 @@ type Props = {
   completed: boolean;
 };
 
-const { TOGGLE_TODO, DELETE_TODO } = TodoOptimisticActionType;
+const { TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
 export const TodoEntry = (props: Props) => {
   const { todoId, content, completed } = props;
@@ -30,6 +30,7 @@ export const TodoEntry = (props: Props) => {
 
   const handleEditTodo = async (event: FocusEvent<HTMLInputElement>) => {
     event.preventDefault();
+    dispatchOptimisticAction({ type: EDIT_TODO, payload: { todoId, content: event.target.value } });
     await editTodo({ userId, todoId, content: event.target.value });
   };
 

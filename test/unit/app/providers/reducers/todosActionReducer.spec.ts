@@ -5,7 +5,7 @@ import {
 } from "@/providers/reducers/todosOptimisticsActionReducer";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 
-const { CREATE_TODO, TOGGLE_TODO, DELETE_TODO } = TodoOptimisticActionType;
+const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
 describe("todos optimistic actions reducer", () => {
   it("can add a todo to an existing list of todos", () => {
@@ -26,6 +26,15 @@ describe("todos optimistic actions reducer", () => {
     const action: TodoOptimisticAction = { type: TOGGLE_TODO, payload: { todoId: todo.id } };
     const updatedTodos = todoOptimisticActionsReducer(todos, action);
     expect(updatedTodos).toContainEqual({ ...todo, completed: true });
+  });
+
+  it("can edit a todo in an existing list of todos", () => {
+    const todo = aTodo({ content: "content-v1" });
+    const todos = [todo];
+
+    const action: TodoOptimisticAction = { type: EDIT_TODO, payload: { todoId: todo.id, content: "content-v2" } };
+    const updatedTodos = todoOptimisticActionsReducer(todos, action);
+    expect(updatedTodos).toContainEqual({ ...todo, content: "content-v2" });
   });
 
   it("can delete a todo in an existing list of todos", () => {

@@ -3,6 +3,7 @@
 import z from "zod";
 
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
+import { webCache } from "@/modules/infrastructure/web/webCache";
 
 type Command = {
   userId: number;
@@ -19,4 +20,5 @@ const schema = z.object({
 export const editTodo = async (command: Command) => {
   const todo = schema.parse(command);
   await usersRepository.updateTodo(todo.userId, { id: todo.todoId, content: todo.content });
+  webCache.revalidatePath(`users/${todo.userId}`);
 };

@@ -1,9 +1,11 @@
 import { editTodo } from "@/actions/editTodo";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
+import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 
 vi.mock("@/modules/infrastructure/repositories/usersRepository");
+vi.mock("@/modules/infrastructure/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
 
 describe("edit todo action", () => {
   it.each`
@@ -29,5 +31,6 @@ describe("edit todo action", () => {
 
     await editTodo({ userId: user.id, todoId: todo.id, content });
     expect(usersRepository.updateTodo).toHaveBeenCalledWith(user.id, { id: todo.id, content });
+    expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });
 });

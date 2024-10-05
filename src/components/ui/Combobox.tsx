@@ -18,12 +18,13 @@ type FilterSelectedHandler = (filter: Optional<string>) => void;
 
 type Props = {
   items: Item[];
+  initialSelectedItem?: string;
   onItemSelected: FilterSelectedHandler;
 };
 
-export const Combobox = ({ items, onItemSelected: setSelectFilter }: Props) => {
+export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelectFilter }: Props) => {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(items.at(0)?.value);
+  const [value, setValue] = useState(initialSelectedItem ?? items.at(0)?.value);
   const selectedItem = items.find((item) => item.value === value)?.label;
 
   const handleOnSelectedItem = (seletecdValue: string) => {
@@ -42,7 +43,7 @@ export const Combobox = ({ items, onItemSelected: setSelectFilter }: Props) => {
           aria-expanded={open}
           className="w-full justify-between border-none bg-transparent"
         >
-          {selectedItem ?? "Status..."}
+          {selectedItem}
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

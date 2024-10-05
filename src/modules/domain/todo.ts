@@ -44,6 +44,8 @@ export enum TodosFilter {
   COMPLETED = "COMPLETED",
 }
 
+export const defaultTodosFilter = TodosFilter.ACTIVE;
+
 export const findTodoFilter = (value: Optional<string>): Optional<TodosFilter> => {
   return Object.values(TodosFilter).find((filter) => filter === value);
 };

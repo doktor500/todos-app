@@ -34,14 +34,17 @@ describe("todos page", () => {
     completed
     ${true}
     ${false}
-  `("marks completed todos as checked when the list of todos is rendered", async ({ completed }) => {
+  `("marks completed todos as checked '$completed' when the list of todos is rendered", async ({ completed }) => {
     const todo = aTodo({ completed });
     const user = aUser({ todos: [todo] });
     vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", `${completed}`);
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(screen.getByRole("option", { name: "All" }));
+
+    await waitFor(() => expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", `${completed}`));
   });
 
   it("calls create todo action when the form is submitted", async () => {
@@ -76,7 +79,6 @@ describe("todos page", () => {
   it("calls toggle todo action when the todo checkbox is clicked", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });
-
     vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
@@ -89,14 +91,15 @@ describe("todos page", () => {
     completed
     ${true}
     ${false}
-  `("toggles todo completed state when the checkbox is clicked", async ({ completed }) => {
+  `("toggles todo completed state to checked '$completed' when the checkbox is clicked", async ({ completed }) => {
     const todo = aTodo({ completed });
     const user = aUser({ todos: [todo] });
-
     vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(screen.getByRole("option", { name: "All" }));
     fireEvent.click(screen.getByRole("checkbox"));
 
     await waitFor(() => expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", `${completed}`));
@@ -106,7 +109,6 @@ describe("todos page", () => {
     const todo = aTodo({ content: "original content" });
     const newTodoContent = "new content";
     const user = aUser({ todos: [todo] });
-
     vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
@@ -121,7 +123,6 @@ describe("todos page", () => {
   it("calls delete todo action when the trash icon is clicked", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });
-
     vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
@@ -134,7 +135,6 @@ describe("todos page", () => {
     const todo1 = aTodo({ content: "Buy milk" });
     const todo2 = aTodo({ content: "Pay rent" });
     const user = aUser({ todos: [todo1, todo2] });
-
     vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
@@ -155,18 +155,12 @@ describe("todos page", () => {
     const todo1 = aTodo({ content: "Buy milk", completed: true });
     const todo2 = aTodo({ content: "Pay rent", completed: false });
     const user = aUser({ todos: [todo1, todo2] });
-
     vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
-    fireEvent.click(screen.getByRole("combobox"));
-    fireEvent.click(screen.getByRole("option", { name: "Active" }));
-
-    await waitFor(() => {
-      expect(screen.queryByRole("textbox", { name: todo1.content })).not.toBeInTheDocument();
-      expect(screen.queryByRole("textbox", { name: todo2.content })).toBeInTheDocument();
-    });
+    expect(screen.queryByRole("textbox", { name: todo1.content })).not.toBeInTheDocument();
+    expect(screen.queryByRole("textbox", { name: todo2.content })).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("combobox"));
     fireEvent.click(screen.getByRole("option", { name: "Done" }));

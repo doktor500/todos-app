@@ -9,13 +9,13 @@ import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticsA
 const { CREATE_TODO } = TodoOptimisticActionType;
 
 export const CreateTodoForm = () => {
-  const { userId, dispatchOptimisticAction, pendingTransaction } = useTodos();
+  const { userId, dispatchAction, pendingTransaction } = useTodos();
   const { formRef, resetForm } = useForm();
 
   const handleCreateTodo = async (formData: FormData) => {
     const content = formData.get("content")?.toString();
     if (content && !pendingTransaction) {
-      dispatchOptimisticAction({ type: CREATE_TODO, payload: { content } });
+      dispatchAction({ type: CREATE_TODO, payload: { content } });
       resetForm();
 
       await createTodo(formData);

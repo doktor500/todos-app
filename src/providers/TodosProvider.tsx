@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useOptimistic, useTransition } from "react";
+import { createContext, Dispatch, useContext, useOptimistic, useTransition } from "react";
 
 import { Todo } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
@@ -11,7 +11,7 @@ type TodosContextType = {
   userId: UserId;
   todos: Todo[];
   pendingTransaction: boolean;
-  dispatchOptimisticAction: (action: TodoOptimisticAction) => void;
+  dispatch: Dispatch<TodoOptimisticAction>;
 };
 
 type Props = {
@@ -19,13 +19,20 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const TodosContext = createContext<Optional<TodosContextType>>(undefined);
+const TodosContext = createContext<Optional<TodosContextType>>(undefined);
 
 export const TodosProvider = ({ user, children }: Props) => {
   const [pendingTransaction, startTransition] = useTransition();
   const [todos, actionHandler] = useOptimistic(user.todos, todoOptimisticActionsReducer);
-  const dispatchOptimisticAction = (action: TodoOptimisticAction) => startTransition(() => actionHandler(action));
-  const context = { userId: user.id, todos, pendingTransaction, dispatchOptimisticAction };
+  const dispatch = (action: TodoOptimisticAction) => startTransition(() => actionHandler(action));
+  const context = { userId: user.id, todos, pendingTransaction, dispatch };
 
   return <TodosContext.Provider value={context}>{children}</TodosContext.Provider>;
+};
+
+export const useTodosContext = () => {
+  const context = useContext(TodosContext);
+  if (!context) throw new Error("useTodosContext must be used within a TodosProvider");
+
+  return context;
 };

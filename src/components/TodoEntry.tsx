@@ -21,23 +21,23 @@ const { TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
 export const TodoEntry = (props: Props) => {
   const { todoId, content, completed } = props;
-  const { userId, dispatchOptimisticAction } = useTodos();
+  const { userId, dispatchAction } = useTodos();
 
   const handleToggleTodo = async (event: UIEvent) => {
     event.preventDefault();
-    dispatchOptimisticAction({ type: TOGGLE_TODO, payload: { todoId } });
+    dispatchAction({ type: TOGGLE_TODO, payload: { todoId } });
     await toggleTodo({ userId, todoId, completed: !completed });
   };
 
   const handleEditTodo = async (event: FocusEvent<HTMLInputElement>) => {
     event.preventDefault();
-    dispatchOptimisticAction({ type: EDIT_TODO, payload: { todoId, content: event.target.value } });
+    dispatchAction({ type: EDIT_TODO, payload: { todoId, content: event.target.value } });
     await editTodo({ userId, todoId, content: event.target.value });
   };
 
   const handleDeleteTodo = async (event: UIEvent) => {
     event.preventDefault();
-    dispatchOptimisticAction({ type: DELETE_TODO, payload: { todoId } });
+    dispatchAction({ type: DELETE_TODO, payload: { todoId } });
     await deleteTodo({ userId, todoId });
   };
 

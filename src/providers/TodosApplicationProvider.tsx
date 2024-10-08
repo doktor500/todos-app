@@ -5,9 +5,10 @@ import { createContext, Dispatch, useOptimistic, useTransition } from "react";
 import { Todo } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { TodoOptimisticAction, todoOptimisticActionsReducer } from "@/providers/reducers/todosOptimisticsActionReducer";
+import { TodoOptimisticAction, todoOptimisticActionsReducer } from "@/providers/reducers/todosOptimisticActionReducer";
+import { TodosProvider } from "@/providers/TodosProvider";
 
-type OptimisticTodosContextType = {
+type TodosApplicationContextType = {
   userId: UserId;
   todos: Todo[];
   pendingTransaction: boolean;
@@ -19,13 +20,17 @@ type Props = {
   children: React.ReactNode;
 };
 
-export const OptimisticTodosContext = createContext<Optional<OptimisticTodosContextType>>(undefined);
+export const TodosApplicationContext = createContext<Optional<TodosApplicationContextType>>(undefined);
 
-export const OptimisticTodosProvider = ({ user, children }: Props) => {
+export const TodosApplicationProvider = ({ user, children }: Props) => {
   const [pendingTransaction, startTransition] = useTransition();
   const [todos, actionHandler] = useOptimistic(user.todos, todoOptimisticActionsReducer);
   const dispatch = (action: TodoOptimisticAction) => startTransition(() => actionHandler(action));
   const value = { userId: user.id, todos, pendingTransaction, dispatch };
 
-  return <OptimisticTodosContext.Provider value={value}>{children}</OptimisticTodosContext.Provider>;
+  return (
+    <TodosApplicationContext.Provider value={value}>
+      <TodosProvider>{children}</TodosProvider>
+    </TodosApplicationContext.Provider>
+  );
 };

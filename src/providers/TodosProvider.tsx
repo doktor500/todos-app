@@ -9,7 +9,7 @@ import { UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 import { TodoBaseActionType, todosActionReducer } from "@/providers/reducers/todosActionReducer";
-import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticsActionReducer";
+import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticActionReducer";
 
 type TodosContextType = {
   userId: UserId;

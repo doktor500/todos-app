@@ -6,7 +6,7 @@ import { createTodo } from "@/actions/createTodo";
 import { useForm } from "@/hooks/common/useForm";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
-import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticsActionReducer";
+import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticActionReducer";
 
 const { CREATE_TODO } = TodoOptimisticActionType;
 

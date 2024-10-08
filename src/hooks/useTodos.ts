@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
 import { TodoBaseAction } from "@/providers/reducers/todosActionReducer";
-import { TodoOptimisticAction } from "@/providers/reducers/todosOptimisticsActionReducer";
+import { TodoOptimisticAction } from "@/providers/reducers/todosOptimisticActionReducer";
 import { TodosContext } from "@/providers/TodosProvider";
 
 export type TodoAction = TodoBaseAction | TodoOptimisticAction;

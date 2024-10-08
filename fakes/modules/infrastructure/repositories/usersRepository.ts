@@ -3,11 +3,10 @@ import { ExistingTodo, TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { isEmpty, replace, sort } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils.mjs";
 import { fakeRepository } from "@/test/utils/repositories/fakeRepository";
 
-export const fakeUsersRepository = ({ persistent = false }: { persistent?: boolean } = {}) => {
-  const repository = fakeRepository<User>({ persistent, name: "users" });
+export const fakeUsersRepository = () => {
+  const repository = fakeRepository<User>({ name: "users" });
 
   return {
     ...repository,
@@ -53,4 +52,4 @@ const updateUserTodo = (user: User, todo: ExistingTodo) => {
     : user.todos;
 };
 
-export const usersRepository = fakeUsersRepository({ persistent: isLocalEnvironment() }) satisfies UsersRepository;
+export const usersRepository = fakeUsersRepository() satisfies UsersRepository;

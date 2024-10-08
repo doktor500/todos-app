@@ -3,6 +3,7 @@ import { PlusIcon } from "lucide-react";
 import { createTodo } from "@/actions/createTodo";
 import { useForm } from "@/hooks/common/useForm";
 import { useTodos } from "@/hooks/useTodos";
+import { cn } from "@/lib/utils";
 import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticsActionReducer";
 
 const { CREATE_TODO } = TodoOptimisticActionType;
@@ -21,8 +22,15 @@ export const CreateTodoForm = () => {
     }
   };
 
+  const opacity = pendingTransaction ? "opacity-40" : "opacity-100";
+
   return (
-    <div className="h-11 w-80 rounded-sm bg-black/20 pl-4 pt-2.5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/30 md:w-96">
+    <div
+      className={cn(
+        "h-11 w-80 rounded-sm bg-black/20 pl-4 pt-2.5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/30 md:w-96",
+        opacity
+      )}
+    >
       <div className="flex items-center text-gray-800 dark:text-white">
         <PlusIcon className="size-5" />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo">
@@ -33,6 +41,7 @@ export const CreateTodoForm = () => {
             aria-label="New todo"
             placeholder="Add a to-do..."
             className="w-64 border-none bg-transparent pl-1 text-sm outline-none md:w-80"
+            disabled={pendingTransaction}
           />
         </form>
       </div>

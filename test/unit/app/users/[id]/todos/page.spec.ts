@@ -76,6 +76,24 @@ describe("todos page", () => {
     expect(newTodoInputField).toHaveTextContent("");
   });
 
+  it("disables the input field to create a todo when the form is submitted", async () => {
+    const user = aUser();
+    const newTodo = "New todo content";
+    const { promise, resolve } = Promise.withResolvers<void>();
+
+    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(createTodo).mockImplementationOnce(() => promise);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    const newTodoInputField = screen.getByLabelText("New todo");
+    await userEvent.type(newTodoInputField, newTodo);
+
+    await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
+    await waitFor(() => expect(newTodoInputField).toHaveAttribute("disabled"));
+    await act(() => resolve());
+  });
+
   it("calls toggle todo action when the todo checkbox is clicked", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });

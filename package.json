@@ -64,6 +64,7 @@
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
     "@vitejs/plugin-react": "^4.3.2",
+    "core-js": "^3.38.1",
     "dotenv": "^16.4.5",
     "drizzle-kit": "^0.24.2",
     "eslint": "^9",

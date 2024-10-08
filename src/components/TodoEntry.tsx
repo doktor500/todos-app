@@ -9,7 +9,7 @@ import { toggleTodo } from "@/actions/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { useTodos } from "@/hooks/useTodos";
 import { TodoId } from "@/modules/domain/todo";
-import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticActionReducer";
+import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
 type Props = {
   todoId: TodoId;

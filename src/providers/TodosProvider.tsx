@@ -8,8 +8,8 @@ import { defaultTodosFilter, filterTodos, Todo } from "@/modules/domain/todo";
 import { UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
-import { TodoBaseActionType, todosActionReducer } from "@/providers/reducers/todosActionReducer";
-import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticActionReducer";
+import { todoActionReducer, TodoBaseActionType } from "@/reducers/todoActionReducer";
+import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
 type TodosContextType = {
   userId: UserId;
@@ -28,7 +28,7 @@ export const TodosProvider = ({ children }: { children: React.ReactNode }) => {
   const initialFilerOptions = { searchTerm: undefined, todosFilter: defaultTodosFilter };
   const filteredTodos = filterTodos(optimisticTodosContext.todos).by(initialFilerOptions);
   const initialState = { todos: filteredTodos, ...initialFilerOptions };
-  const [state, dispatch] = useReducer(todosActionReducer, initialState);
+  const [state, dispatch] = useReducer(todoActionReducer, initialState);
 
   const getTodos = () => filterTodos(optimisticTodosContext.todos).by(state);
 

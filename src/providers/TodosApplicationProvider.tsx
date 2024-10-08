@@ -5,8 +5,8 @@ import { createContext, Dispatch, useOptimistic, useTransition } from "react";
 import { Todo } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { TodoOptimisticAction, todoOptimisticActionsReducer } from "@/providers/reducers/todosOptimisticActionReducer";
 import { TodosProvider } from "@/providers/TodosProvider";
+import { TodoOptimisticAction, todoOptimisticActionsReducer } from "@/reducers/todoOptimisticActionReducer";
 
 type TodosApplicationContextType = {
   userId: UserId;

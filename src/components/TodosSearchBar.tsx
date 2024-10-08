@@ -7,7 +7,7 @@ import { Combobox } from "@/components/ui/Combobox";
 import { useTodos } from "@/hooks/useTodos";
 import { defaultTodosFilter, TodosFilter } from "@/modules/domain/todo";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { TodoBaseActionType } from "@/providers/reducers/todosActionReducer";
+import { TodoBaseActionType } from "@/reducers/todoActionReducer";
 
 const { SET_SEARCH_TERM, SET_TODOS_FILTER } = TodoBaseActionType;
 

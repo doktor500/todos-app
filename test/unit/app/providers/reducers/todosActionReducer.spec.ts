@@ -2,7 +2,7 @@ import {
   TodoOptimisticAction,
   todoOptimisticActionsReducer,
   TodoOptimisticActionType,
-} from "@/providers/reducers/todosOptimisticActionReducer";
+} from "@/reducers/todoOptimisticActionReducer";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 
 const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;

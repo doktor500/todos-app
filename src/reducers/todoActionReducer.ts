@@ -27,7 +27,7 @@ const handleSetTodosFilter = (state: TodosState, todosFilter: Optional<string>):
   return filter ? { ...state, todosFilter: filter } : state;
 };
 
-export const todosActionReducer = (state: TodosState, action: TodoBaseAction): TodosState => {
+export const todoActionReducer = (state: TodosState, action: TodoBaseAction): TodosState => {
   return match(action)
     .with({ type: SET_SEARCH_TERM }, ({ payload }) => ({ ...state, searchTerm: payload.searchTerm }))
     .with({ type: SET_TODOS_FILTER }, ({ payload }) => handleSetTodosFilter(state, payload.todosFilter))

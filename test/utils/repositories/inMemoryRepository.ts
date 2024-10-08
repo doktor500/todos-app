@@ -3,39 +3,52 @@ import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { clone } from "@/test/utils/objectUtils";
 import Repository from "@/test/utils/repositories/repository";
 
-export default class InMemoryRepository<Entity extends { id: number }> implements Repository<Entity> {
-  private readonly storage: Map<string, Entity>;
+const storage = new Map();
 
-  constructor(storage: Map<string, Entity>) {
-    this.storage = storage;
-  }
+export const inMemoryRepository = <Entity extends { id: number }>(name: string): Repository<Entity> => {
+  const repository = initializeRepository<Entity>(name);
 
-  async get(id: number): Promise<Optional<Entity>> {
-    return this.storage.get(id.toString());
-  }
+  const get = async (id: number): Promise<Optional<Entity>> => {
+    return repository.get(id);
+  };
 
-  async getAll(ids: number[] = []): Promise<Entity[]> {
-    const entities = Array.from(this.storage.values());
+  const getAll = async (ids: number[] = []): Promise<Entity[]> => {
+    const entities = Array.from(repository.values());
 
     return isEmpty(ids) ? entities : entities.filter((entity) => ids.includes(entity.id));
-  }
+  };
 
-  async save(entity: Entity): Promise<number> {
+  const save = async (entity: Entity): Promise<number> => {
     const clonedEntity = clone(entity);
-    this.storage.set(entity.id.toString(), clonedEntity);
+    repository.set(entity.id, clonedEntity);
 
     return entity.id;
-  }
+  };
 
-  async saveAll(entities: Entity[]): Promise<number[]> {
-    return Promise.all(entities.map((entity) => this.save(entity)));
-  }
+  const saveAll = async (entities: Entity[]): Promise<number[]> => {
+    return Promise.all(entities.map((entity) => save(entity)));
+  };
 
-  async delete(id: number): Promise<void> {
-    this.storage.delete(id.toString());
-  }
+  const deleteBy = async (id: number): Promise<void> => {
+    repository.delete(id);
+  };
 
-  async deleteAll(entities: Entity[] = []): Promise<void> {
-    return isEmpty(entities) ? this.storage.clear() : void entities.map((entity) => void this.delete(entity.id));
-  }
-}
+  const deleteAll = async (entities: Entity[] = []): Promise<void> => {
+    return isEmpty(entities) ? repository.clear() : void entities.map((entity) => void deleteBy(entity.id));
+  };
+
+  return {
+    get,
+    getAll,
+    save,
+    saveAll,
+    delete: deleteBy,
+    deleteAll,
+  };
+};
+
+const initializeRepository = <Entity extends { id: number }>(name: string): Map<number, Entity> => {
+  if (!storage.get(name)) storage.set(name, new Map<number, Entity>());
+
+  return storage.get(name);
+};

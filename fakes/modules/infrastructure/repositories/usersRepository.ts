@@ -3,55 +3,54 @@ import { ExistingTodo, TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { isEmpty, replace, sort } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { FakeRepository } from "@/test/utils/repositories/fakeRepository";
+import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils.mjs";
+import { fakeRepository } from "@/test/utils/repositories/fakeRepository";
 
-export class FakeUsersRepository extends FakeRepository<User> implements UsersRepository {
-  constructor({ persistent = false }: { persistent?: boolean } = {}) {
-    super({ persistent, name: "users" });
-  }
+export const fakeUsersRepository = ({ persistent = false }: { persistent?: boolean } = {}) => {
+  const repository = fakeRepository<User>({ persistent, name: "users" });
 
-  async get(userId: UserId): Promise<Optional<User>> {
-    const user = await this.repository.get(userId);
-    if (user) {
-      return { ...user, todos: sort(user.todos).by("id").reverse() };
-    }
-  }
+  return {
+    ...repository,
+    get: async (userId: UserId): Promise<Optional<User>> => {
+      const user = await repository.get(userId);
+      if (user) {
+        return { ...user, todos: sort(user.todos).by("id").reverse() };
+      }
+    },
+    saveTodo: async (userId: UserId, content: string): Promise<void> => {
+      const user = await repository.get(userId);
+      if (user) {
+        const lastId = isEmpty(user.todos) ? 0 : Math.max(...user.todos.map((todo) => todo.id));
+        const todo = { id: lastId + 1, content, completed: false };
+        const updatedUser: User = { ...user, todos: [...user.todos, todo] };
+        await repository.save(updatedUser);
+      }
+    },
+    updateTodo: async (userId: UserId, todo: ExistingTodo): Promise<void> => {
+      const user = await repository.get(userId);
+      if (user) {
+        const updatedTodos = updateUserTodo(user, todo);
+        await repository.save({ ...user, todos: updatedTodos });
+      }
+    },
+    deleteTodo: async (userId: UserId, todoId: TodoId): Promise<void> => {
+      const user = await repository.get(userId);
+      if (user) {
+        const updatedUser = { ...user, todos: user.todos.filter((todo) => todo.id !== todoId) };
+        await repository.save(updatedUser);
+      }
+    },
+  };
+};
 
-  async saveTodo(userId: UserId, content: string): Promise<void> {
-    const user = await this.repository.get(userId);
-    if (user) {
-      const lastId = isEmpty(user.todos) ? 0 : Math.max(...user.todos.map((todo) => todo.id));
-      const todo = { id: lastId + 1, content, completed: false };
-      const updatedUser: User = { ...user, todos: [...user.todos, todo] };
-      await this.repository.save(updatedUser);
-    }
-  }
+const updateUserTodo = (user: User, todo: ExistingTodo) => {
+  const currentTodo = user.todos.find(({ id }) => id === todo.id);
 
-  async updateTodo(userId: UserId, todo: ExistingTodo): Promise<void> {
-    const user = await this.repository.get(userId);
-    if (user) {
-      const updatedTodos = this.updateUserTodo(user, todo);
-      await this.repository.save({ ...user, todos: updatedTodos });
-    }
-  }
+  return currentTodo
+    ? replace(currentTodo)
+        .in(user.todos)
+        .with({ ...currentTodo, ...todo })
+    : user.todos;
+};
 
-  async deleteTodo(userId: UserId, todoId: TodoId): Promise<void> {
-    const user = await this.repository.get(userId);
-    if (user) {
-      const updatedUser = { ...user, todos: user.todos.filter((todo) => todo.id !== todoId) };
-      await this.repository.save(updatedUser);
-    }
-  }
-
-  private updateUserTodo(user: User, todo: ExistingTodo) {
-    const currentTodo = user?.todos.find(({ id }) => id === todo.id);
-
-    return currentTodo
-      ? replace(currentTodo)
-          .in(user.todos)
-          .with({ ...currentTodo, ...todo })
-      : user.todos;
-  }
-}
-
-export const usersRepository = new FakeUsersRepository({ persistent: true });
+export const usersRepository = fakeUsersRepository({ persistent: isLocalEnvironment() }) satisfies UsersRepository;

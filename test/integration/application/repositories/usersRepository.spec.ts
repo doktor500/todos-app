@@ -1,4 +1,4 @@
-import { FakeUsersRepository } from "@/fakes/modules/infrastructure/repositories/usersRepository";
+import { fakeUsersRepository } from "@/fakes/modules/infrastructure/repositories/usersRepository";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { usersTestRepository } from "@/test/integration/application/repositories/usersTestRepository";
@@ -8,8 +8,8 @@ describe("Users repository", () => {
 
   it.each`
     name                                  | repository
-    ${"fake in memory users repository"}  | ${new FakeUsersRepository({ persistent: false })}
-    ${"fake persistent users repository"} | ${new FakeUsersRepository({ persistent: true })}
+    ${"fake in memory users repository"}  | ${fakeUsersRepository({ persistent: false })}
+    ${"fake persistent users repository"} | ${fakeUsersRepository({ persistent: true })}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can find a user by id", async ({ repository }) => {
     const todo1 = aTodo({ id: 1, content: "Buy milk" });
@@ -24,8 +24,8 @@ describe("Users repository", () => {
 
   it.each`
     name                                  | repository
-    ${"fake in memory users repository"}  | ${new FakeUsersRepository({ persistent: false })}
-    ${"fake persistent users repository"} | ${new FakeUsersRepository({ persistent: true })}
+    ${"fake in memory users repository"}  | ${fakeUsersRepository({ persistent: false })}
+    ${"fake persistent users repository"} | ${fakeUsersRepository({ persistent: true })}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can save a todo successfully", async ({ repository }) => {
     const newTodo = aTodo({ id: undefined });
@@ -43,8 +43,8 @@ describe("Users repository", () => {
 
   it.each`
     name                                  | repository
-    ${"fake in memory users repository"}  | ${new FakeUsersRepository({ persistent: false })}
-    ${"fake persistent users repository"} | ${new FakeUsersRepository({ persistent: true })}
+    ${"fake in memory users repository"}  | ${fakeUsersRepository({ persistent: false })}
+    ${"fake persistent users repository"} | ${fakeUsersRepository({ persistent: true })}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can update a todo successfully", async ({ repository }) => {
     const todo = aTodo({ id: undefined, completed: false, content: "original content" });
@@ -70,8 +70,8 @@ describe("Users repository", () => {
 
   it.each`
     name                                  | repository
-    ${"fake in memory users repository"}  | ${new FakeUsersRepository({ persistent: false })}
-    ${"fake persistent users repository"} | ${new FakeUsersRepository({ persistent: true })}
+    ${"fake in memory users repository"}  | ${fakeUsersRepository({ persistent: false })}
+    ${"fake persistent users repository"} | ${fakeUsersRepository({ persistent: true })}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can delete a todo successfully", async ({ repository }) => {
     const todo = aTodo({ id: undefined, completed: false });

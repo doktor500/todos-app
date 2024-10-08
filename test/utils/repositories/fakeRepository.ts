@@ -1,7 +1,7 @@
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils.mjs";
-import InMemoryRepository from "@/test/utils/repositories/inMemoryRepository";
-import { PersistentRepository } from "@/test/utils/repositories/persistentRepository";
+import { inMemoryRepository } from "@/test/utils/repositories/inMemoryRepository";
+import { persistentRepository } from "@/test/utils/repositories/persistentRepository";
 import Repository from "@/test/utils/repositories/repository";
 
 export type RepositoryProps = {
@@ -9,40 +9,17 @@ export type RepositoryProps = {
   name: string;
 };
 
-export abstract class FakeRepository<Entity extends { id: number }> implements Repository<Entity> {
-  protected readonly repository: Repository<Entity>;
+export const fakeRepository = <Entity extends { id: number }>(props: RepositoryProps): Repository<Entity> => {
+  const { name, persistent } = props;
+  const isPersistent = persistent || isLocalEnvironment();
+  const repository: Repository<Entity> = isPersistent ? persistentRepository<Entity>(name) : inMemoryRepository(name);
 
-  protected constructor(props: RepositoryProps) {
-    const { name } = props;
-    const storage = new Map<string, Entity>();
-    this.repository = this.isPersistent(props) ? new PersistentRepository(name) : new InMemoryRepository(storage);
-  }
-
-  async get(id: number): Promise<Optional<Entity>> {
-    return this.repository.get(id);
-  }
-
-  async getAll(ids: number[] = []): Promise<Entity[]> {
-    return this.repository.getAll(ids);
-  }
-
-  async save(entity: Entity): Promise<number> {
-    return this.repository.save(entity);
-  }
-
-  async saveAll(entities: Entity[]): Promise<number[]> {
-    return this.repository.saveAll(entities);
-  }
-
-  async delete(id: number): Promise<void> {
-    return this.repository.delete(id);
-  }
-
-  async deleteAll(entities: Entity[] = []): Promise<void> {
-    return this.repository.deleteAll(entities);
-  }
-
-  protected isPersistent = (props: { persistent?: boolean }): boolean => {
-    return props.persistent || isLocalEnvironment();
+  return {
+    get: (id: number): Promise<Optional<Entity>> => repository.get(id),
+    getAll: (ids: number[] = []): Promise<Entity[]> => repository.getAll(ids),
+    save: (entity: Entity): Promise<number> => repository.save(entity),
+    saveAll: (entities: Entity[]): Promise<number[]> => repository.saveAll(entities),
+    delete: (id: number): Promise<void> => repository.delete(id),
+    deleteAll: (entities: Entity[] = []): Promise<void> => repository.deleteAll(entities),
   };
-}
+};

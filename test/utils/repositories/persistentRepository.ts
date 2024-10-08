@@ -4,74 +4,74 @@ import { isEmpty } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import Repository, { DB } from "@/test/utils/repositories/repository";
 
-export class PersistentRepository<Entity extends { id: number }> implements Repository<Entity> {
-  private readonly db;
+export const persistentRepository = <Entity extends { id: number }>(dbName: string): Repository<Entity> => {
+  const db = new JsonDB(new Config(`${DB}/${dbName}`, true, true, "/"));
 
-  constructor(dbName: string) {
-    try {
-      this.db = new JsonDB(new Config(`${DB}/${dbName}`, true, true, "/"));
-      this.db.resetData({});
-    } catch (error) {
-      console.error("[FileSystemRepository] error initializing file system repository", error);
-    }
-  }
+  const get = async (id: number): Promise<Optional<Entity>> => {
+    return getItem(id);
+  };
 
-  async get(id: number): Promise<Optional<Entity>> {
-    return this.getItem(id);
-  }
+  const getAll = async (ids: number[] = []): Promise<Entity[]> => {
+    return getAllItems(ids);
+  };
 
-  async getAll(ids: number[] = []): Promise<Entity[]> {
-    return this.getAllItems(ids);
-  }
+  const save = async (entity: Entity): Promise<number> => {
+    return saveItem(entity);
+  };
 
-  async save(entity: Entity): Promise<number> {
-    return this.saveItem(entity);
-  }
-
-  async saveAll(entities: Entity[]): Promise<number[]> {
-    await Promise.all(entities.map((entity) => this.saveItem(entity)));
+  const saveAll = async (entities: Entity[]): Promise<number[]> => {
+    await Promise.all(entities.map((entity) => saveItem(entity)));
 
     return entities.map((entity) => entity.id);
-  }
+  };
 
-  async delete(id: number): Promise<void> {
-    await this.deleteItem(id);
-  }
+  const deleteBy = async (id: number): Promise<void> => {
+    await deleteItem(id);
+  };
 
-  async deleteAll(entities: Entity[] = []): Promise<void> {
+  const deleteAll = async (entities: Entity[] = []): Promise<void> => {
     return isEmpty(entities)
-      ? await this.deleteAllItems()
-      : await void Promise.all(entities.map((entity) => this.deleteItem(entity.id)));
-  }
+      ? await deleteAllItems()
+      : await void Promise.all(entities.map((entity) => deleteItem(entity.id)));
+  };
 
-  private async getItem(id: number): Promise<Optional<Entity>> {
+  const getItem = async (id: number): Promise<Optional<Entity>> => {
     try {
-      return (await this.db?.getData(`/${id}`)) as Entity;
+      return (await db?.getData(`/${id}`)) as Entity;
     } catch {
       return undefined;
     }
-  }
+  };
 
-  private async saveItem(entity: Entity) {
+  const saveItem = async (entity: Entity) => {
     const entityWithId = { ...entity, id: entity.id };
-    await this.db?.push(`/${entity.id}`, entityWithId, true);
+    await db?.push(`/${entity.id}`, entityWithId, true);
 
     return entity.id;
-  }
+  };
 
-  private async deleteItem(id: number) {
-    await this.db?.delete(`/${id}`);
-  }
+  const deleteItem = async (id: number) => {
+    await db?.delete(`/${id}`);
+  };
 
-  private async getAllItems(ids: number[] = []): Promise<Entity[]> {
+  const getAllItems = async (ids: number[] = []): Promise<Entity[]> => {
     const entities = isEmpty(ids)
-      ? await this.db?.getData("/").then((json) => Object.values(json))
-      : await Promise.all(ids.map((id) => this.getItem(id)));
+      ? await db?.getData("/").then((json) => Object.values(json))
+      : await Promise.all(ids.map((id) => getItem(id)));
 
     return entities?.filter(Boolean) as Entity[];
-  }
+  };
 
-  private async deleteAllItems() {
-    await this.db?.delete(`/`);
-  }
-}
+  const deleteAllItems = async () => {
+    await db?.delete(`/`);
+  };
+
+  return {
+    get,
+    getAll,
+    save,
+    saveAll,
+    delete: deleteBy,
+    deleteAll,
+  };
+};

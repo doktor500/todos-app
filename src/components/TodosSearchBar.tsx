@@ -1,17 +1,19 @@
 "use client";
 
 import { Search as SearchIcon } from "lucide-react";
-import { ChangeEvent, Dispatch } from "react";
+import { ChangeEvent } from "react";
 
 import { Combobox } from "@/components/ui/Combobox";
-import { TodoAction } from "@/hooks/useTodos";
+import { useTodos } from "@/hooks/useTodos";
 import { defaultTodosFilter, TodosFilter } from "@/modules/domain/todo";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { TodoBaseActionType } from "@/providers/reducers/todosActionReducer";
 
 const { SET_SEARCH_TERM, SET_TODOS_FILTER } = TodoBaseActionType;
 
-export const TodosSearchBar = ({ dispatchAction }: { dispatchAction: Dispatch<TodoAction> }) => {
+export const TodosSearchBar = () => {
+  const { dispatchAction } = useTodos();
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     dispatchAction({ type: SET_SEARCH_TERM, payload: { searchTerm: event.target.value } });

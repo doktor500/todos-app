@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { Todos } from "@/components/Todos";
 import { UserId } from "@/modules/domain/user";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
+import { OptimisticTodosProvider } from "@/providers/OptimisticTodosProvider";
 import { TodosProvider } from "@/providers/TodosProvider";
 
 type Params = { params: { id: UserId } };
@@ -22,9 +23,11 @@ const Page = async ({ params }: Params) => {
   return (
     <>
       <h1 className="pt-4 text-center text-2xl font-bold">Inbox</h1>
-      <TodosProvider user={user}>
-        <Todos />
-      </TodosProvider>
+      <OptimisticTodosProvider user={user}>
+        <TodosProvider>
+          <Todos />
+        </TodosProvider>
+      </OptimisticTodosProvider>
     </>
   );
 };

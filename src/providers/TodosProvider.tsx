@@ -1,38 +1,54 @@
 "use client";
 
-import { createContext, Dispatch, useContext, useOptimistic, useTransition } from "react";
+import { createContext, Dispatch, useReducer } from "react";
 
-import { Todo } from "@/modules/domain/todo";
-import { User, UserId } from "@/modules/domain/user";
+import { useOptimisticTodos } from "@/hooks/useOptimisticTodos";
+import { TodoAction } from "@/hooks/useTodos";
+import { defaultTodosFilter, filterTodos, Todo } from "@/modules/domain/todo";
+import { UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { TodoOptimisticAction, todoOptimisticActionsReducer } from "@/providers/reducers/todosOptimisticsActionReducer";
+import { match } from "@/modules/domain/utils/patternMatchingUtils";
+import { TodoBaseActionType, todosActionReducer } from "@/providers/reducers/todosActionReducer";
+import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticsActionReducer";
 
 type TodosContextType = {
   userId: UserId;
-  todos: Todo[];
   pendingTransaction: boolean;
-  dispatch: Dispatch<TodoOptimisticAction>;
+  getTodos: () => Todo[];
+  dispatchAction: Dispatch<TodoAction>;
 };
 
-type Props = {
-  user: User;
-  children: React.ReactNode;
-};
+const { SET_SEARCH_TERM, SET_TODOS_FILTER } = TodoBaseActionType;
+const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
-const TodosContext = createContext<Optional<TodosContextType>>(undefined);
+export const TodosContext = createContext<Optional<TodosContextType>>(undefined);
 
-export const TodosProvider = ({ user, children }: Props) => {
-  const [pendingTransaction, startTransition] = useTransition();
-  const [todos, actionHandler] = useOptimistic(user.todos, todoOptimisticActionsReducer);
-  const dispatch = (action: TodoOptimisticAction) => startTransition(() => actionHandler(action));
-  const context = { userId: user.id, todos, pendingTransaction, dispatch };
+export const TodosProvider = ({ children }: { children: React.ReactNode }) => {
+  const optimisticTodosContext = useOptimisticTodos();
+  const initialFilerOptions = { searchTerm: undefined, todosFilter: defaultTodosFilter };
+  const filteredTodos = filterTodos(optimisticTodosContext.todos).by(initialFilerOptions);
+  const initialState = { todos: filteredTodos, ...initialFilerOptions };
+  const [state, dispatch] = useReducer(todosActionReducer, initialState);
 
-  return <TodosContext.Provider value={context}>{children}</TodosContext.Provider>;
-};
+  const getTodos = () => filterTodos(optimisticTodosContext.todos).by(state);
 
-export const useTodosContext = () => {
-  const context = useContext(TodosContext);
-  if (!context) throw new Error("useTodosContext must be used within a TodosProvider");
+  const dispatchAction: Dispatch<TodoAction> = (action: TodoAction) => {
+    return match(action)
+      .with({ type: CREATE_TODO }, optimisticTodosContext.dispatch)
+      .with({ type: TOGGLE_TODO }, optimisticTodosContext.dispatch)
+      .with({ type: EDIT_TODO }, optimisticTodosContext.dispatch)
+      .with({ type: DELETE_TODO }, optimisticTodosContext.dispatch)
+      .with({ type: SET_SEARCH_TERM }, dispatch)
+      .with({ type: SET_TODOS_FILTER }, dispatch)
+      .exhaustive();
+  };
 
-  return context;
+  const value = {
+    userId: optimisticTodosContext.userId,
+    pendingTransaction: optimisticTodosContext.pendingTransaction,
+    getTodos,
+    dispatchAction,
+  };
+
+  return <TodosContext.Provider value={value}>{children}</TodosContext.Provider>;
 };

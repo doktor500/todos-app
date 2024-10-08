@@ -12,6 +12,7 @@ test("Can create and delete a todo", async ({ page, baseURL }) => {
   await page.getByLabel("Loading spinner").waitFor({ state: "hidden" });
 
   await expect(page.getByRole("textbox", { name: "Buy coffee" })).toBeVisible();
+  await expect(page.getByLabel("New todo")).toHaveAttribute("autofocus");
 
   await page.getByLabel("Delete todo").click();
   await page.getByLabel("Loading spinner").waitFor({ state: "hidden" });
@@ -19,7 +20,7 @@ test("Can create and delete a todo", async ({ page, baseURL }) => {
   await expect(page.getByRole("textbox", { name: "Buy coffee" })).not.toBeVisible();
 });
 
-test("Filter is taken into account when a todo is edit", async ({ page, baseURL }) => {
+test("Filter is taken into account when a todo is edited", async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/users/${userId}/todos`);
 
   await page.getByLabel("New todo").fill("Buy pizza");

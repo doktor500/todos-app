@@ -1,13 +1,15 @@
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
+export type TodoId = number;
+
 export type Todo = {
-  id: number;
+  id: TodoId;
   content: string;
   completed: boolean;
 };
 
-export type ExistingTodo = Partial<Todo> & { id: number };
+export type ExistingTodo = Partial<Todo> & { id: TodoId };
 
 export const toggle = (todo: Todo): Todo => {
   return { ...todo, completed: !todo.completed };

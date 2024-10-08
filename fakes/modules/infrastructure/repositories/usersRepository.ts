@@ -1,6 +1,6 @@
 import UsersRepository from "@/modules/application/repositories/usersRepository";
-import { ExistingTodo } from "@/modules/domain/todo";
-import { User } from "@/modules/domain/user";
+import { ExistingTodo, TodoId } from "@/modules/domain/todo";
+import { User, UserId } from "@/modules/domain/user";
 import { isEmpty, replace, sort } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { FakeRepository } from "@/test/utils/repositories/fakeRepository";
@@ -10,14 +10,14 @@ export class FakeUsersRepository extends FakeRepository<User> implements UsersRe
     super({ persistent, name: "users" });
   }
 
-  async get(userId: number): Promise<Optional<User>> {
+  async get(userId: UserId): Promise<Optional<User>> {
     const user = await this.repository.get(userId);
     if (user) {
       return { ...user, todos: sort(user.todos).by("id").reverse() };
     }
   }
 
-  async saveTodo(userId: number, content: string): Promise<void> {
+  async saveTodo(userId: UserId, content: string): Promise<void> {
     const user = await this.repository.get(userId);
     if (user) {
       const lastId = isEmpty(user.todos) ? 0 : Math.max(...user.todos.map((todo) => todo.id));
@@ -27,7 +27,7 @@ export class FakeUsersRepository extends FakeRepository<User> implements UsersRe
     }
   }
 
-  async updateTodo(userId: number, todo: ExistingTodo): Promise<void> {
+  async updateTodo(userId: UserId, todo: ExistingTodo): Promise<void> {
     const user = await this.repository.get(userId);
     if (user) {
       const updatedTodos = this.updateUserTodo(user, todo);
@@ -35,7 +35,7 @@ export class FakeUsersRepository extends FakeRepository<User> implements UsersRe
     }
   }
 
-  async deleteTodo(userId: number, todoId: number): Promise<void> {
+  async deleteTodo(userId: UserId, todoId: TodoId): Promise<void> {
     const user = await this.repository.get(userId);
     if (user) {
       const updatedUser = { ...user, todos: user.todos.filter((todo) => todo.id !== todoId) };

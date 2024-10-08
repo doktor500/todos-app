@@ -2,12 +2,14 @@
 
 import z from "zod";
 
+import { TodoId } from "@/modules/domain/todo";
+import { UserId } from "@/modules/domain/user";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 
 type Command = {
-  userId: number;
-  todoId: number;
+  userId: UserId;
+  todoId: TodoId;
   completed: boolean;
 };
 

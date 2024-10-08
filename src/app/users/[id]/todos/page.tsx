@@ -2,10 +2,11 @@ import { Viewport } from "next";
 import { redirect } from "next/navigation";
 
 import { Todos } from "@/components/Todos";
+import { UserId } from "@/modules/domain/user";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { TodosProvider } from "@/providers/TodosProvider";
 
-type Params = { params: { id: number } };
+type Params = { params: { id: UserId } };
 
 export const viewport: Viewport = {
   initialScale: 1,

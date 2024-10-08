@@ -8,10 +8,11 @@ import { editTodo } from "@/actions/editTodo";
 import { toggleTodo } from "@/actions/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { useTodos } from "@/hooks/useTodos";
+import { TodoId } from "@/modules/domain/todo";
 import { TodoOptimisticActionType } from "@/providers/reducers/todosOptimisticsActionReducer";
 
 type Props = {
-  todoId: number;
+  todoId: TodoId;
   content: string;
   completed: boolean;
 };

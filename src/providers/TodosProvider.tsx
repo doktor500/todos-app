@@ -3,12 +3,12 @@
 import { createContext, useOptimistic, useTransition } from "react";
 
 import { Todo } from "@/modules/domain/todo";
-import { User } from "@/modules/domain/user";
+import { User, UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { TodoOptimisticAction, todoOptimisticActionsReducer } from "@/providers/reducers/todosOptimisticsActionReducer";
 
 type TodosContextType = {
-  userId: number;
+  userId: UserId;
   todos: Todo[];
   pendingTransaction: boolean;
   dispatchOptimisticAction: (action: TodoOptimisticAction) => void;

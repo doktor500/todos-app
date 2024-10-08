@@ -1,4 +1,4 @@
-import { Todo, toggle } from "@/modules/domain/todo";
+import { Todo, TodoId, toggle } from "@/modules/domain/todo";
 import { replace } from "@/modules/domain/utils/collectionUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
@@ -13,9 +13,9 @@ const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActio
 
 export type TodoOptimisticAction =
   | { type: TodoOptimisticActionType.CREATE_TODO; payload: { content: string } }
-  | { type: TodoOptimisticActionType.TOGGLE_TODO; payload: { todoId: number } }
-  | { type: TodoOptimisticActionType.EDIT_TODO; payload: { todoId: number; content: string } }
-  | { type: TodoOptimisticActionType.DELETE_TODO; payload: { todoId: number } };
+  | { type: TodoOptimisticActionType.TOGGLE_TODO; payload: { todoId: TodoId } }
+  | { type: TodoOptimisticActionType.EDIT_TODO; payload: { todoId: TodoId; content: string } }
+  | { type: TodoOptimisticActionType.DELETE_TODO; payload: { todoId: TodoId } };
 
 export const todoOptimisticActionsReducer = (state: Todo[], action: TodoOptimisticAction): Todo[] => {
   return match(action)
@@ -30,13 +30,13 @@ const addTodo = (todos: Todo[], content: string) => {
   return [{ id: 0, content, completed: false }, ...todos];
 };
 
-const toggleTodo = (todos: Todo[], todoId: number) => {
+const toggleTodo = (todos: Todo[], todoId: TodoId) => {
   const todo = todos.find((todo) => todo.id === todoId);
 
   return todo ? replace(todo).in(todos).with(toggle(todo)) : todos;
 };
 
-const editTodo = (todos: Todo[], todoId: number, content: string) => {
+const editTodo = (todos: Todo[], todoId: TodoId, content: string) => {
   const todo = todos.find((todo) => todo.id === todoId);
   if (todo) {
     const updatedTodo = { ...todo, content };
@@ -47,6 +47,6 @@ const editTodo = (todos: Todo[], todoId: number, content: string) => {
   return todos;
 };
 
-const deleteTodo = (todos: Todo[], todoId: number) => {
+const deleteTodo = (todos: Todo[], todoId: TodoId) => {
   return todos.filter((todo) => todo.id !== todoId);
 };

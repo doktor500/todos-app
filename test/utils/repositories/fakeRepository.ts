@@ -1,4 +1,5 @@
 import { Optional } from "@/modules/domain/utils/optionalUtils";
+import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils.mjs";
 import InMemoryRepository from "@/test/utils/repositories/inMemoryRepository";
 import { PersistentRepository } from "@/test/utils/repositories/persistentRepository";
 import Repository from "@/test/utils/repositories/repository";
@@ -42,6 +43,6 @@ export abstract class FakeRepository<Entity extends { id: number }> implements R
   }
 
   protected isPersistent = (props: { persistent?: boolean }): boolean => {
-    return props.persistent || process.env.ENVIRONMENT === "local";
+    return props.persistent || isLocalEnvironment();
   };
 }

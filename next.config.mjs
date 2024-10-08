@@ -1,17 +1,18 @@
-/* eslint-disable no-undef, no-restricted-imports */
+/* eslint-disable no-restricted-imports */
 import { localMappings } from "./scripts/generate-mappings.mjs";
+import { isLocalEnvironment } from "./src/modules/infrastructure/systemUtils.mjs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
     instrumentationHook: true,
     turbo: {
-      resolveAlias: process.env.ENVIRONMENT === "local" ? localMappings : {},
+      resolveAlias: isLocalEnvironment() ? localMappings : {},
       resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],
     },
   },
   typescript: {
-    tsconfigPath: process.env.ENVIRONMENT === "local" ? "tsconfig.local.json" : "tsconfig.json",
+    tsconfigPath: isLocalEnvironment() === "local" ? "tsconfig.local.json" : "tsconfig.json",
   },
 };
 

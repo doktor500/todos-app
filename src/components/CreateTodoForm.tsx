@@ -14,14 +14,13 @@ const { CREATE_TODO } = TodoOptimisticActionType;
 export const CreateTodoForm = () => {
   const { userId, dispatchAction, pendingTransaction } = useTodos();
   const { formRef, resetForm } = useForm();
-  const { inputRef } = useFormInput({ focusOn: !pendingTransaction });
+  const { inputRef } = useFormInput({ focusWhen: !pendingTransaction });
 
   const handleCreateTodo = async (formData: FormData) => {
     const content = formData.get("content")?.toString();
     if (content && !pendingTransaction) {
       dispatchAction({ type: CREATE_TODO, payload: { content } });
       resetForm();
-
       await createTodo(formData);
     }
   };

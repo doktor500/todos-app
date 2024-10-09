@@ -19,8 +19,7 @@ type Props = {
 
 const { TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
-export const TodoEntry = (props: Props) => {
-  const { todoId, content, completed } = props;
+export const TodoEntry = ({ todoId, content, completed }: Props) => {
   const { userId, dispatchAction } = useTodos();
 
   const handleToggleTodo = async (event: UIEvent) => {
@@ -31,8 +30,10 @@ export const TodoEntry = (props: Props) => {
 
   const handleEditTodo = async (event: FocusEvent<HTMLInputElement>) => {
     event.preventDefault();
-    dispatchAction({ type: EDIT_TODO, payload: { todoId, content: event.target.value } });
-    await editTodo({ userId, todoId, content: event.target.value });
+    if (content !== event.target.value) {
+      dispatchAction({ type: EDIT_TODO, payload: { todoId, content: event.target.value } });
+      await editTodo({ userId, todoId, content: event.target.value });
+    }
   };
 
   const handleDeleteTodo = async (event: UIEvent) => {
@@ -53,7 +54,7 @@ export const TodoEntry = (props: Props) => {
             id={`todo-${todoId}`}
             className="w-64 truncate bg-transparent px-2 text-sm outline-none md:w-80 md:pr-0"
             defaultValue={content}
-            onBlur={(event) => handleEditTodo(event)}
+            onBlur={handleEditTodo}
           />
         </div>
         <div

@@ -123,7 +123,7 @@ describe("todos page", () => {
     await waitFor(() => expect(screen.getByRole("checkbox")).toHaveAttribute("aria-checked", `${completed}`));
   });
 
-  it("calls edit todo action when the todo input looses focus", async () => {
+  it("calls edit todo action when the todo input looses focus and todo content has been changed", async () => {
     const todo = aTodo({ content: "original content" });
     const newTodoContent = "new content";
     const user = aUser({ todos: [todo] });
@@ -136,6 +136,21 @@ describe("todos page", () => {
     fireEvent.blur(todoInputField);
 
     expect(editTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id, content: newTodoContent });
+  });
+
+  it("does not call edit todo action when the todo input looses focus and todo content has not changed", async () => {
+    const todo = aTodo({ content: "original content" });
+    const user = aUser({ todos: [todo] });
+
+    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    const todoInputField = screen.getByRole("textbox", { name: todo.content });
+    fireEvent.change(todoInputField, { target: { value: todo.content } });
+    fireEvent.blur(todoInputField);
+
+    expect(editTodo).not.toHaveBeenCalled();
   });
 
   it("calls delete todo action when the trash icon is clicked", async () => {

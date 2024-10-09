@@ -4,14 +4,6 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Barlow_Condensed as BarlowCondensed } from "next/font/google";
-import { ThemeProvider } from "next-themes";
-
-const barlowCondensed = BarlowCondensed({
-  weight: "700",
-  subsets: ["latin"],
-  variable: "--font-barlow-condensed",
-});
 
 export const metadata: Metadata = {
   title: "Todo App",
@@ -21,10 +13,8 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={`${barlowCondensed.variable} antialiased dark:bg-gray-900`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+      <body className="antialiased dark:bg-gray-900">
+        {children}
         <Analytics />
         <SpeedInsights />
       </body>

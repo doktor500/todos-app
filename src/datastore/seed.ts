@@ -1,9 +1,9 @@
+import { usersRepositoryInstance } from "@/config/repositories/usersRepository";
 import { client } from "@/modules/infrastructure/repositories/db";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
-import { getUsersRepository } from "@/test/integration/application/repositories/usersTestRepository";
 
-const usersRepository = getUsersRepository();
+const usersRepository = usersRepositoryInstance();
 
 const seed = async () => {
   const todo1 = aTodo({ id: 1, content: "Buy milk" });

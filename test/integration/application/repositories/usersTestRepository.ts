@@ -1,9 +1,7 @@
 import { TodosTable, UsersTable } from "@/datastore/schema";
-import { usersRepository as usersFakeRepository } from "@/fakes/modules/infrastructure/repositories/usersRepository";
 import { User } from "@/modules/domain/user";
 import { db } from "@/modules/infrastructure/repositories/db";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
-import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils.mjs";
 
 export const usersTestRepository = {
   ...usersRepository,
@@ -19,8 +17,4 @@ export const usersTestRepository = {
       })
     );
   },
-};
-
-export const getUsersRepository = () => {
-  return isLocalEnvironment() ? usersFakeRepository : usersTestRepository;
 };

@@ -1,10 +1,10 @@
 import { test as setup } from "@playwright/test";
 
+import { usersRepositoryInstance } from "@/config/repositories/usersRepository";
 import { aUser } from "@/test/fixtures/user.fixture";
-import { getUsersRepository } from "@/test/integration/application/repositories/usersTestRepository";
 
 const userId = 1;
-const usersRepository = getUsersRepository();
+const usersRepository = usersRepositoryInstance();
 
 setup("setup browser tests context", async () => {
   await resetRepositories();

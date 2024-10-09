@@ -23,6 +23,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
+      "@/config/*": ["./config/*"],
       "@/fakes/*": ["./fakes/*"],
       "@/test/*": ["./test/*"],
     },

@@ -3,6 +3,7 @@
     "compilerOptions": {
         "paths": {
             "@/*": ["./src/*"],
+            "@/config/*": ["./config/*"],
             "@/fakes/*": ["./fakes/*"],
             "@/test/*": ["./test/*"],
             "@/modules/infrastructure/repositories/usersRepository": ["./fakes/modules/infrastructure/repositories/usersRepository"]

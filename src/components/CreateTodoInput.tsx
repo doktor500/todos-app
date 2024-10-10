@@ -2,8 +2,10 @@ import { Dispatch, SetStateAction, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 
 import { useFormInput } from "@/hooks/common/useFormInput";
+import { useIsServer } from "@/hooks/common/useIsServer";
 
 export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispatch<SetStateAction<boolean>> }) => {
+  const isServer = useIsServer();
   const { pending } = useFormStatus();
   const { inputRef } = useFormInput({ focus: !pending });
 
@@ -16,8 +18,8 @@ export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispa
       name="content"
       aria-label="New todo"
       placeholder="Add a to-do..."
-      className="w-64 border-none bg-transparent pl-1 text-sm outline-none md:w-80"
-      disabled={pending}
+      className="w-64 border-none bg-transparent pl-1 text-sm outline-none disabled:cursor-not-allowed md:w-80"
+      disabled={isServer || pending}
       required={true}
       autoFocus={true}
     />

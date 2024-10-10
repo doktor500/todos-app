@@ -5,6 +5,7 @@ import { PlusIcon } from "lucide-react";
 import { createTodo } from "@/actions/createTodo";
 import { CreateTodoInput } from "@/components/CreateTodoInput";
 import { useForm } from "@/hooks/common/useForm";
+import { useIsServer } from "@/hooks/common/useIsServer";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
@@ -12,6 +13,7 @@ import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer
 const { CREATE_TODO } = TodoOptimisticActionType;
 
 export const CreateTodoForm = () => {
+  const isServer = useIsServer();
   const { userId, dispatchAction } = useTodos();
   const { formRef, pending, setPending, resetForm } = useForm();
 
@@ -32,7 +34,7 @@ export const CreateTodoForm = () => {
       )}
     >
       <div className="flex items-center text-gray-800 dark:text-white">
-        <PlusIcon className="size-5" />
+        <PlusIcon className={cn("size-5", isServer ? "cursor-not-allowed" : "")} />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo">
           <input type="hidden" name="userId" value={userId} />
           <CreateTodoInput onSubmit={setPending} />

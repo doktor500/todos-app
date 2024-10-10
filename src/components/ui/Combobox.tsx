@@ -20,9 +20,10 @@ type Props = {
   items: Item[];
   initialSelectedItem?: string;
   onItemSelected: FilterSelectedHandler;
+  disabled: boolean;
 };
 
-export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelectFilter }: Props) => {
+export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelectFilter, disabled }: Props) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(initialSelectedItem ?? items.at(0)?.value);
   const selectedItem = items.find((item) => item.value === value)?.label;
@@ -36,7 +37,7 @@ export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelect
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
+      <PopoverTrigger asChild disabled={disabled} className="disabled:cursor-not-allowed">
         <Button
           variant="outline"
           role="combobox"

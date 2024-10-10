@@ -4,6 +4,7 @@ import { isLocalEnvironment } from "./src/modules/infrastructure/systemUtils.mjs
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
   experimental: {
     instrumentationHook: true,
     turbo: {

@@ -5,7 +5,7 @@ import { useFormInput } from "@/hooks/common/useFormInput";
 
 export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispatch<SetStateAction<boolean>> }) => {
   const { pending } = useFormStatus();
-  const { inputRef } = useFormInput({ focusWhen: !pending });
+  const { inputRef } = useFormInput({ focus: !pending });
 
   useEffect(() => setSubmitStatus(pending), [setSubmitStatus, pending]);
 

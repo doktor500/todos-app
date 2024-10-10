@@ -3,10 +3,10 @@ import { ExistingTodo, TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { isEmpty, replace, sort } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { fakeRepository } from "@/test/utils/repositories/fakeRepository";
+import { fakePersistentRepository } from "@/test/utils/repositories/persistentRepository";
 
 export const fakeUsersRepository = () => {
-  const repository = fakeRepository<User>({ name: "users" });
+  const repository = fakePersistentRepository<User>({ name: "users" });
 
   return {
     ...repository,

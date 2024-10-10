@@ -4,8 +4,12 @@ import { isEmpty } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import Repository, { DB } from "@/test/utils/repositories/repository";
 
-export const persistentRepository = <Entity extends { id: number }>(dbName: string): Repository<Entity> => {
-  const db = new JsonDB(new Config(`${DB}/${dbName}`, true, true, "/"));
+type Props = {
+  name: string;
+};
+
+export const fakePersistentRepository = <Entity extends { id: number }>({ name }: Props): Repository<Entity> => {
+  const db = new JsonDB(new Config(`${DB}/${name}`, true, true, "/"));
 
   const get = async (id: number): Promise<Optional<Entity>> => {
     return getItem(id);

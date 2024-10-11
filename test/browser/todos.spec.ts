@@ -4,7 +4,7 @@ const userId = 1;
 
 test.describe.configure({ mode: "serial" });
 
-test("Can create and delete a todo", async ({ page, baseURL }) => {
+test("user can create and delete a todo", async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/users/${userId}/todos`);
 
   await page.getByLabel("New todo").fill("Buy coffee");
@@ -20,7 +20,7 @@ test("Can create and delete a todo", async ({ page, baseURL }) => {
   await expect(page.getByRole("textbox", { name: "Buy coffee" })).not.toBeVisible();
 });
 
-test("Filter is taken into account when a todo is edited", async ({ page, baseURL }) => {
+test("the search filter reflects changes in the todo list when a user edits a todo", async ({ page, baseURL }) => {
   await page.goto(`${baseURL}/users/${userId}/todos`);
 
   await page.getByLabel("New todo").fill("Buy pizza");
@@ -37,4 +37,18 @@ test("Filter is taken into account when a todo is edited", async ({ page, baseUR
 
   await page.getByRole("searchbox").fill("");
   await expect(page.getByRole("textbox", { name: "Buy wine" })).toBeVisible();
+});
+
+test("the input field to edit a todo looses focus when the 'Enter' key is pressed", async ({ page, baseURL }) => {
+  await page.goto(`${baseURL}/users/${userId}/todos`);
+
+  await page.getByLabel("New todo").fill("Buy milk");
+  await page.getByLabel("New todo").press("Enter");
+  await page.getByLabel("Loading spinner").waitFor({ state: "hidden" });
+
+  await expect(page.getByRole("textbox", { name: "Buy milk" })).toBeVisible();
+
+  await page.getByRole("textbox", { name: "Buy milk" }).press("Enter");
+
+  await expect(page.getByRole("textbox", { name: "Buy milk" })).not.toBeFocused();
 });

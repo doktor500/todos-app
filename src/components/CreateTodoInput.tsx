@@ -1,14 +1,14 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 
-import { useFormInput } from "@/hooks/common/useFormInput";
+import { useInput } from "@/hooks/common/useFormInput";
 import { useIsServer } from "@/hooks/common/useIsServer";
 
 export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispatch<SetStateAction<boolean>> }) => {
   const isServer = useIsServer();
   const { pending } = useFormStatus();
   const disabled = isServer || pending;
-  const { inputRef } = useFormInput({ focus: !disabled });
+  const { inputRef } = useInput({ focus: !disabled });
 
   useEffect(() => setSubmitStatus(pending), [setSubmitStatus, pending]);
 

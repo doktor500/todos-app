@@ -1,12 +1,13 @@
 "use client";
 
 import { Trash2 as TrashIcon } from "lucide-react";
-import { FocusEvent, UIEvent } from "react";
+import { FocusEvent, KeyboardEvent, UIEvent } from "react";
 
 import { deleteTodo } from "@/actions/deleteTodo";
 import { editTodo } from "@/actions/editTodo";
 import { toggleTodo } from "@/actions/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
+import { useInput } from "@/hooks/common/useFormInput";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
@@ -23,6 +24,7 @@ const { TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
 export const TodoEntry = ({ todoId, content, completed }: Props) => {
   const isServer = useIsServer();
+  const input = useInput();
   const { userId, dispatchAction } = useTodos();
 
   const handleToggleTodo = async (event: UIEvent) => {
@@ -45,6 +47,12 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
     await deleteTodo({ userId, todoId });
   };
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      input.blur();
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -59,10 +67,12 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
             {content}
           </label>
           <input
+            ref={input.inputRef}
             id={`todo-${todoId}`}
             className="w-64 truncate bg-transparent px-2 text-sm outline-none disabled:cursor-wait md:w-80 md:pr-0"
             defaultValue={content}
             onBlur={handleEditTodo}
+            onKeyDown={handleKeyDown}
             disabled={isServer}
           />
         </div>

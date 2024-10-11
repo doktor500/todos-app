@@ -27,7 +27,7 @@ export const TodosSearchBar = () => {
   };
 
   return (
-    <div className={cn("flex w-80 pb-4 pt-6 md:w-96", isServer ? "cursor-wait" : "")}>
+    <div className={cn("flex w-80 pb-4 pt-6 md:w-96", { "cursor-wait": isServer })}>
       <div className="w-[130px] rounded-s-lg border bg-slate-900 pt-0.5 text-center text-sm font-medium text-gray-900 hover:bg-slate-800 dark:border-gray-600 dark:text-white">
         <Combobox
           items={getFilters()}

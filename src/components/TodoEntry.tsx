@@ -57,7 +57,7 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
     <div
       className={cn(
         "h-11 w-80 rounded-sm bg-black/20 pl-4 pt-2 hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/40 md:w-96",
-        isServer ? "cursor-wait" : ""
+        { "cursor-wait": isServer }
       )}
     >
       <div className="flex items-center text-gray-800 dark:text-white">

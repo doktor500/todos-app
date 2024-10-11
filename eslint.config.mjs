@@ -11,6 +11,7 @@ import eslintUnusedImports from "eslint-plugin-unused-imports";
 import eslintVitest from "eslint-plugin-vitest";
 import { FlatCompat } from "@eslint/eslintrc";
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
+import playwright from "eslint-plugin-playwright";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -131,6 +132,10 @@ export default [
       "vitest/no-focused-tests": "error",
       "vitest/valid-expect": "off",
     },
+  },
+  {
+    ...playwright.configs["flat/recommended"],
+    files: ["test/browser/**"],
   },
   {
     files: ["src/datastore/**/*.ts", "test/**/*.ts"],

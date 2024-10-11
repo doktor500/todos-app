@@ -17,7 +17,7 @@ test("user can create and delete a todo", async ({ page, baseURL }) => {
   await page.getByLabel("Delete todo").click();
   await page.getByLabel("Loading spinner").waitFor({ state: "hidden" });
 
-  await expect(page.getByRole("textbox", { name: "Buy coffee" })).not.toBeVisible();
+  await expect(page.getByRole("textbox", { name: "Buy coffee" })).toBeHidden();
 });
 
 test("the search filter reflects changes in the todo list when a user edits a todo", async ({ page, baseURL }) => {
@@ -33,7 +33,7 @@ test("the search filter reflects changes in the todo list when a user edits a to
   await page.getByRole("textbox", { name: "Buy pizza" }).fill("Buy wine");
   await page.getByRole("searchbox").click();
 
-  await expect(page.getByRole("textbox", { name: "Buy wine" })).not.toBeVisible();
+  await expect(page.getByRole("textbox", { name: "Buy wine" })).toBeHidden();
 
   await page.getByRole("searchbox").fill("");
   await expect(page.getByRole("textbox", { name: "Buy wine" })).toBeVisible();

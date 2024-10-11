@@ -6,7 +6,7 @@ import { Todo } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { TodosProvider } from "@/providers/TodosProvider";
-import { TodoOptimisticAction, todoOptimisticActionsReducer } from "@/reducers/todoOptimisticActionReducer";
+import { TodoOptimisticAction, todoOptimisticActionReducer } from "@/reducers/todoOptimisticActionReducer";
 
 type TodosApplicationContextType = {
   userId: UserId;
@@ -24,7 +24,7 @@ export const TodosApplicationContext = createContext<Optional<TodosApplicationCo
 
 export const TodosApplicationProvider = ({ user, children }: Props) => {
   const [pendingTransaction, startTransition] = useTransition();
-  const [todos, actionHandler] = useOptimistic(user.todos, todoOptimisticActionsReducer);
+  const [todos, actionHandler] = useOptimistic(user.todos, todoOptimisticActionReducer);
   const dispatch = (action: TodoOptimisticAction) => startTransition(() => actionHandler(action));
   const value = { userId: user.id, todos, pendingTransaction, dispatch };
 

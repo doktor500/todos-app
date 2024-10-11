@@ -1,6 +1,6 @@
 import {
   TodoOptimisticAction,
-  todoOptimisticActionsReducer,
+  todoOptimisticActionReducer,
   TodoOptimisticActionType,
 } from "@/reducers/todoOptimisticActionReducer";
 import { aTodo } from "@/test/fixtures/todo.fixture";
@@ -14,7 +14,7 @@ describe("todos optimistic actions reducer", () => {
     const newTodo = "New todo";
 
     const action: TodoOptimisticAction = { type: CREATE_TODO, payload: { content: newTodo } };
-    const updatedTodos = todoOptimisticActionsReducer(todos, action);
+    const updatedTodos = todoOptimisticActionReducer(todos, action);
 
     expect(updatedTodos).toContainEqual(aTodo({ id: 0, content: newTodo }));
   });
@@ -24,7 +24,7 @@ describe("todos optimistic actions reducer", () => {
     const todos = [todo];
 
     const action: TodoOptimisticAction = { type: TOGGLE_TODO, payload: { todoId: todo.id } };
-    const updatedTodos = todoOptimisticActionsReducer(todos, action);
+    const updatedTodos = todoOptimisticActionReducer(todos, action);
     expect(updatedTodos).toContainEqual({ ...todo, completed: true });
   });
 
@@ -33,7 +33,7 @@ describe("todos optimistic actions reducer", () => {
     const todos = [todo];
 
     const action: TodoOptimisticAction = { type: EDIT_TODO, payload: { todoId: todo.id, content: "content-v2" } };
-    const updatedTodos = todoOptimisticActionsReducer(todos, action);
+    const updatedTodos = todoOptimisticActionReducer(todos, action);
     expect(updatedTodos).toContainEqual({ ...todo, content: "content-v2" });
   });
 
@@ -42,7 +42,7 @@ describe("todos optimistic actions reducer", () => {
     const todos = [todo];
 
     const action: TodoOptimisticAction = { type: DELETE_TODO, payload: { todoId: todo.id } };
-    const updatedTodos = todoOptimisticActionsReducer(todos, action);
+    const updatedTodos = todoOptimisticActionReducer(todos, action);
     expect(updatedTodos).toEqual([]);
   });
 });

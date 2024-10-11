@@ -17,7 +17,7 @@ export type TodoOptimisticAction =
   | { type: TodoOptimisticActionType.EDIT_TODO; payload: { todoId: TodoId; content: string } }
   | { type: TodoOptimisticActionType.DELETE_TODO; payload: { todoId: TodoId } };
 
-export const todoOptimisticActionsReducer = (state: Todo[], action: TodoOptimisticAction): Todo[] => {
+export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisticAction): Todo[] => {
   return match(action)
     .with({ type: CREATE_TODO }, ({ payload }) => addTodo(state, payload.content))
     .with({ type: TOGGLE_TODO }, ({ payload }) => toggleTodo(state, payload.todoId))

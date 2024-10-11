@@ -1,4 +1,5 @@
-import { findTodoFilter, Todo, TodosFilter } from "@/modules/domain/todo";
+import { Todo } from "@/modules/domain/todo";
+import { findTodoFilter, TodosFilter } from "@/modules/domain/todosFilter";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 

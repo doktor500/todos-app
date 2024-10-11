@@ -1,3 +1,4 @@
+import { TodosFilter } from "@/modules/domain/todosFilter";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
@@ -38,16 +39,4 @@ const filter = (todos: Todo[]) => {
       return term ? todos.filter((todo) => todo.content.toLowerCase().includes(term.toLowerCase())) : todos;
     },
   };
-};
-
-export enum TodosFilter {
-  NONE = "NONE",
-  ACTIVE = "ACTIVE",
-  COMPLETED = "COMPLETED",
-}
-
-export const defaultTodosFilter = TodosFilter.ACTIVE;
-
-export const findTodoFilter = (value: Optional<string>): Optional<TodosFilter> => {
-  return Object.values(TodosFilter).find((filter) => filter === value);
 };

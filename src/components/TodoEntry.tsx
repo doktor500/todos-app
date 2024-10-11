@@ -81,8 +81,14 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
           aria-label="Delete todo"
           onClick={handleDeleteTodo}
         >
-          <button className="outline-offset-2 outline-gray-300 disabled:cursor-wait" disabled={isServer}>
-            <TrashIcon className="size-5" />
+          <button
+            className={cn(
+              "outline-offset-2 outline-gray-300 disabled:cursor-wait",
+              isServer ? "opacity-50" : "opacity-100"
+            )}
+            disabled={isServer}
+          >
+            <TrashIcon size="19" />
           </button>
         </div>
       </div>

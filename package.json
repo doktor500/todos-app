@@ -38,7 +38,6 @@
     "drizzle-orm": "^0.33.0",
     "lucide-react": "^0.446.0",
     "next": "15.0.0-rc.0",
-    "next-themes": "^0.3.0",
     "postgres": "^3.4.4",
     "ramda": "^0.30.1",
     "react": "19.0.0-rc-67fee58b-20240926",

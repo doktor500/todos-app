@@ -7,7 +7,8 @@ import { useIsServer } from "@/hooks/common/useIsServer";
 export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispatch<SetStateAction<boolean>> }) => {
   const isServer = useIsServer();
   const { pending } = useFormStatus();
-  const { inputRef } = useFormInput({ focus: !pending });
+  const disabled = isServer || pending;
+  const { inputRef } = useFormInput({ focus: !disabled });
 
   useEffect(() => setSubmitStatus(pending), [setSubmitStatus, pending]);
 
@@ -19,7 +20,7 @@ export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispa
       aria-label="New todo"
       placeholder="Add a to-do..."
       className="w-64 border-none bg-transparent pl-1 text-sm outline-none disabled:cursor-not-allowed md:w-80"
-      disabled={isServer || pending}
+      disabled={disabled}
       required={true}
       autoFocus={true}
     />

@@ -23,6 +23,7 @@ const compat = new FlatCompat({
 export default [
   ...fixupConfigRules(compat.extends(
     "eslint:recommended",
+    "next/core-web-vitals",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/typescript",
     "plugin:prettier/recommended",

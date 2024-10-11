@@ -34,7 +34,7 @@ export const CreateTodoForm = () => {
       )}
     >
       <div className="flex items-center text-gray-800 dark:text-white">
-        <PlusIcon className={cn("size-5", isServer ? "cursor-not-allowed" : "")} />
+        <PlusIcon className={cn("size-5", isServer ? "cursor-wait" : "")} />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo">
           <input type="hidden" name="userId" value={userId} />
           <CreateTodoInput onSubmit={setPending} />

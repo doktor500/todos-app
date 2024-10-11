@@ -49,7 +49,7 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
     <div
       className={cn(
         "h-11 w-80 rounded-sm bg-black/20 pl-4 pt-2 hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/40 md:w-96",
-        isServer ? "cursor-not-allowed" : ""
+        isServer ? "cursor-wait" : ""
       )}
     >
       <div className="flex items-center text-gray-800 dark:text-white">
@@ -60,7 +60,7 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
           </label>
           <input
             id={`todo-${todoId}`}
-            className="w-64 truncate bg-transparent px-2 text-sm outline-none disabled:cursor-not-allowed md:w-80 md:pr-0"
+            className="w-64 truncate bg-transparent px-2 text-sm outline-none disabled:cursor-wait md:w-80 md:pr-0"
             defaultValue={content}
             onBlur={handleEditTodo}
             disabled={isServer}
@@ -71,7 +71,7 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
           aria-label="Delete todo"
           onClick={handleDeleteTodo}
         >
-          <button className="outline-offset-2 outline-gray-300 disabled:cursor-not-allowed" disabled={isServer}>
+          <button className="outline-offset-2 outline-gray-300 disabled:cursor-wait" disabled={isServer}>
             <TrashIcon className="size-5" />
           </button>
         </div>

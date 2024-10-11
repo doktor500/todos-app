@@ -37,7 +37,7 @@ export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelect
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild disabled={disabled} className="disabled:cursor-not-allowed">
+      <PopoverTrigger asChild disabled={disabled} className="disabled:cursor-wait">
         <Button
           variant="outline"
           role="combobox"

@@ -7,7 +7,7 @@ import { deleteTodo } from "@/actions/deleteTodo";
 import { editTodo } from "@/actions/editTodo";
 import { toggleTodo } from "@/actions/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
-import { useInput } from "@/hooks/common/useFormInput";
+import { useInput } from "@/hooks/common/useInput";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";

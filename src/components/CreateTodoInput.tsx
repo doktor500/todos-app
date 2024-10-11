@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 
-import { useInput } from "@/hooks/common/useFormInput";
+import { useInput } from "@/hooks/common/useInput";
 import { useIsServer } from "@/hooks/common/useIsServer";
 
 export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispatch<SetStateAction<boolean>> }) => {

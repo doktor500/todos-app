@@ -7,7 +7,7 @@ import { webCache } from "@/modules/infrastructure/web/webCache";
 
 const schema = z.object({
   userId: z.number().positive(),
-  content: z.string().min(1).max(80),
+  content: z.string().min(1).max(255),
 });
 
 export const createTodo = async (formData: FormData) => {

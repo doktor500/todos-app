@@ -44,7 +44,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!CI,
   retries: CI ? 2 : 1,
-  workers: PLAYWRIGHT_WORKERS,
+  workers: PLAYWRIGHT_WORKERS ?? 4,
   reporter: "html",
   use: { baseURL, trace: "on-first-retry" },
   projects: [browserTestSetup, browserTests],

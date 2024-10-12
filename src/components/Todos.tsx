@@ -6,10 +6,12 @@ import { TodosSpinner } from "@/components/TodosSpinner";
 export const Todos = () => {
   return (
     <div className="flex flex-col items-center justify-center">
-      <TodosSearchBar />
-      <CreateTodoForm />
-      <TodoList />
-      <TodosSpinner />
+      <div>
+        <TodosSearchBar />
+        <CreateTodoForm />
+        <TodoList />
+        <TodosSpinner />
+      </div>
     </div>
   );
 };

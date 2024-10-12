@@ -35,19 +35,19 @@ export const TodoInput = ({ todoId, content, disabled }: Props) => {
   };
 
   return (
-    <>
+    <div className="w-72">
       <label className="hidden" htmlFor={`todo-${todoId}`}>
         {content}
       </label>
       <input
         ref={input.inputRef}
         id={`todo-${todoId}`}
-        className="w-64 truncate bg-transparent px-2 text-sm outline-none disabled:cursor-wait md:w-80 md:pr-0"
+        className="truncate bg-transparent px-2 text-sm outline-none disabled:cursor-wait md:pr-0"
         defaultValue={content}
         onBlur={handleEditTodo}
         onKeyDown={handleKeyDown}
         disabled={disabled}
       />
-    </>
+    </div>
   );
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { TrashIcon } from "lucide-react";
+import { Trash2Icon as TrashIcon } from "lucide-react";
 import { UIEvent } from "react";
 
 import { deleteTodo } from "@/actions/deleteTodo";
@@ -28,7 +28,7 @@ export const TodoDeleteButton = ({ todoId, disabled }: Props) => {
   return (
     <div
       className={cn(
-        "cursor-pointer pr-3 pt-1 text-slate-200 hover:text-white md:pl-3",
+        "cursor-pointer pr-3 pt-1 text-slate-200 hover:text-white md:pl-7",
         disabled ? "opacity-50" : "opacity-100"
       )}
     >

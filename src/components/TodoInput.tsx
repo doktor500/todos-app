@@ -5,6 +5,7 @@ import { FocusEvent, KeyboardEvent } from "react";
 import { editTodo } from "@/actions/editTodo";
 import { useInput } from "@/hooks/common/useInput";
 import { useTodos } from "@/hooks/useTodos";
+import { MAX_LENGTH } from "@/modules/domain/stringUtils";
 import { TodoId } from "@/modules/domain/todo";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
@@ -42,6 +43,7 @@ export const TodoInput = ({ todoId, content, disabled }: Props) => {
       <input
         ref={input.inputRef}
         id={`todo-${todoId}`}
+        maxLength={MAX_LENGTH}
         className="w-[233px] truncate bg-transparent px-2 text-sm outline-none disabled:cursor-wait md:w-[515px]"
         defaultValue={content}
         onBlur={handleEditTodo}

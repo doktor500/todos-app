@@ -25,5 +25,9 @@ export const TodoCheckBox = ({ todoId, completed, disabled }: Props) => {
     await toggleTodo({ userId, todoId, completed: !completed });
   };
 
-  return <Checkbox checked={completed} onClick={handleToggleTodo} disabled={disabled} />;
+  return (
+    <div className="flex items-center justify-center">
+      <Checkbox checked={completed} onClick={handleToggleTodo} disabled={disabled} />
+    </div>
+  );
 };

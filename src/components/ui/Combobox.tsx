@@ -42,7 +42,7 @@ export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelect
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-full justify-between border-none bg-transparent"
+          className="w-[98px] justify-between border-none bg-transparent"
         >
           {selectedItem}
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
@@ -55,7 +55,7 @@ export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelect
             <CommandGroup>
               {items.map((item) => (
                 <CommandItem key={item.value} value={item.value} onSelect={handleOnSelectedItem}>
-                  <Check className={cn("mr-2 h-4 w-4", value === item.value ? "opacity-100" : "opacity-0")} />
+                  <Check className={cn("mr-2 h-4 w-4", { "opacity-0": value !== item.value })} />
                   {item.label}
                 </CommandItem>
               ))}

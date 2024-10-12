@@ -27,14 +27,11 @@ export const TodoDeleteButton = ({ todoId, disabled }: Props) => {
 
   return (
     <div
-      className={cn(
-        "cursor-pointer pr-3 pt-1 text-slate-200 hover:text-white md:pl-7",
-        disabled ? "opacity-50" : "opacity-100"
-      )}
+      className={cn("cursor-pointer text-slate-200 hover:text-white w-5 pt-1.5 md:pl-9", { "opacity-50": disabled })}
     >
       <button
         aria-label="Delete todo"
-        className="outline-offset-2 outline-gray-300 disabled:cursor-wait"
+        className="outline-gray-300 disabled:cursor-wait"
         disabled={disabled}
         onClick={handleDeleteTodo}
       >

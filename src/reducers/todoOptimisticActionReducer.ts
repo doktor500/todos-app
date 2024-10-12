@@ -4,6 +4,8 @@ import { replace } from "@/modules/domain/utils/collectionUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 
+export type OptimisticTodo = Todo & { stale?: boolean };
+
 export enum TodoOptimisticActionType {
   CREATE_TODO = "CREATE_TODO",
   TOGGLE_TODO = "TOGGLE_TODO",
@@ -19,7 +21,7 @@ export type TodoOptimisticAction =
   | { type: TodoOptimisticActionType.EDIT_TODO; payload: { todoId: TodoId; content: string } }
   | { type: TodoOptimisticActionType.DELETE_TODO; payload: { todoId: TodoId } };
 
-export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisticAction): Todo[] => {
+export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisticAction): OptimisticTodo[] => {
   return match(action)
     .with({ type: CREATE_TODO }, ({ payload }) => addTodo(state, payload.content))
     .with({ type: TOGGLE_TODO }, ({ payload }) => toggleTodo(state, payload.todoId))
@@ -29,7 +31,7 @@ export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisti
 };
 
 const addTodo = (todos: Todo[], content: string) => {
-  const newTodo: Todo = { id: uuid(), content, completed: false, createdAt: now() };
+  const newTodo: OptimisticTodo = { id: uuid(), content, completed: false, createdAt: now(), stale: true };
 
   return [newTodo, ...todos];
 };

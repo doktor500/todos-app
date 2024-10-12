@@ -94,6 +94,28 @@ describe("todos page", () => {
     await act(() => resolve());
   });
 
+  it("disables the todo entry while the form is being submitted", async () => {
+    const user = aUser({ todos: [] });
+    const newTodo = "New todo content";
+    const { promise, resolve } = Promise.withResolvers<void>();
+
+    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(createTodo).mockImplementationOnce(() => promise);
+
+    await renderAsync(Page, { params: { id: user.id } });
+
+    const newTodoInputField = screen.getByLabelText("New todo");
+    await userEvent.type(newTodoInputField, newTodo);
+
+    await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
+    await waitFor(() => {
+      expect(screen.getByRole("textbox", { name: newTodo })).toHaveAttribute("disabled");
+      expect(screen.getByRole("checkbox")).toHaveAttribute("disabled");
+      expect(screen.getByLabelText("Delete todo")).toHaveAttribute("disabled");
+    });
+    await act(() => resolve());
+  });
+
   it("calls toggle todo action when the todo checkbox is clicked", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });

@@ -18,14 +18,16 @@ type Props = {
   todoId: TodoId;
   content: string;
   completed: boolean;
+  stale: boolean;
 };
 
 const { TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
-export const TodoEntry = ({ todoId, content, completed }: Props) => {
+export const TodoEntry = ({ todoId, content, completed, stale }: Props) => {
   const isServer = useIsServer();
   const input = useInput();
   const { userId, dispatchAction } = useTodos();
+  const disabled = isServer || stale;
 
   const handleToggleTodo = async (event: UIEvent) => {
     event.preventDefault();
@@ -57,12 +59,12 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
     <div
       className={cn(
         "h-11 w-80 rounded-sm bg-black/20 pl-4 pt-2 hover:bg-black/10 dark:bg-white/20 dark:hover:bg-white/40 md:w-96",
-        { "cursor-wait": isServer }
+        { "cursor-wait": disabled }
       )}
     >
       <div className="flex items-center text-gray-800 dark:text-white">
         <div className="flex h-6 w-80 items-center">
-          <Checkbox checked={completed} onClick={handleToggleTodo} disabled={isServer} />
+          <Checkbox checked={completed} onClick={handleToggleTodo} disabled={disabled} />
           <label className="hidden" htmlFor={`todo-${todoId}`}>
             {content}
           </label>
@@ -73,20 +75,20 @@ export const TodoEntry = ({ todoId, content, completed }: Props) => {
             defaultValue={content}
             onBlur={handleEditTodo}
             onKeyDown={handleKeyDown}
-            disabled={isServer}
+            disabled={disabled}
           />
         </div>
         <div
-          className="cursor-pointer pr-3 pt-1 text-slate-200 hover:text-white md:pl-3"
-          aria-label="Delete todo"
-          onClick={handleDeleteTodo}
+          className={cn(
+            "cursor-pointer pr-3 pt-1 text-slate-200 hover:text-white md:pl-3",
+            disabled ? "opacity-50" : "opacity-100"
+          )}
         >
           <button
-            className={cn(
-              "outline-offset-2 outline-gray-300 disabled:cursor-wait",
-              isServer ? "opacity-50" : "opacity-100"
-            )}
-            disabled={isServer}
+            aria-label="Delete todo"
+            className="outline-offset-2 outline-gray-300 disabled:cursor-wait"
+            disabled={disabled}
+            onClick={handleDeleteTodo}
           >
             <TrashIcon size="19" />
           </button>

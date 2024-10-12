@@ -25,7 +25,13 @@ describe("todos optimistic actions reducer", () => {
     const action: TodoOptimisticAction = { type: CREATE_TODO, payload: { content: newTodo } };
     const updatedTodos = todoOptimisticActionReducer(todos, action);
 
-    expect(updatedTodos).toContainEqual(aTodo({ id: newTodoId, content: newTodo, createdAt: currentDate }));
+    expect(updatedTodos).toContainEqual({
+      id: newTodoId,
+      content: newTodo,
+      createdAt: currentDate,
+      completed: false,
+      stale: true,
+    });
   });
 
   it("can toggle a todo in an existing list of todos", () => {

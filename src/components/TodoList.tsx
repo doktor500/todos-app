@@ -9,9 +9,9 @@ export const TodoList = () => {
   return (
     <div className="no-scrollbar max-h-[432px] overflow-y-auto pb-1 md:max-h-[484px]">
       <ul>
-        {getTodos().map((todo) => (
-          <li key={todo.id} className="pt-1">
-            <TodoEntry todoId={todo.id} content={todo.content} completed={todo.completed} />
+        {getTodos().map(({ id, content, completed, stale }) => (
+          <li key={id} className="pt-1">
+            <TodoEntry todoId={id} content={content} completed={completed} stale={Boolean(stale)} />
           </li>
         ))}
       </ul>

@@ -1,3 +1,5 @@
+import { now } from "@/modules/domain/utils/clock";
+import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 import {
   TodoOptimisticAction,
   todoOptimisticActionReducer,
@@ -7,23 +9,30 @@ import { aTodo } from "@/test/fixtures/todo.fixture";
 
 const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
+vi.mock("@/modules/domain/utils/uniqueIdGenerator");
+vi.mock("@/modules/domain/utils/clock");
+
 describe("todos optimistic actions reducer", () => {
   it("can add a todo to an existing list of todos", () => {
-    const todo = aTodo({ id: 1 });
+    const todo = aTodo({ todoId: uuid() });
     const todos = [todo];
     const newTodo = "New todo";
+    const newTodoId = uuid();
+    const currentDate = new Date();
+    vi.mocked(uuid).mockImplementationOnce(() => newTodoId);
+    vi.mocked(now).mockImplementationOnce(() => currentDate);
 
     const action: TodoOptimisticAction = { type: CREATE_TODO, payload: { content: newTodo } };
     const updatedTodos = todoOptimisticActionReducer(todos, action);
 
-    expect(updatedTodos).toContainEqual(aTodo({ id: 0, content: newTodo }));
+    expect(updatedTodos).toContainEqual(aTodo({ todoId: newTodoId, content: newTodo, createdAt: currentDate }));
   });
 
   it("can toggle a todo in an existing list of todos", () => {
     const todo = aTodo({ completed: false });
     const todos = [todo];
 
-    const action: TodoOptimisticAction = { type: TOGGLE_TODO, payload: { todoId: todo.id } };
+    const action: TodoOptimisticAction = { type: TOGGLE_TODO, payload: { todoId: todo.todoId } };
     const updatedTodos = todoOptimisticActionReducer(todos, action);
     expect(updatedTodos).toContainEqual({ ...todo, completed: true });
   });
@@ -32,7 +41,7 @@ describe("todos optimistic actions reducer", () => {
     const todo = aTodo({ content: "content-v1" });
     const todos = [todo];
 
-    const action: TodoOptimisticAction = { type: EDIT_TODO, payload: { todoId: todo.id, content: "content-v2" } };
+    const action: TodoOptimisticAction = { type: EDIT_TODO, payload: { todoId: todo.todoId, content: "content-v2" } };
     const updatedTodos = todoOptimisticActionReducer(todos, action);
     expect(updatedTodos).toContainEqual({ ...todo, content: "content-v2" });
   });
@@ -41,7 +50,7 @@ describe("todos optimistic actions reducer", () => {
     const todo = aTodo();
     const todos = [todo];
 
-    const action: TodoOptimisticAction = { type: DELETE_TODO, payload: { todoId: todo.id } };
+    const action: TodoOptimisticAction = { type: DELETE_TODO, payload: { todoId: todo.todoId } };
     const updatedTodos = todoOptimisticActionReducer(todos, action);
     expect(updatedTodos).toEqual([]);
   });

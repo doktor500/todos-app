@@ -1,6 +1,8 @@
 import { Todo, TodoId, toggle } from "@/modules/domain/todo";
+import { now } from "@/modules/domain/utils/clock";
 import { replace } from "@/modules/domain/utils/collectionUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
+import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 
 export enum TodoOptimisticActionType {
   CREATE_TODO = "CREATE_TODO",
@@ -27,17 +29,17 @@ export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisti
 };
 
 const addTodo = (todos: Todo[], content: string) => {
-  return [{ id: 0, content, completed: false }, ...todos];
+  return [{ todoId: uuid(), content, completed: false, createdAt: now() }, ...todos];
 };
 
 const toggleTodo = (todos: Todo[], todoId: TodoId) => {
-  const todo = todos.find((todo) => todo.id === todoId);
+  const todo = todos.find((todo) => todo.todoId === todoId);
 
   return todo ? replace(todo).in(todos).with(toggle(todo)) : todos;
 };
 
 const editTodo = (todos: Todo[], todoId: TodoId, content: string) => {
-  const todo = todos.find((todo) => todo.id === todoId);
+  const todo = todos.find((todo) => todo.todoId === todoId);
   if (todo) {
     const updatedTodo = { ...todo, content };
 
@@ -48,5 +50,5 @@ const editTodo = (todos: Todo[], todoId: TodoId, content: string) => {
 };
 
 const deleteTodo = (todos: Todo[], todoId: TodoId) => {
-  return todos.filter((todo) => todo.id !== todoId);
+  return todos.filter((todo) => todo.todoId !== todoId);
 };

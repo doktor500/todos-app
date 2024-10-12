@@ -2,15 +2,16 @@ import { TodosFilter } from "@/modules/domain/todosFilter";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
-export type TodoId = number;
+export type TodoId = string;
 
 export type Todo = {
-  id: TodoId;
+  todoId: TodoId;
   content: string;
   completed: boolean;
+  createdAt: Date;
 };
 
-export type ExistingTodo = Partial<Todo> & { id: TodoId };
+export type ExistingTodo = Partial<Todo> & { todoId: TodoId };
 
 export const toggle = (todo: Todo): Todo => {
   return { ...todo, completed: !todo.completed };

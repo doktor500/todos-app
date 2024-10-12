@@ -15,12 +15,12 @@ type Command = {
 
 const schema = z.object({
   userId: z.number().positive(),
-  todoId: z.number().positive(),
+  todoId: z.string().min(1),
   content: z.string(),
 });
 
 export const editTodo = async (command: Command) => {
   const todo = schema.parse(command);
-  await usersRepository.updateTodo(todo.userId, { id: todo.todoId, content: todo.content });
+  await usersRepository.updateTodo(todo.userId, { todoId: todo.todoId, content: todo.content });
   webCache.revalidatePath(`users/${todo.userId}`);
 };

@@ -14,7 +14,7 @@ type Command = {
 
 const schema = z.object({
   userId: z.number().positive(),
-  todoId: z.number().positive(),
+  todoId: z.string().min(1),
 });
 
 export const deleteTodo = async (command: Command) => {

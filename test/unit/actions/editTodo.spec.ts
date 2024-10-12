@@ -29,8 +29,8 @@ describe("edit todo action", () => {
     const user = aUser({ todos: [todo] });
     const content = "New content";
 
-    await editTodo({ userId: user.id, todoId: todo.id, content });
-    expect(usersRepository.updateTodo).toHaveBeenCalledWith(user.id, { id: todo.id, content });
+    await editTodo({ userId: user.id, todoId: todo.todoId, content });
+    expect(usersRepository.updateTodo).toHaveBeenCalledWith(user.id, { todoId: todo.todoId, content });
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });
 });

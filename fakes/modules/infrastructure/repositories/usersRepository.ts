@@ -1,8 +1,9 @@
 import UsersRepository from "@/modules/application/repositories/usersRepository";
-import { ExistingTodo, TodoId } from "@/modules/domain/todo";
+import { ExistingTodo, Todo, TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
-import { isEmpty, replace, sort } from "@/modules/domain/utils/collectionUtils";
+import { replace, sort } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
+import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 import { fakePersistentRepository } from "@/test/utils/repositories/persistentRepository";
 
 export const fakeUsersRepository = () => {
@@ -13,14 +14,13 @@ export const fakeUsersRepository = () => {
     get: async (userId: UserId): Promise<Optional<User>> => {
       const user = await repository.get(userId);
       if (user) {
-        return { ...user, todos: sort(user.todos).by("id").reverse() };
+        return { ...user, todos: sort(user.todos).by("createdAt") };
       }
     },
     saveTodo: async (userId: UserId, content: string): Promise<void> => {
       const user = await repository.get(userId);
       if (user) {
-        const lastId = isEmpty(user.todos) ? 0 : Math.max(...user.todos.map((todo) => todo.id));
-        const todo = { id: lastId + 1, content, completed: false };
+        const todo: Todo = { todoId: uuid(), content, completed: false, createdAt: new Date() };
         const updatedUser: User = { ...user, todos: [...user.todos, todo] };
         await repository.save(updatedUser);
       }
@@ -35,7 +35,7 @@ export const fakeUsersRepository = () => {
     deleteTodo: async (userId: UserId, todoId: TodoId): Promise<void> => {
       const user = await repository.get(userId);
       if (user) {
-        const updatedUser = { ...user, todos: user.todos.filter((todo) => todo.id !== todoId) };
+        const updatedUser = { ...user, todos: user.todos.filter((todo) => todo.todoId !== todoId) };
         await repository.save(updatedUser);
       }
     },
@@ -43,7 +43,7 @@ export const fakeUsersRepository = () => {
 };
 
 const updateUserTodo = (user: User, todo: ExistingTodo) => {
-  const currentTodo = user.todos.find(({ id }) => id === todo.id);
+  const currentTodo = user.todos.find(({ todoId }) => todoId === todo.todoId);
 
   return currentTodo
     ? replace(currentTodo)

@@ -14,7 +14,7 @@ export const fakeUsersRepository = () => {
     get: async (userId: UserId): Promise<Optional<User>> => {
       const user = await repository.get(userId);
       if (user) {
-        return { ...user, todos: sort(user.todos).by("createdAt") };
+        return { ...user, todos: sort(user.todos).by("createdAt").reverse() };
       }
     },
     saveTodo: async (userId: UserId, content: string): Promise<void> => {

@@ -12,14 +12,15 @@ describe("Users repository", () => {
     ${"fake persistent users repository"} | ${fakeUsersRepository()}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can find a user by id", async ({ repository }) => {
-    const todo1 = aTodo({ id: uuid(), content: "Buy milk" });
-    const todo2 = aTodo({ id: uuid(), content: "Buy bread" });
-    const user = aUser({ id: 1, name: "David", todos: [todo1, todo2].reverse() });
+    const todo1 = aTodo({ id: uuid(), content: "Buy milk", createdAt: new Date("01/01/2024") });
+    const todo2 = aTodo({ id: uuid(), content: "Buy bread", createdAt: new Date("02/01/2024") });
+    const user = aUser({ id: 1, name: "David", todos: [todo1, todo2] });
+    const expectedUser = { ...user, todos: [todo2, todo1] };
 
     await repository.save(user);
     const fetchedUser = await repository.get(user.id);
 
-    expect(fetchedUser).toEqual(user);
+    expect(fetchedUser).toEqual(expectedUser);
   });
 
   it.each`

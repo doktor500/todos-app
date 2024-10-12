@@ -9,7 +9,7 @@ export const UsersTable = pgTable("users", {
 });
 
 export const TodosTable = pgTable("todos", {
-  todoId: uuid("todoId").defaultRandom().primaryKey(),
+  id: uuid("id").defaultRandom().primaryKey(),
   content: varchar("content", { length: 255 }).notNull(),
   completed: boolean("completed").default(false).notNull(),
   createdAt: timestamp("createdAt").notNull().defaultNow(),

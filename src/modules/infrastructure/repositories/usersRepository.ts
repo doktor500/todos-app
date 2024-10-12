@@ -13,7 +13,7 @@ export const usersRepository: UsersRepository = {
       columns: { id: true, name: true },
       with: {
         todos: {
-          columns: { todoId: true, content: true, completed: true, createdAt: true },
+          columns: { id: true, content: true, completed: true, createdAt: true },
           orderBy: (todo, { desc }) => [desc(todo.createdAt)],
         },
       },
@@ -27,9 +27,9 @@ export const usersRepository: UsersRepository = {
     await db
       .update(TodosTable)
       .set(todo)
-      .where(and(eq(TodosTable.userId, userId), eq(TodosTable.todoId, todo.todoId)));
+      .where(and(eq(TodosTable.userId, userId), eq(TodosTable.id, todo.id)));
   },
   deleteTodo: async (userId: UserId, todoId: TodoId): Promise<void> => {
-    await db.delete(TodosTable).where(and(eq(TodosTable.userId, userId), eq(TodosTable.todoId, todoId)));
+    await db.delete(TodosTable).where(and(eq(TodosTable.userId, userId), eq(TodosTable.id, todoId)));
   },
 };

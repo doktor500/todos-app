@@ -7,8 +7,8 @@ import { aUser } from "@/test/fixtures/user.fixture";
 const usersRepository = usersRepositoryInstance();
 
 const seed = async () => {
-  const todo1 = aTodo({ todoId: uuid(), content: "Buy milk" });
-  const todo2 = aTodo({ todoId: uuid(), content: "Buy bread", completed: true });
+  const todo1 = aTodo({ id: uuid(), content: "Buy milk" });
+  const todo2 = aTodo({ id: uuid(), content: "Buy bread", completed: true });
   const user = aUser({ id: 1, name: "David", todos: [todo1, todo2] });
 
   await usersRepository.deleteAll();

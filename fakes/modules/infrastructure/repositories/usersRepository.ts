@@ -20,7 +20,7 @@ export const fakeUsersRepository = () => {
     saveTodo: async (userId: UserId, content: string): Promise<void> => {
       const user = await repository.get(userId);
       if (user) {
-        const todo: Todo = { todoId: uuid(), content, completed: false, createdAt: new Date() };
+        const todo: Todo = { id: uuid(), content, completed: false, createdAt: new Date() };
         const updatedUser: User = { ...user, todos: [...user.todos, todo] };
         await repository.save(updatedUser);
       }
@@ -35,7 +35,7 @@ export const fakeUsersRepository = () => {
     deleteTodo: async (userId: UserId, todoId: TodoId): Promise<void> => {
       const user = await repository.get(userId);
       if (user) {
-        const updatedUser = { ...user, todos: user.todos.filter((todo) => todo.todoId !== todoId) };
+        const updatedUser = { ...user, todos: user.todos.filter((todo) => todo.id !== todoId) };
         await repository.save(updatedUser);
       }
     },
@@ -43,7 +43,7 @@ export const fakeUsersRepository = () => {
 };
 
 const updateUserTodo = (user: User, todo: ExistingTodo) => {
-  const currentTodo = user.todos.find(({ todoId }) => todoId === todo.todoId);
+  const currentTodo = user.todos.find(({ id: todoId }) => todoId === todo.id);
 
   return currentTodo
     ? replace(currentTodo)

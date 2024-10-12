@@ -1,0 +1,1 @@
+ALTER TABLE "todos" RENAME COLUMN "todoId" TO "id";

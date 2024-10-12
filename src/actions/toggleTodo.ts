@@ -21,6 +21,6 @@ const schema = z.object({
 
 export const toggleTodo = async (command: Command) => {
   const todo = schema.parse(command);
-  await usersRepository.updateTodo(todo.userId, { todoId: todo.todoId, completed: todo.completed });
+  await usersRepository.updateTodo(todo.userId, { id: todo.todoId, completed: todo.completed });
   webCache.revalidatePath(`users/${todo.userId}`);
 };

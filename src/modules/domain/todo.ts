@@ -5,13 +5,13 @@ import { match } from "@/modules/domain/utils/patternMatchingUtils";
 export type TodoId = string;
 
 export type Todo = {
-  todoId: TodoId;
+  id: TodoId;
   content: string;
   completed: boolean;
   createdAt: Date;
 };
 
-export type ExistingTodo = Partial<Todo> & { todoId: TodoId };
+export type ExistingTodo = Partial<Todo> & { id: TodoId };
 
 export const toggle = (todo: Todo): Todo => {
   return { ...todo, completed: !todo.completed };

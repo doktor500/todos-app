@@ -12,8 +12,8 @@ describe("Users repository", () => {
     ${"fake persistent users repository"} | ${fakeUsersRepository()}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can find a user by id", async ({ repository }) => {
-    const todo1 = aTodo({ todoId: uuid(), content: "Buy milk" });
-    const todo2 = aTodo({ todoId: uuid(), content: "Buy bread" });
+    const todo1 = aTodo({ id: uuid(), content: "Buy milk" });
+    const todo2 = aTodo({ id: uuid(), content: "Buy bread" });
     const user = aUser({ id: 1, name: "David", todos: [todo1, todo2].reverse() });
 
     await repository.save(user);
@@ -37,7 +37,7 @@ describe("Users repository", () => {
 
     expect(fetchedUser?.todos).toContainEqual(
       expect.objectContaining({
-        todoId: expect.any(String),
+        id: expect.any(String),
         content: newTodo,
         completed: false,
         createdAt: expect.any(Date),
@@ -55,12 +55,12 @@ describe("Users repository", () => {
     const newTodoContent = "new content";
     await repository.save(user);
 
-    await repository.updateTodo(user.id, { todoId: todo.todoId, completed: true, content: newTodoContent });
+    await repository.updateTodo(user.id, { id: todo.id, completed: true, content: newTodoContent });
     const existingUserWithUpdatedTodo = await repository.get(user.id);
 
     expect(existingUserWithUpdatedTodo?.todos).toContainEqual(
       expect.objectContaining({
-        todoId: todo.todoId,
+        id: todo.id,
         content: newTodoContent,
         completed: true,
         createdAt: todo.createdAt,
@@ -77,7 +77,7 @@ describe("Users repository", () => {
     const user = aUser({ todos: [todo] });
     await repository.save(user);
 
-    await repository.deleteTodo(user.id, todo.todoId);
+    await repository.deleteTodo(user.id, todo.id);
     const existingUserWithDeletedTodo = await repository.get(user.id);
 
     expect(existingUserWithDeletedTodo?.todos).toEqual([]);

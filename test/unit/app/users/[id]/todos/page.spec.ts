@@ -102,7 +102,7 @@ describe("todos page", () => {
     await renderAsync(Page, { params: { id: user.id } });
 
     fireEvent.click(screen.getByRole("checkbox"));
-    expect(toggleTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.todoId, completed: true });
+    expect(toggleTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id, completed: true });
   });
 
   it.each`
@@ -135,7 +135,7 @@ describe("todos page", () => {
     fireEvent.change(todoInputField, { target: { value: newTodoContent } });
     fireEvent.blur(todoInputField);
 
-    expect(editTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.todoId, content: newTodoContent });
+    expect(editTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id, content: newTodoContent });
   });
 
   it("does not call edit todo action when the todo input looses focus and todo content has not changed", async () => {
@@ -161,7 +161,7 @@ describe("todos page", () => {
     await renderAsync(Page, { params: { id: user.id } });
 
     fireEvent.click(screen.getByLabelText("Delete todo"));
-    expect(deleteTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.todoId });
+    expect(deleteTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id });
   });
 
   it("filters list of todos based on the text available in the search input", async () => {

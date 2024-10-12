@@ -36,6 +36,13 @@
       "when": 1728743612265,
       "tag": "0004_flimsy_amphibian",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1728745551598,
+      "tag": "0005_furry_post",
+      "breakpoints": true
     }
   ]
 }

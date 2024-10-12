@@ -29,17 +29,19 @@ export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisti
 };
 
 const addTodo = (todos: Todo[], content: string) => {
-  return [{ todoId: uuid(), content, completed: false, createdAt: now() }, ...todos];
+  const newTodo: Todo = { id: uuid(), content, completed: false, createdAt: now() };
+
+  return [newTodo, ...todos];
 };
 
 const toggleTodo = (todos: Todo[], todoId: TodoId) => {
-  const todo = todos.find((todo) => todo.todoId === todoId);
+  const todo = todos.find((todo) => todo.id === todoId);
 
   return todo ? replace(todo).in(todos).with(toggle(todo)) : todos;
 };
 
 const editTodo = (todos: Todo[], todoId: TodoId, content: string) => {
-  const todo = todos.find((todo) => todo.todoId === todoId);
+  const todo = todos.find((todo) => todo.id === todoId);
   if (todo) {
     const updatedTodo = { ...todo, content };
 
@@ -50,5 +52,5 @@ const editTodo = (todos: Todo[], todoId: TodoId, content: string) => {
 };
 
 const deleteTodo = (todos: Todo[], todoId: TodoId) => {
-  return todos.filter((todo) => todo.todoId !== todoId);
+  return todos.filter((todo) => todo.id !== todoId);
 };

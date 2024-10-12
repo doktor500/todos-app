@@ -41,7 +41,7 @@ export const fakePersistentRepository = <Entity extends { id: number }>({ name }
 
   const getItem = async (id: number): Promise<Optional<Entity>> => {
     try {
-      return (await db?.getData(`/${id}`)) as Entity;
+      return (await db.getData(`/${id}`)) as Entity;
     } catch {
       return undefined;
     }
@@ -49,25 +49,25 @@ export const fakePersistentRepository = <Entity extends { id: number }>({ name }
 
   const saveItem = async (entity: Entity) => {
     const entityWithId = { ...entity, id: entity.id };
-    await db?.push(`/${entity.id}`, entityWithId, true);
+    await db.push(`/${entity.id}`, entityWithId, true);
 
     return entity.id;
   };
 
   const deleteItem = async (id: number) => {
-    await db?.delete(`/${id}`);
+    await db.delete(`/${id}`);
   };
 
   const getAllItems = async (ids: number[] = []): Promise<Entity[]> => {
     const entities = isEmpty(ids)
-      ? await db?.getData("/").then((json) => Object.values(json))
+      ? await db.getData("/").then((json) => Object.values(json))
       : await Promise.all(ids.map((id) => getItem(id)));
 
     return entities?.filter(Boolean) as Entity[];
   };
 
   const deleteAllItems = async () => {
-    await db?.delete(`/`);
+    await db.delete(`/`);
   };
 
   return {

@@ -17,7 +17,7 @@ export const CreateTodoInput = ({ disabled }: { disabled: boolean }) => {
       aria-label="New todo"
       placeholder="Add a to-do..."
       className="w-[225px] border-none bg-transparent pl-1 text-sm outline-none disabled:cursor-wait md:w-[525px]"
-      disabled={disabled || pending}
+      disabled={disabled}
       maxLength={MAX_LENGTH}
       required={true}
       autoFocus={true}

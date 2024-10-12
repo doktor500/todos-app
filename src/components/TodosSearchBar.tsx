@@ -9,7 +9,7 @@ export const TodosSearchBar = () => {
   const isServer = useIsServer();
 
   return (
-    <div className={cn("flex pb-4 pt-6", { "cursor-wait": isServer })}>
+    <div className={cn("flex pb-1.5 pt-6", { "cursor-wait": isServer })}>
       <TodoSearchCombobox disabled={isServer} />
       <TodoSearchInput disabled={isServer} />
     </div>

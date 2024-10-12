@@ -21,7 +21,7 @@ export const TodoSearchInput = ({ disabled }: { disabled: boolean }) => {
       <SearchIcon className="mx-2.5 mt-2.5 size-5" />
       <input
         type="search"
-        className="block w-full rounded-e-lg py-2.5 pr-4 text-sm text-gray-900 outline-none disabled:cursor-wait dark:bg-slate-800 dark:text-white dark:placeholder:text-gray-400"
+        className="block w-full rounded-e-lg py-2.5 pr-4 text-sm text-gray-900 outline-none placeholder:text-white/80 disabled:cursor-wait dark:bg-slate-800 dark:text-white"
         placeholder="Search..."
         onChange={handleInputChange}
         disabled={disabled}

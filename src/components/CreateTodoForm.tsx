@@ -15,7 +15,7 @@ const { CREATE_TODO } = TodoOptimisticActionType;
 export const CreateTodoForm = () => {
   const isServer = useIsServer();
   const { userId, dispatchAction } = useTodos();
-  const { formRef, pending, setPending, resetForm } = useForm();
+  const { formRef, resetForm } = useForm();
 
   const handleCreateTodo = async (formData: FormData) => {
     const content = formData.get("content")?.toString();
@@ -30,14 +30,14 @@ export const CreateTodoForm = () => {
     <div
       className={cn(
         "h-11 rounded-sm bg-black/20 pl-4 pt-2.5 hover:bg-black/10 dark:bg-white/5 dark:hover:bg-white/30",
-        { "opacity-40": pending }
+        { "opacity-40": isServer }
       )}
     >
       <div className="flex items-center pl-0.5 text-gray-800 dark:text-white">
         <PlusIcon className={cn("size-5", { "cursor-wait": isServer })} />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo">
           <input type="hidden" name="userId" value={userId} />
-          <CreateTodoInput onSubmit={setPending} />
+          <CreateTodoInput disabled={isServer} />
         </form>
       </div>
     </div>

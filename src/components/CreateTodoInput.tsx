@@ -1,17 +1,13 @@
-import { Dispatch, SetStateAction, useEffect } from "react";
+"use client";
+
 import { useFormStatus } from "react-dom";
 
 import { useInput } from "@/hooks/common/useInput";
-import { useIsServer } from "@/hooks/common/useIsServer";
 import { MAX_LENGTH } from "@/modules/domain/stringUtils";
 
-export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispatch<SetStateAction<boolean>> }) => {
-  const isServer = useIsServer();
+export const CreateTodoInput = ({ disabled }: { disabled: boolean }) => {
   const { pending } = useFormStatus();
-  const disabled = isServer || pending;
-  const { inputRef } = useInput({ focus: !disabled });
-
-  useEffect(() => setSubmitStatus(pending), [setSubmitStatus, pending]);
+  const { inputRef } = useInput({ focus: !disabled && !pending });
 
   return (
     <input
@@ -21,7 +17,7 @@ export const CreateTodoInput = ({ onSubmit: setSubmitStatus }: { onSubmit: Dispa
       aria-label="New todo"
       placeholder="Add a to-do..."
       className="w-[225px] border-none bg-transparent pl-1 text-sm outline-none disabled:cursor-wait md:w-[525px]"
-      disabled={disabled}
+      disabled={disabled || pending}
       maxLength={MAX_LENGTH}
       required={true}
       autoFocus={true}

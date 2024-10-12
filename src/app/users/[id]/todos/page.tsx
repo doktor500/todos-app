@@ -20,12 +20,9 @@ const Page = async ({ params }: Params) => {
   if (!user) return redirect("/");
 
   return (
-    <>
-      <h1 className="pt-4 text-center text-2xl font-bold">Inbox</h1>
-      <TodosApplicationProvider user={user}>
-        <Todos />
-      </TodosApplicationProvider>
-    </>
+    <TodosApplicationProvider user={user}>
+      <Todos />
+    </TodosApplicationProvider>
   );
 };
 

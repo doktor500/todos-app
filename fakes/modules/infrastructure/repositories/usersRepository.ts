@@ -1,5 +1,5 @@
-import UsersRepository from "@/modules/application/repositories/usersRepository";
-import { ExistingTodo, Todo, TodoId } from "@/modules/domain/todo";
+import UsersRepository, { ExistingTodo } from "@/modules/application/repositories/usersRepository";
+import { Todo, TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { replace, sort } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";

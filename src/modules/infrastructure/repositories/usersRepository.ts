@@ -1,8 +1,8 @@
 import { and, eq } from "drizzle-orm";
 
 import { TodosTable } from "@/datastore/schema";
-import UsersRepository from "@/modules/application/repositories/usersRepository";
-import { ExistingTodo, TodoId } from "@/modules/domain/todo";
+import UsersRepository, { ExistingTodo } from "@/modules/application/repositories/usersRepository";
+import { TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { db } from "@/modules/infrastructure/repositories/db";

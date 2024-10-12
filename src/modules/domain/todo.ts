@@ -11,8 +11,6 @@ export type Todo = {
   createdAt: Date;
 };
 
-export type ExistingTodo = Partial<Todo> & { id: TodoId };
-
 export const toggle = (todo: Todo): Todo => {
   return { ...todo, completed: !todo.completed };
 };

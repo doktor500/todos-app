@@ -1,6 +1,8 @@
-import { ExistingTodo, TodoId } from "@/modules/domain/todo";
+import { Todo, TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
+
+export type ExistingTodo = Pick<Todo, "id"> & Partial<Todo>;
 
 interface UsersRepository {
   get(userId: UserId): Promise<Optional<User>>;

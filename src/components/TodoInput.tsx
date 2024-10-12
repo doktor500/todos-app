@@ -36,7 +36,7 @@ export const TodoInput = ({ todoId, content, disabled }: Props) => {
   };
 
   return (
-    <div className="w-[233px] md:w-[570px]">
+    <div className="flex w-[233px] items-center md:w-[570px]">
       <label className="hidden" htmlFor={`todo-${todoId}`}>
         {content}
       </label>

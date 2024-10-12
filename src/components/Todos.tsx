@@ -5,12 +5,12 @@ import { TodosSpinner } from "@/components/TodosSpinner";
 
 export const Todos = () => {
   return (
-    <div className="flex justify-center">
+    <div className="flex justify-center pb-10">
       <div className="md:w-[600px]">
+        <TodosSpinner />
         <TodosSearchBar />
         <CreateTodoForm />
         <TodoList />
-        <TodosSpinner />
       </div>
     </div>
   );

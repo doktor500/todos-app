@@ -1,6 +1,6 @@
 export const Spinner = ({ display }: { display: boolean }) => {
   return (
-    <div className="flex items-center justify-center pt-4">
+    <div className="flex h-4 items-center justify-center pt-4">
       {display && (
         <div className="relative inline-flex" aria-label="Loading spinner">
           <div className="size-4 rounded-full bg-slate-200"></div>

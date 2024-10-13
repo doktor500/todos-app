@@ -32,9 +32,7 @@ const sfProDisplay = localFont({
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body
-        className={cn("h-screen bg-gradient-to-b from-slate-900 to-slate-700/50 antialiased", sfProDisplay.variable)}
-      >
+      <body className={cn("h-screen bg-slate-900 antialiased", sfProDisplay.variable)}>
         {children}
         <Analytics />
         <SpeedInsights />

@@ -21,15 +21,13 @@ export const TodoEntry = ({ todoId, content, completed, stale }: Props) => {
   return (
     <div
       className={cn(
-        "flex items-center h-11 rounded-sm bg-black/20 md:pl-2 pl-5 dark:bg-slate-700/60 dark:hover:bg-slate-800",
+        "flex items-center h-11 overflow-x-hidden text-gray-800 dark:text-white rounded-sm bg-black/20 md:pl-2 pl-5 dark:bg-slate-700/60 dark:hover:bg-slate-800",
         { "cursor-wait": disabled }
       )}
     >
-      <div className="grid grid-cols-[6%_80%_4%] items-center gap-1 overflow-x-hidden text-gray-800 dark:text-white">
-        <TodoCheckBox todoId={todoId} completed={completed} disabled={disabled} />
-        <TodoInput todoId={todoId} content={content} disabled={disabled} />
-        <TodoDeleteButton todoId={todoId} disabled={disabled} />
-      </div>
+      <TodoCheckBox todoId={todoId} completed={completed} disabled={disabled} />
+      <TodoInput todoId={todoId} content={content} disabled={disabled} />
+      <TodoDeleteButton todoId={todoId} disabled={disabled} />
     </div>
   );
 };

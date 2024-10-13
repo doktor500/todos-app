@@ -36,7 +36,7 @@ export const TodoInput = ({ todoId, content, disabled }: Props) => {
   };
 
   return (
-    <div className="flex w-[233px] items-center md:w-[570px]">
+    <div className="flex w-full items-center">
       <label className="hidden" htmlFor={`todo-${todoId}`}>
         {content}
       </label>
@@ -44,7 +44,7 @@ export const TodoInput = ({ todoId, content, disabled }: Props) => {
         ref={input.inputRef}
         id={`todo-${todoId}`}
         maxLength={MAX_LENGTH}
-        className="w-[233px] truncate bg-transparent px-2 text-sm outline-none disabled:cursor-wait md:w-[515px]"
+        className="w-full truncate bg-transparent px-2 text-sm outline-none disabled:cursor-wait"
         defaultValue={content}
         onBlur={handleEditTodo}
         onKeyDown={handleKeyDown}

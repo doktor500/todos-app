@@ -32,7 +32,7 @@ export const CreateTodoForm = () => {
         "opacity-50": isServer,
       })}
     >
-      <div className="flex items-center pl-0.5 dark:text-white">
+      <div className="flex items-center pl-1 dark:text-white">
         <PlusIcon className={cn("size-5", { "cursor-wait": isServer })} />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo">
           <input type="hidden" name="userId" value={userId} />

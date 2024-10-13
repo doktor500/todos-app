@@ -16,12 +16,12 @@ export const metadata: Metadata = {
 const sfProDisplay = localFont({
   src: [
     {
-      path: "../../public/fonts/SF-Pro-Display-Regular.woff2",
+      path: "../../public/fonts/sf-pro-display-regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../../public/fonts/SF-Pro-Display-Bold.woff2",
+      path: "../../public/fonts/sf-pro-display-bold.woff2",
       weight: "700",
       style: "normal",
     },

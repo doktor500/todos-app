@@ -6,8 +6,8 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Todo App",
-  description: "Simple todos application",
+  title: "Todo Lean",
+  description: "Todo Lean Application",
 };
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {

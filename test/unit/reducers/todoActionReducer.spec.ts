@@ -5,7 +5,7 @@ import { aTodo } from "@/test/fixtures/todo.fixture";
 
 const { SET_SEARCH_TERM, SET_TODOS_FILTER } = TodoBaseActionType;
 
-describe("todos actions reducer", () => {
+describe("todo actions reducer", () => {
   it("can update the search term", () => {
     const todos = [aTodo()];
     const initialState = { todos, searchTerm: undefined, todosFilter: TodosFilter.NONE };

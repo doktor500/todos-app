@@ -12,7 +12,7 @@ const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActio
 vi.mock("@/modules/domain/utils/uniqueIdGenerator");
 vi.mock("@/modules/domain/utils/clock");
 
-describe("todos optimistic actions reducer", () => {
+describe("todo optimistic actions reducer", () => {
   it("can add a todo to an existing list of todos", () => {
     const todo = aTodo({ id: uuid() });
     const todos = [todo];

@@ -2,7 +2,6 @@ import { CreateTodoForm } from "@/components/CreateTodoForm";
 import { TodoList } from "@/components/TodoList";
 import { TodosAppTitlte } from "@/components/TodosAppTitle";
 import { TodosSearchBar } from "@/components/TodosSearchBar";
-import { TodosSpinner } from "@/components/TodosSpinner";
 
 export const Todos = () => {
   return (
@@ -10,7 +9,6 @@ export const Todos = () => {
       <div className="md:w-[600px]">
         <div className="sticky top-0 z-50 pb-6 shadow-md">
           <TodosAppTitlte />
-          <TodosSpinner />
           <TodosSearchBar />
           <CreateTodoForm />
         </div>

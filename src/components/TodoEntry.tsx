@@ -21,7 +21,7 @@ export const TodoEntry = ({ todoId, content, completed, stale }: Props) => {
   return (
     <div
       className={cn(
-        "flex items-center h-11 overflow-x-hidden text-gray-800 dark:text-white rounded-sm bg-black/20 md:pl-2 pl-5 dark:bg-slate-700/60 dark:hover:bg-slate-800",
+        "flex items-center h-11 overflow-x-hidden dark:text-white rounded-sm pl-5 dark:bg-slate-700/60 dark:hover:bg-slate-800",
         { "cursor-wait": disabled }
       )}
     >

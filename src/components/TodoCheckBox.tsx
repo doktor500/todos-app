@@ -26,7 +26,7 @@ export const TodoCheckBox = ({ todoId, completed, disabled }: Props) => {
   };
 
   return (
-    <div className="flex items-center justify-center md:pl-3">
+    <div className="flex items-center justify-center">
       <Checkbox checked={completed} onClick={handleToggleTodo} disabled={disabled} />
     </div>
   );

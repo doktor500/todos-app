@@ -17,7 +17,7 @@ export const TodoSearchInput = ({ disabled }: { disabled: boolean }) => {
   };
 
   return (
-    <div className="relative flex w-full rounded-e-lg border border-s-0 border-gray-300 border-s-gray-50 dark:border-gray-600 dark:border-s-gray-700 dark:bg-slate-800">
+    <div className="relative flex w-full rounded-e-lg border border-s-0 dark:border-gray-600 dark:border-s-gray-700 dark:bg-slate-800">
       <SearchIcon className="mx-2.5 mt-2.5 size-5" />
       <input
         type="search"

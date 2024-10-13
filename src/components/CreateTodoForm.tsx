@@ -28,11 +28,11 @@ export const CreateTodoForm = () => {
 
   return (
     <div
-      className={cn("h-11 rounded-sm pl-3 pt-2 dark:bg-slate-900 dark:hover:bg-slate-800 border dark:border-gray-600", {
+      className={cn("h-11 rounded-lg pl-4 pt-2 dark:bg-slate-900 dark:hover:bg-slate-800 border dark:border-gray-600", {
         "opacity-50": isServer,
       })}
     >
-      <div className="flex items-center pl-1 dark:text-white">
+      <div className="flex items-center dark:text-white">
         <PlusIcon className={cn("size-5", { "cursor-wait": isServer })} />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo" className="w-full pr-6">
           <input type="hidden" name="userId" value={userId} />

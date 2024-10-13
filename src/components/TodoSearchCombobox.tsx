@@ -16,7 +16,7 @@ export const TodoSearchCombobox = ({ disabled }: { disabled: boolean }) => {
   };
 
   return (
-    <div className="rounded-s-lg border bg-slate-900 pt-0.5 text-center text-sm font-medium text-gray-900 hover:bg-slate-800 dark:border-gray-600 dark:text-white">
+    <div className="rounded-s-lg border pt-0.5 text-center text-sm font-medium text-gray-900 dark:border-gray-600 dark:text-white dark:hover:bg-slate-800">
       <Combobox
         items={getFilters()}
         initialSelectedItem={defaultTodosFilter}

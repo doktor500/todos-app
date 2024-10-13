@@ -6,14 +6,14 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Todo Lean",
-  description: "Todo Lean Application",
+  title: "X Todo",
+  description: "X Todo application",
 };
 
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className="antialiased dark:bg-gray-900">
+      <body className="h-screen bg-gradient-to-b from-slate-900 to-slate-800 antialiased">
         {children}
         <Analytics />
         <SpeedInsights />

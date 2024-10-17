@@ -83,7 +83,6 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "eslint-plugin-vitest": "^0.5.4",
     "husky": "^9.1.6",
-    "i": "^0.3.7",
     "jsdom": "^25.0.1",
     "node-json-db": "^2.3.0",
     "playwright": "^1.48.0",

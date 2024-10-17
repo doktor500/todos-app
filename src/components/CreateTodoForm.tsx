@@ -2,7 +2,7 @@
 
 import { PlusIcon } from "lucide-react";
 
-import { createTodo } from "@/actions/createTodo";
+import { createTodo } from "@/actions/todos/createTodo";
 import { CreateTodoInput } from "@/components/CreateTodoInput";
 import { useForm } from "@/hooks/common/useForm";
 import { useIsServer } from "@/hooks/common/useIsServer";

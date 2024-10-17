@@ -1,9 +1,9 @@
 import { Viewport } from "next";
 import { redirect } from "next/navigation";
 
+import { getUser } from "@/actions/user/getUser";
 import { Todos } from "@/components/Todos";
 import { UserId } from "@/modules/domain/user";
-import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { TodosApplicationProvider } from "@/providers/TodosApplicationProvider";
 
 type Params = { params: { id: UserId } };
@@ -16,7 +16,7 @@ export const viewport: Viewport = {
 };
 
 const Page = async ({ params }: Params) => {
-  const user = await usersRepository.get(params.id);
+  const user = await getUser(params.id);
   if (!user) return redirect("/");
 
   return (

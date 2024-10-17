@@ -2,7 +2,7 @@
 
 import { FocusEvent, KeyboardEvent } from "react";
 
-import { editTodo } from "@/actions/editTodo";
+import { editTodo } from "@/actions/todos/editTodo";
 import { useInput } from "@/hooks/common/useInput";
 import { useTodos } from "@/hooks/useTodos";
 import { TodoId } from "@/modules/domain/todo";

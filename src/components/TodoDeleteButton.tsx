@@ -3,7 +3,7 @@
 import { Trash2Icon as TrashIcon } from "lucide-react";
 import { UIEvent } from "react";
 
-import { deleteTodo } from "@/actions/deleteTodo";
+import { deleteTodo } from "@/actions/todos/deleteTodo";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
 import { TodoId } from "@/modules/domain/todo";

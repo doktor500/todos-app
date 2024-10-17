@@ -2,7 +2,7 @@
 
 import { UIEvent } from "react";
 
-import { toggleTodo } from "@/actions/toggleTodo";
+import { toggleTodo } from "@/actions/todos/toggleTodo";
 import { Checkbox } from "@/components/ui/Checkbox";
 import { useTodos } from "@/hooks/useTodos";
 import { TodoId } from "@/modules/domain/todo";

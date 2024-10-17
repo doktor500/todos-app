@@ -2,28 +2,28 @@ import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { expect } from "vitest";
 
-import { createTodo } from "@/actions/createTodo";
-import { deleteTodo } from "@/actions/deleteTodo";
-import { editTodo } from "@/actions/editTodo";
-import { toggleTodo } from "@/actions/toggleTodo";
+import { createTodo } from "@/actions/todos/createTodo";
+import { deleteTodo } from "@/actions/todos/deleteTodo";
+import { editTodo } from "@/actions/todos/editTodo";
+import { toggleTodo } from "@/actions/todos/toggleTodo";
+import { getUser } from "@/actions/user/getUser";
 import Page from "@/app/users/[id]/todos/page";
-import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { formData } from "@/test/unit/utils/formDataUtils";
 import { renderAsync } from "@/test/unit/utils/reactTestUtils";
 
-vi.mock("@/modules/infrastructure/repositories/usersRepository");
-vi.mock("@/actions/createTodo", () => ({ createTodo: vi.fn() }));
-vi.mock("@/actions/toggleTodo", () => ({ toggleTodo: vi.fn() }));
-vi.mock("@/actions/editTodo", () => ({ editTodo: vi.fn() }));
-vi.mock("@/actions/deleteTodo", () => ({ deleteTodo: vi.fn() }));
+vi.mock("@/actions/user/getUser", () => ({ getUser: vi.fn() }));
+vi.mock("@/actions/todos/createTodo", () => ({ createTodo: vi.fn() }));
+vi.mock("@/actions/todos/toggleTodo", () => ({ toggleTodo: vi.fn() }));
+vi.mock("@/actions/todos/editTodo", () => ({ editTodo: vi.fn() }));
+vi.mock("@/actions/todos/deleteTodo", () => ({ deleteTodo: vi.fn() }));
 
 describe("todos page", () => {
   it("renders user todos successfully", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -37,7 +37,7 @@ describe("todos page", () => {
   `("marks completed todos as checked '$completed' when the list of todos is rendered", async ({ completed }) => {
     const todo = aTodo({ completed });
     const user = aUser({ todos: [todo] });
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -50,7 +50,7 @@ describe("todos page", () => {
   it("calls create todo action when the form is submitted", async () => {
     const user = aUser();
     const newTodo = "New todo content";
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -65,7 +65,7 @@ describe("todos page", () => {
   it("clears the input field to create a todo when the form is submitted", async () => {
     const user = aUser();
     const newTodo = "New todo content";
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -81,7 +81,7 @@ describe("todos page", () => {
     const newTodo = "New todo content";
     const { promise, resolve } = Promise.withResolvers<void>();
 
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
     vi.mocked(createTodo).mockImplementationOnce(() => promise);
 
     await renderAsync(Page, { params: { id: user.id } });
@@ -101,7 +101,7 @@ describe("todos page", () => {
   it("calls toggle todo action when the todo checkbox is clicked", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -116,7 +116,7 @@ describe("todos page", () => {
   `("toggles todo completed state to checked '$completed' when the checkbox is clicked", async ({ completed }) => {
     const todo = aTodo({ completed });
     const user = aUser({ todos: [todo] });
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -131,7 +131,7 @@ describe("todos page", () => {
     const todo = aTodo({ content: "original content" });
     const newTodoContent = "new content";
     const user = aUser({ todos: [todo] });
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -146,7 +146,7 @@ describe("todos page", () => {
     const todo = aTodo({ content: "original content" });
     const user = aUser({ todos: [todo] });
 
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -160,7 +160,7 @@ describe("todos page", () => {
   it("calls delete todo action when the trash icon is clicked", async () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -172,7 +172,7 @@ describe("todos page", () => {
     const todo1 = aTodo({ content: "Buy milk" });
     const todo2 = aTodo({ content: "Pay rent" });
     const user = aUser({ todos: [todo1, todo2] });
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 
@@ -192,7 +192,7 @@ describe("todos page", () => {
     const todo1 = aTodo({ content: "Buy milk", completed: true });
     const todo2 = aTodo({ content: "Pay rent", completed: false });
     const user = aUser({ todos: [todo1, todo2] });
-    vi.mocked(usersRepository).get.mockResolvedValueOnce(user);
+    vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page, { params: { id: user.id } });
 

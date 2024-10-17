@@ -1,4 +1,4 @@
-import { toggleTodo } from "@/actions/toggleTodo";
+import { toggleTodo } from "@/actions/todos/toggleTodo";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aTodo } from "@/test/fixtures/todo.fixture";

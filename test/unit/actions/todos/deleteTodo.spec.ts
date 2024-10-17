@@ -1,4 +1,4 @@
-import { deleteTodo } from "@/actions/deleteTodo";
+import { deleteTodo } from "@/actions/todos/deleteTodo";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aTodo } from "@/test/fixtures/todo.fixture";

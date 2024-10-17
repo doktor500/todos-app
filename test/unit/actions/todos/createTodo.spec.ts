@@ -1,4 +1,4 @@
-import { createTodo } from "@/actions/createTodo";
+import { createTodo } from "@/actions/todos/createTodo";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aUser } from "@/test/fixtures/user.fixture";

@@ -2,7 +2,7 @@
 
 import z from "zod";
 
-import { MAX_LENGTH } from "@/modules/domain/stringUtils";
+import { MAX_LENGTH } from "@/modules/domain/utils/stringUtils";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 

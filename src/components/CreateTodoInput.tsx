@@ -3,7 +3,7 @@
 import { useFormStatus } from "react-dom";
 
 import { useInput } from "@/hooks/common/useInput";
-import { MAX_LENGTH } from "@/modules/domain/stringUtils";
+import { MAX_LENGTH } from "@/modules/domain/utils/stringUtils";
 
 export const CreateTodoInput = ({ disabled }: { disabled: boolean }) => {
   const { pending } = useFormStatus();

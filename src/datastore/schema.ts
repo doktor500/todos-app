@@ -3,7 +3,7 @@ import "dotenv/config";
 import { relations } from "drizzle-orm";
 import { boolean, integer, pgTable, serial, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
-import { MAX_LENGTH } from "@/modules/domain/stringUtils";
+import { MAX_LENGTH } from "@/modules/domain/utils/stringUtils";
 
 export const UsersTable = pgTable("users", {
   id: serial("id").primaryKey(),

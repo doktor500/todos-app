@@ -5,8 +5,8 @@ import { FocusEvent, KeyboardEvent } from "react";
 import { editTodo } from "@/actions/editTodo";
 import { useInput } from "@/hooks/common/useInput";
 import { useTodos } from "@/hooks/useTodos";
-import { MAX_LENGTH } from "@/modules/domain/stringUtils";
 import { TodoId } from "@/modules/domain/todo";
+import { MAX_LENGTH } from "@/modules/domain/utils/stringUtils";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
 type Props = {

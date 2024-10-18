@@ -28,8 +28,9 @@
       "@/test/*": ["./test/*"],
     },
     "types": [
-      "vitest/globals",
-      "node"
+      "@testing-library/jest-dom",
+      "node",
+      "vitest/globals"
     ],
     "target": "ES2017"
   },

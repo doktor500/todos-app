@@ -28,7 +28,7 @@ export const CreateTodoForm = () => {
 
   return (
     <div
-      className={cn("h-11 rounded-lg pl-4 pt-2 dark:bg-slate-900 dark:hover:bg-slate-800 border dark:border-gray-600", {
+      className={cn("h-11 rounded-lg pl-6 pt-2 dark:bg-slate-900 dark:hover:bg-slate-800 border dark:border-gray-600", {
         "opacity-50": isServer,
       })}
     >

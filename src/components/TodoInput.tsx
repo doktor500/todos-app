@@ -42,6 +42,7 @@ export const TodoInput = ({ todoId, content, disabled }: Props) => {
       </label>
       <input
         ref={input.inputRef}
+        aria-label={`Edit todo ${content}`}
         id={`todo-${todoId}`}
         maxLength={MAX_LENGTH}
         className="w-full truncate bg-transparent px-2 text-sm outline-none disabled:cursor-wait"

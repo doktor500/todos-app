@@ -27,7 +27,7 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
-    expect(screen.getByRole("textbox", { name: todo.content })).toBeInTheDocument();
+    expect(screen.getByLabelText(`Edit todo ${todo.content}`)).toBeInTheDocument();
   });
 
   it.each`
@@ -91,7 +91,7 @@ describe("todos page", () => {
 
     await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
     await waitFor(() => {
-      expect(screen.getByRole("textbox", { name: newTodo })).toHaveAttribute("disabled");
+      expect(screen.getByLabelText(`Edit todo ${newTodo}`)).toHaveAttribute("disabled");
       expect(screen.getByRole("checkbox")).toHaveAttribute("disabled");
       expect(screen.getByLabelText("Delete todo")).toHaveAttribute("disabled");
     });
@@ -135,7 +135,7 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
-    const todoInputField = screen.getByRole("textbox", { name: todo.content });
+    const todoInputField = screen.getByLabelText(`Edit todo ${todo.content}`);
     fireEvent.change(todoInputField, { target: { value: newTodoContent } });
     fireEvent.blur(todoInputField);
 
@@ -150,7 +150,7 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
-    const todoInputField = screen.getByRole("textbox", { name: todo.content });
+    const todoInputField = screen.getByLabelText(`Edit todo ${todo.content}`);
     fireEvent.change(todoInputField, { target: { value: todo.content } });
     fireEvent.blur(todoInputField);
 
@@ -176,15 +176,15 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
-    expect(screen.getByRole("textbox", { name: todo1.content })).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: todo2.content })).toBeInTheDocument();
+    expect(screen.queryByLabelText(`Edit todo ${todo1.content}`)).toBeInTheDocument();
+    expect(screen.queryByLabelText(`Edit todo ${todo2.content}`)).toBeInTheDocument();
 
     const searchInput = screen.getByRole("searchbox");
     fireEvent.change(searchInput, { target: { value: "Milk" } });
 
     await waitFor(() => {
-      expect(screen.queryByRole("textbox", { name: todo1.content })).toBeInTheDocument();
-      expect(screen.queryByRole("textbox", { name: todo2.content })).not.toBeInTheDocument();
+      expect(screen.queryByLabelText(`Edit todo ${todo1.content}`)).toBeInTheDocument();
+      expect(screen.queryByLabelText(`Edit todo ${todo2.content}`)).not.toBeInTheDocument();
     });
   });
 
@@ -196,23 +196,23 @@ describe("todos page", () => {
 
     await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
-    expect(screen.queryByRole("textbox", { name: todo1.content })).not.toBeInTheDocument();
-    expect(screen.queryByRole("textbox", { name: todo2.content })).toBeInTheDocument();
+    expect(screen.queryByLabelText(`Edit todo ${todo1.content}`)).not.toBeInTheDocument();
+    expect(screen.queryByLabelText(`Edit todo ${todo2.content}`)).toBeInTheDocument();
 
     fireEvent.click(screen.getByRole("combobox"));
     fireEvent.click(screen.getByRole("option", { name: "Done" }));
 
     await waitFor(() => {
-      expect(screen.queryByRole("textbox", { name: todo1.content })).toBeInTheDocument();
-      expect(screen.queryByRole("textbox", { name: todo2.content })).not.toBeInTheDocument();
+      expect(screen.queryByLabelText(`Edit todo ${todo1.content}`)).toBeInTheDocument();
+      expect(screen.queryByLabelText(`Edit todo ${todo2.content}`)).not.toBeInTheDocument();
     });
 
     fireEvent.click(screen.getByRole("combobox"));
     fireEvent.click(screen.getByRole("option", { name: "All" }));
 
     await waitFor(() => {
-      expect(screen.queryByRole("textbox", { name: todo1.content })).toBeInTheDocument();
-      expect(screen.queryByRole("textbox", { name: todo2.content })).toBeInTheDocument();
+      expect(screen.queryByLabelText(`Edit todo ${todo1.content}`)).toBeInTheDocument();
+      expect(screen.queryByLabelText(`Edit todo ${todo2.content}`)).toBeInTheDocument();
     });
   });
 });

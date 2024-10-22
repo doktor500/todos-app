@@ -35,7 +35,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={cn("h-screen bg-slate-900 antialiased", sfProDisplay.variable)}>
-        {children}
+        <main role="main">{children}</main>
         {isLocalEnvironment() && <VercelToolbar />}
         <Analytics />
         <SpeedInsights />

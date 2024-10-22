@@ -1,4 +1,5 @@
 /* eslint-disable no-restricted-imports */
+import { withVercelToolbar } from "@vercel/toolbar/plugins/next";
 import { NextConfig } from "next";
 
 import { localMappings } from "./scripts/generate-mappings";
@@ -14,4 +15,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withVercelToolbar()(nextConfig);

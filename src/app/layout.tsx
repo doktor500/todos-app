@@ -3,10 +3,12 @@ import "./globals.css";
 
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { VercelToolbar } from "@vercel/toolbar/next";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
 import { cn } from "@/lib/utils";
+import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils";
 
 export const metadata: Metadata = {
   title: "X Todo",
@@ -34,6 +36,7 @@ const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     <html lang="en" className="dark" suppressHydrationWarning>
       <body className={cn("h-screen bg-slate-900 antialiased", sfProDisplay.variable)}>
         {children}
+        {isLocalEnvironment() && <VercelToolbar />}
         <Analytics />
         <SpeedInsights />
       </body>

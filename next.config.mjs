@@ -6,7 +6,6 @@ import { isLocalEnvironment } from "./src/modules/infrastructure/systemUtils.mjs
 const nextConfig = {
   reactStrictMode: true,
   experimental: {
-    instrumentationHook: true,
     turbo: {
       resolveAlias: isLocalEnvironment() ? localMappings : {},
       resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],

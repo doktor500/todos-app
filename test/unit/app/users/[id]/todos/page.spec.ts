@@ -25,7 +25,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     expect(screen.getByRole("textbox", { name: todo.content })).toBeInTheDocument();
   });
@@ -39,7 +39,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     fireEvent.click(screen.getByRole("combobox"));
     fireEvent.click(screen.getByRole("option", { name: "All" }));
@@ -52,7 +52,7 @@ describe("todos page", () => {
     const newTodo = "New todo content";
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     const newTodoInputField = screen.getByLabelText("New todo");
     await userEvent.type(newTodoInputField, newTodo);
@@ -67,7 +67,7 @@ describe("todos page", () => {
     const newTodo = "New todo content";
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     const newTodoInputField = screen.getByLabelText("New todo");
     await userEvent.type(newTodoInputField, newTodo);
@@ -84,7 +84,7 @@ describe("todos page", () => {
     vi.mocked(getUser).mockResolvedValueOnce(user);
     vi.mocked(createTodo).mockImplementationOnce(() => promise);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     const newTodoInputField = screen.getByLabelText("New todo");
     await userEvent.type(newTodoInputField, newTodo);
@@ -103,7 +103,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     fireEvent.click(screen.getByRole("checkbox"));
     expect(toggleTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id, completed: true });
@@ -118,7 +118,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     fireEvent.click(screen.getByRole("combobox"));
     fireEvent.click(screen.getByRole("option", { name: "All" }));
@@ -133,7 +133,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     const todoInputField = screen.getByRole("textbox", { name: todo.content });
     fireEvent.change(todoInputField, { target: { value: newTodoContent } });
@@ -148,7 +148,7 @@ describe("todos page", () => {
 
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     const todoInputField = screen.getByRole("textbox", { name: todo.content });
     fireEvent.change(todoInputField, { target: { value: todo.content } });
@@ -162,7 +162,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     fireEvent.click(screen.getByLabelText("Delete todo"));
     expect(deleteTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id });
@@ -174,7 +174,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo1, todo2] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     expect(screen.getByRole("textbox", { name: todo1.content })).toBeInTheDocument();
     expect(screen.getByRole("textbox", { name: todo2.content })).toBeInTheDocument();
@@ -194,7 +194,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo1, todo2] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page, { params: { id: user.id } });
+    await renderAsync(Page, { params: Promise.resolve({ id: user.id }) });
 
     expect(screen.queryByRole("textbox", { name: todo1.content })).not.toBeInTheDocument();
     expect(screen.queryByRole("textbox", { name: todo2.content })).toBeInTheDocument();

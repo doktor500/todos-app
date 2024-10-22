@@ -6,7 +6,7 @@ import { Todos } from "@/components/Todos";
 import { UserId } from "@/modules/domain/user";
 import { TodosApplicationProvider } from "@/providers/TodosApplicationProvider";
 
-type Params = { params: { id: UserId } };
+type Props = { params: Promise<{ id: UserId }> };
 
 export const viewport: Viewport = {
   initialScale: 1,
@@ -15,7 +15,8 @@ export const viewport: Viewport = {
   width: "device-width",
 };
 
-const Page = async ({ params }: Params) => {
+const Page = async (props: Props) => {
+  const params = await props.params;
   const user = await getUser(params.id);
   if (!user) return redirect("/");
 

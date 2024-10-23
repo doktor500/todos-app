@@ -1,4 +1,3 @@
-import { Viewport } from "next";
 import { redirect } from "next/navigation";
 
 import { getUser } from "@/actions/user/getUser";
@@ -7,13 +6,6 @@ import { UserId } from "@/modules/domain/user";
 import { TodosApplicationProvider } from "@/providers/TodosApplicationProvider";
 
 type Props = { params: Promise<{ id: UserId }> };
-
-export const viewport: Viewport = {
-  initialScale: 1,
-  maximumScale: 1,
-  viewportFit: "cover",
-  width: "device-width",
-};
 
 const Page = async (props: Props) => {
   const params = await props.params;

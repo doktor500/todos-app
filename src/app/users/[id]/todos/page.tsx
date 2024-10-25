@@ -8,8 +8,7 @@ import { TodosApplicationProvider } from "@/providers/TodosApplicationProvider";
 type Props = { params: Promise<{ id: UserId }> };
 
 const Page = async (props: Props) => {
-  const params = await props.params;
-  const user = await getUser(params.id);
+  const user = await props.params.then(({ id }) => getUser(id));
   if (!user) return redirect("/");
 
   return (

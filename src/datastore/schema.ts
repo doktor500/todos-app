@@ -1,16 +1,24 @@
 import "dotenv/config";
 
 import { relations } from "drizzle-orm";
-import { boolean, integer, pgTable, serial, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, index, integer, pgTable, serial, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 import { MAX_LENGTH } from "@/modules/domain/utils/stringUtils";
 
-export const UsersTable = pgTable("users", {
-  id: serial("id").primaryKey(),
-  username: varchar("username", { length: MAX_LENGTH }).notNull(),
-  email: varchar("email", { length: MAX_LENGTH }),
-  password: varchar("password", { length: MAX_LENGTH }),
-});
+export const UsersTable = pgTable(
+  "users",
+  {
+    id: serial("id").primaryKey(),
+    username: varchar("username", { length: MAX_LENGTH }).notNull().unique(),
+    email: varchar("email", { length: MAX_LENGTH }).notNull().unique(),
+    password: varchar("password", { length: MAX_LENGTH }).notNull(),
+  },
+  (table) => {
+    return {
+      usernameIdx: index("usernameIndex").on(table.username),
+    };
+  }
+);
 
 export const TodosTable = pgTable("todos", {
   id: uuid("id").defaultRandom().primaryKey(),

@@ -5,8 +5,8 @@ export type UserId = number;
 export type User = {
   id: UserId;
   username: string;
-  email: string | null;
-  password: string | null;
+  email: string;
+  password: string;
   todos: Todo[];
 };
 

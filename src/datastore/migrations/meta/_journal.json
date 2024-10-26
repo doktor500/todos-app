@@ -64,6 +64,13 @@
       "when": 1729958358462,
       "tag": "0008_left_stark_industries",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1729962325500,
+      "tag": "0009_giant_master_chief",
+      "breakpoints": true
     }
   ]
 }

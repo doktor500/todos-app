@@ -18,8 +18,8 @@ const SignUpForm = () => {
   const { isLoading, errors } = formState;
 
   const onSubmit = async (data: CreateUserData) => {
-    await createUser(data);
-    redirectTo(`/users/${data.username}`);
+    const userId = await createUser(data);
+    redirectTo(`/users/${userId}/todos`);
   };
 
   return (

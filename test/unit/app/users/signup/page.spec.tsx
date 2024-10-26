@@ -3,11 +3,16 @@ import userEvent from "@testing-library/user-event";
 
 import { createUser } from "@/actions/user/createUser";
 import Page from "@/app/users/signup/page";
+import { useRedirect } from "@/hooks/common/useRedirect";
 
-vi.mock("@/hooks/common/useRedirect", () => ({ useRedirect: () => ({ redirectTo: vi.fn() }) }));
+vi.mock("@/hooks/common/useRedirect");
 vi.mock("@/actions/user/createUser", () => ({ createUser: vi.fn() }));
 
 describe("User sign up page", () => {
+  beforeEach(() => {
+    vi.mocked(useRedirect).mockImplementation(() => ({ redirectTo: vi.fn() }));
+  });
+
   it("displays validation errors when the form is submitted with invalid values", async () => {
     render(<Page />);
 
@@ -41,6 +46,34 @@ describe("User sign up page", () => {
     await waitFor(() => {
       expect(createUser).toHaveBeenCalledWith({ username, email, password });
       expect(createUser).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  it("redirects to user's todo list page when a valid form is submitted", async () => {
+    const userId = 1;
+    const username = "david";
+    const email = "david@email.com";
+    const password = "password";
+
+    const redirectTo = vi.fn();
+    vi.mocked(createUser).mockResolvedValueOnce(userId);
+    vi.mocked(useRedirect).mockImplementation(() => ({ redirectTo }));
+
+    render(<Page />);
+
+    const usernameField = screen.getByLabelText("User name");
+    await userEvent.type(usernameField, username);
+
+    const emailField = screen.getByLabelText("Email");
+    await userEvent.type(emailField, email);
+
+    const passwordField = screen.getByLabelText("Password");
+    await userEvent.type(passwordField, password);
+
+    fireEvent.click(screen.getByRole("button"));
+
+    await waitFor(() => {
+      expect(redirectTo).toHaveBeenCalledWith(`/users/${userId}/todos`);
     });
   });
 });

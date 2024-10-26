@@ -1,6 +1,7 @@
 import * as z from "zod";
 
 export type CreateUserData = z.infer<typeof createUserSchema>;
+export type CreateUserErrors = z.inferFlattenedErrors<typeof createUserSchema>;
 
 export const createUserSchema = z.object({
   username: z.string().min(3, { message: "Username must be at least 3 characters long" }),

@@ -10,14 +10,12 @@ describe("create user action", () => {
 
     expect(usersRepository.createUser).not.toHaveBeenCalled();
     expect(errors).toEqual({
-      errors: {
-        fieldErrors: {
-          username: ["Username must be at least 3 characters long"],
-          email: ["Please enter a valid email address"],
-          password: ["Password must be at least 8 characters long"],
-        },
-        formErrors: [],
+      fieldErrors: {
+        username: ["Username must be at least 3 characters long"],
+        email: ["Please enter a valid email address"],
+        password: ["Password must be at least 8 characters long"],
       },
+      formErrors: [],
     });
   });
 

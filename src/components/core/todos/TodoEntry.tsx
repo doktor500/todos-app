@@ -1,8 +1,8 @@
 "use client";
 
-import { DeleteTodoButton } from "@/components/core/todos/DeleteTodoButton";
-import { TodoCheckBox } from "@/components/core/todos/TodoCheckBox";
-import { TodoInput } from "@/components/core/todos/TodoInput";
+import { DeleteTodoButton } from "@/components/core/todos/deleteTodoButton";
+import { TodoCheckBox } from "@/components/core/todos/todoCheckBox";
+import { TodoInput } from "@/components/core/todos/todoInput";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { cn } from "@/lib/utils";
 import { TodoId } from "@/modules/domain/todo";

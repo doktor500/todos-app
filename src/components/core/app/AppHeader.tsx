@@ -1,6 +1,6 @@
-import { AppLogo } from "@/components/core/app/AppLogo";
-import { AppSpinner } from "@/components/core/app/AppSpinner";
-import { AppTitle } from "@/components/core/app/AppTitle";
+import { AppLogo } from "@/components/core/app/appLogo";
+import { AppSpinner } from "@/components/core/app/appSpinner";
+import { AppTitle } from "@/components/core/app/appTitle";
 
 export const AppHeader = ({ isPending }: { isPending?: boolean }) => {
   return (

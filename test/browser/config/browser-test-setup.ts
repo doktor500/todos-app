@@ -1,6 +1,6 @@
 import { test as setup } from "@playwright/test";
 
-import { usersRepositoryInstance } from "@/config/repositories/usersRepository";
+import { usersRepositoryInstance } from "@/config/repositories/usersRepositoryInstance";
 import { aUser } from "@/test/fixtures/user.fixture";
 
 const userId = 1;

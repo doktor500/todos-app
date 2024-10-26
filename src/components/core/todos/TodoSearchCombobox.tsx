@@ -1,6 +1,6 @@
 "use client";
 
-import { Combobox } from "@/components/ui/Combobox";
+import { Combobox } from "@/components/ui/combobox";
 import { useTodos } from "@/hooks/useTodos";
 import { defaultTodosFilter, TodosFilter } from "@/modules/domain/todosFilter";
 import { Optional } from "@/modules/domain/utils/optionalUtils";

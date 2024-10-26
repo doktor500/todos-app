@@ -2,9 +2,9 @@ import { Viewport } from "next";
 import { redirect } from "next/navigation";
 
 import { getUser } from "@/actions/user/getUser";
-import { Todos } from "@/components/core/todos/Todos";
+import { Todos } from "@/components/core/todos/todos";
 import { UserId } from "@/modules/domain/user";
-import { TodosApplicationProvider } from "@/providers/TodosApplicationProvider";
+import { TodosApplicationProvider } from "@/providers/todosApplicationProvider";
 
 type Props = { params: Promise<{ id: UserId }> };
 

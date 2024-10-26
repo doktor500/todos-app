@@ -1,7 +1,7 @@
 "use client";
 
-import { TodoSearchCombobox } from "@/components/core/todos/TodoSearchCombobox";
-import { TodoSearchInput } from "@/components/core/todos/TodoSearchInput";
+import { TodoSearchCombobox } from "@/components/core/todos/todoSearchCombobox";
+import { TodoSearchInput } from "@/components/core/todos/todoSearchInput";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { cn } from "@/lib/utils";
 

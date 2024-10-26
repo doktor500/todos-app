@@ -1,4 +1,4 @@
-import { usersRepositoryInstance } from "@/config/repositories/usersRepository";
+import { usersRepositoryInstance } from "@/config/repositories/usersRepositoryInstance";
 import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 import { client } from "@/modules/infrastructure/repositories/db";
 import { aTodo } from "@/test/fixtures/todo.fixture";

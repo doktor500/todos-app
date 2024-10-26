@@ -1,5 +1,5 @@
-import { AppHeader } from "@/components/core/app/AppHeader";
-import SignUpForm from "@/components/core/users/SignupForm";
+import { AppHeader } from "@/components/core/app/appHeader";
+import { SignUpForm } from "@/components/core/users/signupForm";
 
 const Page = () => {
   return (

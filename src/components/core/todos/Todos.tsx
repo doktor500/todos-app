@@ -1,9 +1,9 @@
 "use client";
 
-import { AppHeader } from "@/components/core/app/AppHeader";
-import { CreateTodoForm } from "@/components/core/todos/CreateTodoForm";
-import { TodoList } from "@/components/core/todos/TodoList";
-import { TodosSearchBar } from "@/components/core/todos/TodosSearchBar";
+import { AppHeader } from "@/components/core/app/appHeader";
+import { CreateTodoForm } from "@/components/core/todos/createTodoForm";
+import { TodoList } from "@/components/core/todos/todoList";
+import { TodosSearchBar } from "@/components/core/todos/todosSearchBar";
 import { useTodos } from "@/hooks/useTodos";
 
 export const Todos = () => {

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 test("a user can sign up successfully", async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/users/signup`);
+  await page.goto(`${baseURL}/signup`);
 
   await page.getByLabel("User name").fill("sarah");
   await page.getByLabel("Email").fill("sarah@email.com");

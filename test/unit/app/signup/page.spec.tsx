@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { createUser } from "@/actions/user/createUser";
-import Page from "@/app/users/signup/page";
+import Page from "@/app/signup/page";
 import { useRedirect } from "@/hooks/common/useRedirect";
 
 vi.mock("@/hooks/common/useRedirect");

@@ -14,7 +14,7 @@ describe("Users repository", () => {
   `("$name can find a user by id", async ({ repository }) => {
     const todo1 = aTodo({ id: uuid(), content: "Buy milk", createdAt: new Date("01/01/2024") });
     const todo2 = aTodo({ id: uuid(), content: "Buy bread", createdAt: new Date("02/01/2024") });
-    const user = aUser({ id: 1, username: "David", todos: [todo1, todo2] });
+    const user = aUser({ id: 1, username: "david", todos: [todo1, todo2] });
     const expectedUser = { ...user, todos: [todo2, todo1] };
 
     await repository.save(user);
@@ -43,7 +43,7 @@ describe("Users repository", () => {
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can save a todo successfully", async ({ repository }) => {
     const newTodo = "New todo";
-    const user = aUser({ id: 2, username: "Sarah", todos: [] });
+    const user = aUser({ id: 2, username: "sarah", todos: [] });
     await repository.save(user);
 
     await repository.saveTodo(user.id, newTodo);

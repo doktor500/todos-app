@@ -20,7 +20,7 @@ describe("create user action", () => {
   });
 
   it("calls user repository to create a user when the data is valid", async () => {
-    const data = { username: "David", email: "David@email.com", password: "password" };
+    const data = { username: "david", email: "David@email.com", password: "password" };
     await createUser(data);
 
     expect(usersRepository.createUser).toHaveBeenCalledWith("david", "david@email.com", expect.any(String));

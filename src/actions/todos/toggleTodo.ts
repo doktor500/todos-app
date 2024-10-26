@@ -13,14 +13,14 @@ type Command = {
   completed: boolean;
 };
 
-const schema = z.object({
+const toggleTodoSchema = z.object({
   userId: z.number().positive(),
   todoId: z.string().min(1),
   completed: z.boolean(),
 });
 
 export const toggleTodo = async (command: Command) => {
-  const todo = schema.parse(command);
+  const todo = toggleTodoSchema.parse(command);
   await usersRepository.updateTodo(todo.userId, { id: todo.todoId, completed: todo.completed });
   webCache.revalidatePath(`users/${todo.userId}`);
 };

@@ -16,7 +16,7 @@ type Props = {
   disabled: boolean;
 };
 
-export const TodoDeleteButton = ({ todoId, disabled }: Props) => {
+export const DeleteTodoButton = ({ todoId, disabled }: Props) => {
   const { userId, dispatchAction } = useTodos();
 
   const handleDeleteTodo = async (event: UIEvent) => {

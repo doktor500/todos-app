@@ -1,6 +1,6 @@
 import { and, eq } from "drizzle-orm";
 
-import { TodosTable } from "@/datastore/schema";
+import { TodosTable, UsersTable } from "@/datastore/schema";
 import UsersRepository, { ExistingTodo } from "@/modules/application/repositories/usersRepository";
 import { TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
@@ -10,7 +10,7 @@ import { db } from "@/modules/infrastructure/repositories/db";
 export const usersRepository: UsersRepository = {
   get: async (userId: UserId): Promise<Optional<User>> => {
     return db.query.UsersTable.findFirst({
-      columns: { id: true, name: true },
+      columns: { id: true, username: true, email: true, password: true },
       with: {
         todos: {
           columns: { id: true, content: true, completed: true, createdAt: true },
@@ -19,6 +19,14 @@ export const usersRepository: UsersRepository = {
       },
       where: (user) => eq(user.id, userId),
     });
+  },
+  createUser: async (username: string, email: string, hashedPassword: string) => {
+    const users = await db
+      .insert(UsersTable)
+      .values({ username, email, password: hashedPassword })
+      .returning({ id: UsersTable.id });
+
+    return users[0].id;
   },
   saveTodo: async (userId: UserId, content: string): Promise<void> => {
     await db.insert(TodosTable).values({ userId, content });

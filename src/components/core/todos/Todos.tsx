@@ -1,13 +1,18 @@
+"use client";
+
+import { AppHeader } from "@/components/core/app/AppHeader";
 import { CreateTodoForm } from "@/components/core/todos/CreateTodoForm";
 import { TodoList } from "@/components/core/todos/TodoList";
-import { TodosAppHeader } from "@/components/core/todos/TodosAppHeader";
 import { TodosSearchBar } from "@/components/core/todos/TodosSearchBar";
+import { useTodos } from "@/hooks/useTodos";
 
 export const Todos = () => {
+  const { pendingTransaction } = useTodos();
+
   return (
     <div className="container mx-auto max-w-2xl items-center justify-center px-4 pb-10">
       <div className="sticky top-0 z-50 bg-slate-900 pb-6 shadow-md">
-        <TodosAppHeader />
+        <AppHeader isPending={pendingTransaction} />
         <TodosSearchBar />
         <CreateTodoForm />
       </div>

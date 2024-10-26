@@ -14,7 +14,7 @@ describe("Users repository", () => {
   `("$name can find a user by id", async ({ repository }) => {
     const todo1 = aTodo({ id: uuid(), content: "Buy milk", createdAt: new Date("01/01/2024") });
     const todo2 = aTodo({ id: uuid(), content: "Buy bread", createdAt: new Date("02/01/2024") });
-    const user = aUser({ id: 1, name: "David", todos: [todo1, todo2] });
+    const user = aUser({ id: 1, username: "David", todos: [todo1, todo2] });
     const expectedUser = { ...user, todos: [todo2, todo1] };
 
     await repository.save(user);
@@ -27,9 +27,23 @@ describe("Users repository", () => {
     name                                  | repository
     ${"fake persistent users repository"} | ${fakeUsersRepository()}
     ${"users repository"}                 | ${usersTestRepository}
+  `("$name can create a user", async ({ repository }) => {
+    const user = { username: "james", email: "james@email.com", password: "password" };
+
+    const id = await repository.createUser(user.username, user.email, user.password);
+    const fetchedUser = await repository.get(id);
+    const expectedUser = aUser({ ...user, id, todos: [] });
+
+    expect(fetchedUser).toEqual(expectedUser);
+  });
+
+  it.each`
+    name                                  | repository
+    ${"fake persistent users repository"} | ${fakeUsersRepository()}
+    ${"users repository"}                 | ${usersTestRepository}
   `("$name can save a todo successfully", async ({ repository }) => {
     const newTodo = "New todo";
-    const user = aUser({ id: 2, name: "Sarah", todos: [] });
+    const user = aUser({ id: 2, username: "Sarah", todos: [] });
     await repository.save(user);
 
     await repository.saveTodo(user.id, newTodo);

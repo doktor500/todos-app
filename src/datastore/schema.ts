@@ -7,7 +7,9 @@ import { MAX_LENGTH } from "@/modules/domain/utils/stringUtils";
 
 export const UsersTable = pgTable("users", {
   id: serial("id").primaryKey(),
-  name: varchar("name", { length: MAX_LENGTH }).notNull(),
+  username: varchar("username", { length: MAX_LENGTH }).notNull(),
+  email: varchar("email", { length: MAX_LENGTH }),
+  password: varchar("password", { length: MAX_LENGTH }),
 });
 
 export const TodosTable = pgTable("todos", {

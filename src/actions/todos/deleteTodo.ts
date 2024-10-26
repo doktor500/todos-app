@@ -12,13 +12,13 @@ type Command = {
   todoId: TodoId;
 };
 
-const schema = z.object({
+const deleteTodoSchema = z.object({
   userId: z.number().positive(),
   todoId: z.string().min(1),
 });
 
 export const deleteTodo = async (command: Command) => {
-  const todo = schema.parse(command);
+  const todo = deleteTodoSchema.parse(command);
   await usersRepository.deleteTodo(todo.userId, todo.todoId);
   webCache.revalidatePath(`users/${todo.userId}`);
 };

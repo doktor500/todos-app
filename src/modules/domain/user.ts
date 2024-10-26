@@ -4,6 +4,10 @@ export type UserId = number;
 
 export type User = {
   id: UserId;
-  name: string;
+  username: string;
+  email: string | null;
+  password: string | null;
   todos: Todo[];
 };
+
+export type UserDTO = Omit<User, "password">;

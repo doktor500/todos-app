@@ -1,7 +1,7 @@
 "use client";
 
+import { DeleteTodoButton } from "@/components/core/todos/DeleteTodoButton";
 import { TodoCheckBox } from "@/components/core/todos/TodoCheckBox";
-import { TodoDeleteButton } from "@/components/core/todos/TodoDeleteButton";
 import { TodoInput } from "@/components/core/todos/TodoInput";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { cn } from "@/lib/utils";
@@ -27,7 +27,7 @@ export const TodoEntry = ({ todoId, content, completed, stale }: Props) => {
     >
       <TodoCheckBox todoId={todoId} completed={completed} disabled={disabled} />
       <TodoInput todoId={todoId} content={content} disabled={disabled} />
-      <TodoDeleteButton todoId={todoId} disabled={disabled} />
+      <DeleteTodoButton todoId={todoId} disabled={disabled} />
     </div>
   );
 };

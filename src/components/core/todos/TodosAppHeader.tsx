@@ -1,6 +1,6 @@
-import { TodosAppTitle } from "@/components/TodosAppTitle";
-import { TodosAppLogo } from "@/components/TodosLogo";
-import { TodosSpinner } from "@/components/TodosSpinner";
+import { TodosAppTitle } from "@/components/core/todos/TodosAppTitle";
+import { TodosAppLogo } from "@/components/core/todos/TodosLogo";
+import { TodosSpinner } from "@/components/core/todos/TodosSpinner";
 
 export const TodosAppHeader = () => {
   return (

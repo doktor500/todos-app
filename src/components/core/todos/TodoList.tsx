@@ -1,6 +1,6 @@
 "use client";
 
-import { TodoEntry } from "@/components/TodoEntry";
+import { TodoEntry } from "@/components/core/todos/TodoEntry";
 import { useTodos } from "@/hooks/useTodos";
 
 export const TodoList = () => {

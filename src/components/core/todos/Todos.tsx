@@ -1,7 +1,7 @@
-import { CreateTodoForm } from "@/components/CreateTodoForm";
-import { TodoList } from "@/components/TodoList";
-import { TodosAppHeader } from "@/components/TodosAppHeader";
-import { TodosSearchBar } from "@/components/TodosSearchBar";
+import { CreateTodoForm } from "@/components/core/todos/CreateTodoForm";
+import { TodoList } from "@/components/core/todos/TodoList";
+import { TodosAppHeader } from "@/components/core/todos/TodosAppHeader";
+import { TodosSearchBar } from "@/components/core/todos/TodosSearchBar";
 
 export const Todos = () => {
   return (

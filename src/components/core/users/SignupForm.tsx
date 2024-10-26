@@ -65,7 +65,7 @@ const SignUpForm = () => {
             />
             {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full font-bold" disabled={isLoading}>
             Sign Up
           </Button>
         </form>

@@ -1,13 +1,13 @@
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
-import { redirect } from "next/navigation";
 
 import { authCookie } from "@/cookies/authCookie";
 import cookieManager from "@/modules/domain/shared/cookieManager";
 import env from "@/modules/domain/shared/env";
 import logger from "@/modules/domain/shared/logger";
 import { UserId } from "@/modules/domain/user";
-import { LOGIN_ROUTE, TODOS_ROUTE } from "@/routes";
+import appRouter, { Route } from "@/router/appRouter";
 
+const { TODOS, LOGIN } = Route;
 const ENCRYPTION_ALGORITHM = "HS256" as const;
 
 const key = new TextEncoder().encode(env.AUTH_SECRET_KEY);
@@ -17,18 +17,20 @@ export const createSession = async (userId: UserId) => {
   const session = await encrypt({ userId, expires });
 
   await cookieManager.setCookie(authCookie.name, session, { ...authCookie.options, expires });
-  redirect(TODOS_ROUTE);
+  appRouter.redirectTo(TODOS);
 };
 
 export const verifySession = async () => {
   const cookie = await cookieManager.getCookie(authCookie.name);
-  if (cookie) {
-    const session = await decrypt(cookie);
-    if (!session?.userId) redirect(LOGIN_ROUTE);
 
-    return { userId: session.userId };
-  }
-  redirect(LOGIN_ROUTE);
+  return cookie ? getUserId(cookie) : appRouter.redirectTo(LOGIN);
+};
+
+const getUserId = async (cookie: string) => {
+  const session = await decrypt(cookie);
+  const userId = session?.userId;
+
+  return userId ? { userId } : appRouter.redirectTo(LOGIN);
 };
 
 export const decrypt = async (session: string) => {

@@ -1,9 +1,9 @@
-import { redirect } from "next/navigation";
+import appRouter, { Route } from "@/router/appRouter";
 
-import { TODOS_ROUTE } from "@/routes";
+const { TODOS } = Route;
 
 export const createSession = async () => {
-  redirect(TODOS_ROUTE);
+  appRouter.redirectTo(TODOS);
 };
 
 export const verifySession = async () => {

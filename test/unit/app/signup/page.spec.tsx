@@ -4,10 +4,12 @@ import userEvent from "@testing-library/user-event";
 import { createUser } from "@/actions/user/createUser";
 import Page from "@/app/signup/page";
 import { useRedirect } from "@/hooks/common/useRedirect";
-import { TODOS_ROUTE } from "@/routes";
+import { Route } from "@/router/appRouter";
 
 vi.mock("@/hooks/common/useRedirect");
 vi.mock("@/actions/user/createUser");
+
+const { TODOS } = Route;
 
 describe("User sign up page", () => {
   beforeEach(() => {
@@ -72,7 +74,7 @@ describe("User sign up page", () => {
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
-      expect(redirectTo).toHaveBeenCalledWith(TODOS_ROUTE);
+      expect(redirectTo).toHaveBeenCalledWith(TODOS);
     });
   });
 });

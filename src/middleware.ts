@@ -3,9 +3,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { decrypt } from "@/authentication";
 import { authCookie } from "@/cookies/authCookie";
 import cookieManager from "@/modules/domain/shared/cookieManager";
-import { LOGIN_ROUTE, TODOS_ROUTE } from "@/routes";
+import { Route } from "@/router/appRouter";
 
-const protectedRoutes = [TODOS_ROUTE];
+const { LOGIN, TODOS } = Route;
+
+const protectedRoutes: string[] = [TODOS];
 
 const middleware = async (request: NextRequest) => {
   const currentPath = request.nextUrl.pathname;
@@ -14,7 +16,7 @@ const middleware = async (request: NextRequest) => {
   if (isProtectedRoute) {
     const cookie = await cookieManager.getCookie(authCookie.name);
     const session = await decrypt(cookie ?? "");
-    if (!session?.userId) return NextResponse.redirect(new URL(LOGIN_ROUTE, request.nextUrl));
+    if (!session?.userId) return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
   }
 
   return NextResponse.next();

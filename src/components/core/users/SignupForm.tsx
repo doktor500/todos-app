@@ -11,10 +11,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRedirect } from "@/hooks/common/useRedirect";
-import { LOGIN_ROUTE, TODOS_ROUTE } from "@/routes";
+import { Route } from "@/router/appRouter";
 
 type Register = UseFormRegister<{ username: string; email: string; password: string }>;
 type Errors = FieldErrors<{ username: string; email: string; password: string }>;
+
+const { LOGIN, TODOS } = Route;
 
 export const SignUpForm = () => {
   const { redirectTo } = useRedirect();
@@ -23,7 +25,7 @@ export const SignUpForm = () => {
 
   const onSubmit = async (data: CreateUserData) => {
     await createUser(data);
-    redirectTo(TODOS_ROUTE);
+    redirectTo(TODOS);
   };
 
   return (
@@ -109,7 +111,7 @@ const LoginFooter = () => {
   return (
     <p className="w-full text-center text-sm">
       Already have an account?
-      <Link href={LOGIN_ROUTE} className="pl-2 text-primary hover:underline">
+      <Link href={LOGIN} className="pl-2 text-primary hover:underline">
         Log in
       </Link>
     </p>

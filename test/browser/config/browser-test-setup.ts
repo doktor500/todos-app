@@ -11,7 +11,7 @@ setup("setup browser tests context", async () => {
 });
 
 const resetRepositories = async () => {
-  const user = aUser({ id: userId, username: "david", todos: [] });
+  const user = aUser({ id: userId, username: "david", todos: [], email: "david@email.com", password: "password" });
 
   await usersRepository.deleteAll();
   await usersRepository.save(user);

@@ -4,6 +4,7 @@ import { User, UserId } from "@/modules/domain/user";
 import { replace, sort } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
+import { userWithoutPassword } from "@/test/fixtures/user.fixture";
 import { randomDataGenerator } from "@/test/fixtures/utils/randomDataGenerator";
 import { fakePersistentRepository } from "@/test/utils/repositories/persistentRepository";
 
@@ -17,12 +18,12 @@ export const fakeUsersRepository = () => {
       if (user) {
         const todos = sort(user.todos).by("createdAt").reverse();
 
-        return { ...user, todos };
+        return { ...userWithoutPassword(user), todos };
       }
     },
-    createUser: async (username: string, email: string, hashedPassword: string) => {
+    createUser: async (username: string, email: string) => {
       const id = randomDataGenerator.aNumber();
-      await repository.save({ id, username, email, todos: [], password: hashedPassword });
+      await repository.save({ id, username, email, todos: [] });
 
       return id;
     },

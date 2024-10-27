@@ -3,7 +3,7 @@
 import bcrypt from "bcrypt";
 
 import { CreateUserData, CreateUserErrors, createUserSchema } from "@/actions/user/schemas/createUserSchema";
-import { createSession } from "@/modules/domain/utils/auth";
+import { createSession } from "@/authentication";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 

@@ -1,9 +1,9 @@
-import { UserDTO } from "@/modules/domain/user";
-import { verifySession } from "@/modules/domain/utils/auth";
+import { verifySession } from "@/authentication";
+import { User } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
-export const getUser = async (): Promise<Optional<UserDTO>> => {
+export const getUser = async (): Promise<Optional<User>> => {
   const session = await verifySession();
 
   return usersRepository.get(session.userId).then((user) => {

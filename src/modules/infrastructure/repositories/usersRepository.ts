@@ -10,7 +10,7 @@ import { db } from "@/modules/infrastructure/repositories/db";
 export const usersRepository: UsersRepository = {
   get: async (userId: UserId): Promise<Optional<User>> => {
     return db.query.UsersTable.findFirst({
-      columns: { id: true, username: true, email: true, password: true },
+      columns: { id: true, username: true, email: true },
       with: {
         todos: {
           columns: { id: true, content: true, completed: true, createdAt: true },

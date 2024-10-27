@@ -6,7 +6,7 @@
             "@/config/*": ["./config/*"],
             "@/fakes/*": ["./fakes/*"],
             "@/test/*": ["./test/*"],
-            "@/modules/domain/utils/auth": ["./fakes/modules/domain/utils/auth"],
+            "@/authentication": ["./fakes/authentication"],
             "@/modules/infrastructure/repositories/usersRepository": ["./fakes/modules/infrastructure/repositories/usersRepository"]
         }
     }

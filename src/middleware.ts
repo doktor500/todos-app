@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-import { authCookie, decrypt } from "@/modules/domain/utils/auth";
+import { authCookie, decrypt } from "@/authentication";
 import { LOGIN_ROUTE, TODOS_ROUTE } from "@/routes";
 
 const protectedRoutes = [TODOS_ROUTE];

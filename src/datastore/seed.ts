@@ -9,7 +9,13 @@ const usersRepository = usersRepositoryInstance();
 const seed = async () => {
   const todo1 = aTodo({ id: uuid(), content: "Buy milk" });
   const todo2 = aTodo({ id: uuid(), content: "Buy bread", completed: true });
-  const user = aUser({ id: 1, username: "david", email: "david@email.com", todos: [todo1, todo2] });
+  const user = aUser({
+    id: 1,
+    username: "david",
+    email: "david@email.com",
+    todos: [todo1, todo2],
+    password: "password",
+  });
 
   await usersRepository.deleteAll();
   await usersRepository.save(user);

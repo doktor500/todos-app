@@ -3,7 +3,7 @@
 import { createContext, Dispatch, useOptimistic, useTransition } from "react";
 
 import { Todo } from "@/modules/domain/todo";
-import { UserDTO, UserId } from "@/modules/domain/user";
+import { User, UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { TodosProvider } from "@/providers/todosProvider";
 import { TodoOptimisticAction, todoOptimisticActionReducer } from "@/reducers/todoOptimisticActionReducer";
@@ -16,7 +16,7 @@ type TodosApplicationContextType = {
 };
 
 type Props = {
-  user: UserDTO;
+  user: User;
   children: React.ReactNode;
 };
 

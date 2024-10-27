@@ -1,3 +1,3 @@
-import { keys } from "ramda";
+import { keys, omit } from "ramda";
 
-export { keys };
+export { keys, omit };

@@ -6,8 +6,5 @@ export type User = {
   id: UserId;
   username: string;
   email: string;
-  password: string;
   todos: Todo[];
 };
-
-export type UserDTO = Omit<User, "password">;

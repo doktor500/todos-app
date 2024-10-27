@@ -1,7 +1,7 @@
 import { fakeUsersRepository } from "@/fakes/modules/infrastructure/repositories/usersRepository";
 import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 import { aTodo } from "@/test/fixtures/todo.fixture";
-import { aUser } from "@/test/fixtures/user.fixture";
+import { aUser, userWithoutPassword } from "@/test/fixtures/user.fixture";
 import { usersTestRepository } from "@/test/integration/application/repositories/usersTestRepository";
 
 describe("Users repository", () => {
@@ -14,13 +14,13 @@ describe("Users repository", () => {
   `("$name can find a user by id", async ({ repository }) => {
     const todo1 = aTodo({ id: uuid(), content: "Buy milk", createdAt: new Date("01/01/2024") });
     const todo2 = aTodo({ id: uuid(), content: "Buy bread", createdAt: new Date("02/01/2024") });
-    const user = aUser({ id: 1, username: "david", todos: [todo1, todo2] });
+    const user = aUser({ id: 1, username: "david", todos: [todo1, todo2], password: "password" });
     const expectedUser = { ...user, todos: [todo2, todo1] };
 
     await repository.save(user);
     const fetchedUser = await repository.get(user.id);
 
-    expect(fetchedUser).toEqual(expectedUser);
+    expect(fetchedUser).toEqual(userWithoutPassword(expectedUser));
   });
 
   it.each`
@@ -34,7 +34,7 @@ describe("Users repository", () => {
     const fetchedUser = await repository.get(id);
     const expectedUser = aUser({ ...user, id, todos: [] });
 
-    expect(fetchedUser).toEqual(expectedUser);
+    expect(fetchedUser).toEqual(userWithoutPassword(expectedUser));
   });
 
   it.each`
@@ -43,7 +43,7 @@ describe("Users repository", () => {
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can save a todo successfully", async ({ repository }) => {
     const newTodo = "New todo";
-    const user = aUser({ id: 2, username: "sarah", todos: [] });
+    const user = aUser({ id: 2, username: "sarah", todos: [], password: "password" });
     await repository.save(user);
 
     await repository.saveTodo(user.id, newTodo);
@@ -66,7 +66,7 @@ describe("Users repository", () => {
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can update a todo successfully", async ({ repository }) => {
     const todo = aTodo({ completed: false, content: "original content" });
-    const user = aUser({ todos: [todo] });
+    const user = aUser({ todos: [todo], password: "password" });
     const newTodoContent = "new content";
     await repository.save(user);
 
@@ -89,7 +89,7 @@ describe("Users repository", () => {
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can delete a todo successfully", async ({ repository }) => {
     const todo = aTodo();
-    const user = aUser({ todos: [todo] });
+    const user = aUser({ todos: [todo], password: "password" });
     await repository.save(user);
 
     await repository.deleteTodo(user.id, todo.id);

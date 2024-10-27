@@ -8,7 +8,7 @@ export const usersTestRepository = {
   deleteAll: async () => {
     return db.delete(UsersTable);
   },
-  save: async <T extends User>(user: T) => {
+  save: async (user: User & { password: string }) => {
     await db.insert(UsersTable).values(user);
 
     await Promise.all(

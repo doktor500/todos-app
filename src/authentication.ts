@@ -15,7 +15,7 @@ export const authCookie = {
   duration: 24 * 60 * 60 * 1000,
 };
 
-export const createSession = async (userId: number) => {
+export const createSession = async (userId: UserId) => {
   const expires = new Date(Date.now() + authCookie.duration);
   const session = await encrypt({ userId, expires });
 

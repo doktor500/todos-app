@@ -6,7 +6,7 @@ import Page from "@/app/signup/page";
 import { useRedirect } from "@/hooks/common/useRedirect";
 
 vi.mock("@/hooks/common/useRedirect");
-vi.mock("@/actions/user/createUser", () => ({ createUser: vi.fn() }));
+vi.mock("@/actions/user/createUser");
 
 describe("User sign up page", () => {
   beforeEach(() => {

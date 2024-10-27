@@ -5,7 +5,7 @@ import { aUser } from "@/test/fixtures/user.fixture";
 import { formData } from "@/test/unit/utils/formDataUtils";
 
 vi.mock("@/modules/infrastructure/repositories/usersRepository");
-vi.mock("@/modules/infrastructure/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
+vi.mock("@/modules/infrastructure/web/webCache");
 
 describe("create todo action", () => {
   it.each`

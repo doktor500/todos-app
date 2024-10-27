@@ -5,7 +5,7 @@ import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 
 vi.mock("@/modules/infrastructure/repositories/usersRepository");
-vi.mock("@/modules/infrastructure/web/webCache", () => ({ webCache: { revalidatePath: vi.fn() } }));
+vi.mock("@/modules/infrastructure/web/webCache");
 
 describe("edit todo action", () => {
   it.each`

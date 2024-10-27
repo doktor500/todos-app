@@ -1,5 +1,5 @@
 import { usersRepositoryInstance } from "@/config/repositories/usersRepositoryInstance";
-import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
+import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
 import { client } from "@/modules/infrastructure/repositories/db";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
@@ -7,8 +7,8 @@ import { aUser } from "@/test/fixtures/user.fixture";
 const usersRepository = usersRepositoryInstance();
 
 const seed = async () => {
-  const todo1 = aTodo({ id: uuid(), content: "Buy milk" });
-  const todo2 = aTodo({ id: uuid(), content: "Buy bread", completed: true });
+  const todo1 = aTodo({ id: uniqueIdGenerator.uuid(), content: "Buy milk" });
+  const todo2 = aTodo({ id: uniqueIdGenerator.uuid(), content: "Buy bread", completed: true });
   const user = aUser({
     id: 1,
     username: "david",

@@ -1,9 +1,9 @@
 import UsersRepository, { ExistingTodo } from "@/modules/application/repositories/usersRepository";
+import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
 import { Todo, TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { replace, sort } from "@/modules/domain/utils/collectionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 import { userWithoutPassword } from "@/test/fixtures/user.fixture";
 import { randomDataGenerator } from "@/test/fixtures/utils/randomDataGenerator";
 import { fakePersistentRepository } from "@/test/utils/repositories/persistentRepository";
@@ -30,7 +30,7 @@ export const fakeUsersRepository = () => {
     saveTodo: async (userId: UserId, content: string): Promise<void> => {
       const user = await repository.get(userId);
       if (user) {
-        const todo: Todo = { id: uuid(), content, completed: false, createdAt: new Date() };
+        const todo: Todo = { id: uniqueIdGenerator.uuid(), content, completed: false, createdAt: new Date() };
         const updatedUser: User = { ...user, todos: [...user.todos, todo] };
         await repository.save(updatedUser);
       }

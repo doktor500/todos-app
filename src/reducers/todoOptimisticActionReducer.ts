@@ -1,8 +1,8 @@
+import clock from "@/modules/domain/shared/clock";
+import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
 import { Todo, TodoId, toggle } from "@/modules/domain/todo";
-import { now } from "@/modules/domain/utils/clock";
 import { replace } from "@/modules/domain/utils/collectionUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
-import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 
 export type OptimisticTodo = Todo & { stale?: boolean };
 
@@ -31,7 +31,13 @@ export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisti
 };
 
 const addTodo = (todos: Todo[], content: string) => {
-  const newTodo: OptimisticTodo = { id: uuid(), content, completed: false, createdAt: now(), stale: true };
+  const newTodo: OptimisticTodo = {
+    id: uniqueIdGenerator.uuid(),
+    content,
+    completed: false,
+    createdAt: clock.now(),
+    stale: true,
+  };
 
   return [newTodo, ...todos];
 };

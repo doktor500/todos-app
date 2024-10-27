@@ -1,5 +1,4 @@
 import { fakeUsersRepository } from "@/fakes/modules/infrastructure/repositories/usersRepository";
-import { uuid } from "@/modules/domain/utils/uniqueIdGenerator";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser, userWithoutPassword } from "@/test/fixtures/user.fixture";
 import { usersTestRepository } from "@/test/integration/application/repositories/usersTestRepository";
@@ -12,8 +11,8 @@ describe("Users repository", () => {
     ${"fake persistent users repository"} | ${fakeUsersRepository()}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can find a user by id", async ({ repository }) => {
-    const todo1 = aTodo({ id: uuid(), content: "Buy milk", createdAt: new Date("01/01/2024") });
-    const todo2 = aTodo({ id: uuid(), content: "Buy bread", createdAt: new Date("02/01/2024") });
+    const todo1 = aTodo({ content: "Buy milk", createdAt: new Date("01/01/2024") });
+    const todo2 = aTodo({ content: "Buy bread", createdAt: new Date("02/01/2024") });
     const user = aUser({ id: 1, username: "david", todos: [todo1, todo2], password: "password" });
     const expectedUser = { ...user, todos: [todo2, todo1] };
 

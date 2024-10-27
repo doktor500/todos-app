@@ -2,9 +2,10 @@ import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import { redirect } from "next/navigation";
 
 import { authCookie } from "@/cookies/authCookie";
-import cookieManager from "@/cookies/cookieManager";
+import cookieManager from "@/modules/domain/shared/cookieManager";
+import env from "@/modules/domain/shared/env";
+import logger from "@/modules/domain/shared/logger";
 import { UserId } from "@/modules/domain/user";
-import env from "@/modules/domain/utils/env";
 import { LOGIN_ROUTE } from "@/routes";
 
 const ENCRYPTION_ALGORITHM = "HS256" as const;
@@ -37,8 +38,7 @@ export const decrypt = async (session: string) => {
 
     return payload;
   } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
+    logger.error(error);
   }
 };
 

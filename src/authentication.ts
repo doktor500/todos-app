@@ -2,18 +2,13 @@ import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+import { authCookie } from "@/cookies/authCookie";
 import { UserId } from "@/modules/domain/user";
 import env from "@/modules/domain/utils/env";
 import { LOGIN_ROUTE } from "@/routes";
 
 const key = new TextEncoder().encode(env.AUTH_SECRET_KEY);
 const ENCRYPTION_ALGORITHM = "HS256" as const;
-
-export const authCookie = {
-  name: "session",
-  options: { httpOnly: true, secure: true, samesite: "strict", path: "/" },
-  duration: 24 * 60 * 60 * 1000,
-};
 
 export const createSession = async (userId: UserId) => {
   const expires = new Date(Date.now() + authCookie.duration);
@@ -31,11 +26,6 @@ export const verifySession = async () => {
 
     return { userId: session.userId };
   }
-  redirect(LOGIN_ROUTE);
-};
-
-export const deleteSession = async () => {
-  (await cookies()).delete(authCookie.name);
   redirect(LOGIN_ROUTE);
 };
 

@@ -1,9 +1,11 @@
+import { cache } from "react";
+
 import { verifySession } from "@/authentication";
 import { User } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
-export const getUser = async (): Promise<Optional<User>> => {
+const fetchUser = async (): Promise<Optional<User>> => {
   const session = await verifySession();
 
   return usersRepository.get(session.userId).then((user) => {
@@ -17,3 +19,5 @@ export const getUser = async (): Promise<Optional<User>> => {
     }
   });
 };
+
+export const getUser = cache(fetchUser);

@@ -14,7 +14,7 @@ const { CREATE_TODO } = TodoOptimisticActionType;
 
 export const CreateTodoForm = () => {
   const isServer = useIsServer();
-  const { userId, dispatchAction } = useTodos();
+  const { dispatchAction } = useTodos();
   const { formRef, resetForm } = useForm();
 
   const handleCreateTodo = async (formData: FormData) => {
@@ -35,7 +35,6 @@ export const CreateTodoForm = () => {
       <div className="flex items-center dark:text-white">
         <PlusIcon className={cn("size-5", { "cursor-wait": isServer })} />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo" className="w-full pr-6">
-          <input type="hidden" name="userId" value={userId} />
           <CreateTodoInput disabled={isServer} />
         </form>
       </div>

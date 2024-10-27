@@ -18,14 +18,14 @@ type Props = {
 const { EDIT_TODO } = TodoOptimisticActionType;
 
 export const TodoInput = ({ todoId, content, disabled }: Props) => {
-  const { userId, dispatchAction } = useTodos();
+  const { dispatchAction } = useTodos();
   const input = useInput();
 
   const handleEditTodo = async (event: FocusEvent<HTMLInputElement>) => {
     event.preventDefault();
     if (content !== event.target.value) {
       dispatchAction({ type: EDIT_TODO, payload: { todoId, content: event.target.value } });
-      await editTodo({ userId, todoId, content: event.target.value });
+      await editTodo({ todoId, content: event.target.value });
     }
   };
 

@@ -2,25 +2,21 @@
 
 import z from "zod";
 
+import { verifySession } from "@/authentication";
 import { TodoId } from "@/modules/domain/todo";
-import { UserId } from "@/modules/domain/user";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 
 type Command = {
-  userId: UserId;
   todoId: TodoId;
   completed: boolean;
 };
 
-const toggleTodoSchema = z.object({
-  userId: z.number().positive(),
-  todoId: z.string().min(1),
-  completed: z.boolean(),
-});
+const toggleTodoSchema = z.object({ todoId: z.string().min(1), completed: z.boolean() });
 
 export const toggleTodo = async (command: Command) => {
+  const session = await verifySession();
   const todo = toggleTodoSchema.parse(command);
-  await usersRepository.updateTodo(todo.userId, { id: todo.todoId, completed: todo.completed });
-  webCache.revalidatePath(`users/${todo.userId}`);
+  await usersRepository.updateTodo(session.userId, { id: todo.todoId, completed: todo.completed });
+  webCache.revalidatePath(`users/${session.userId}`);
 };

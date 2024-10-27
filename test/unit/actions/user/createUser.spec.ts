@@ -2,8 +2,8 @@ import { createUser } from "@/actions/user/createUser";
 import { createSession } from "@/authentication";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
-vi.mock("@/modules/infrastructure/repositories/usersRepository");
 vi.mock("@/authentication");
+vi.mock("@/modules/infrastructure/repositories/usersRepository");
 
 describe("create user action", () => {
   it("returns validation errors when the data is invalid", async () => {

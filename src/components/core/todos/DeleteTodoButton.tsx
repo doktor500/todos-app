@@ -17,12 +17,12 @@ type Props = {
 };
 
 export const DeleteTodoButton = ({ todoId, disabled }: Props) => {
-  const { userId, dispatchAction } = useTodos();
+  const { dispatchAction } = useTodos();
 
   const handleDeleteTodo = async (event: UIEvent) => {
     event.preventDefault();
     dispatchAction({ type: DELETE_TODO, payload: { todoId } });
-    await deleteTodo({ userId, todoId });
+    await deleteTodo({ todoId });
   };
 
   return (

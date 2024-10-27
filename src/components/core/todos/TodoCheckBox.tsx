@@ -17,12 +17,12 @@ type Props = {
 const { TOGGLE_TODO } = TodoOptimisticActionType;
 
 export const TodoCheckBox = ({ todoId, completed, disabled }: Props) => {
-  const { userId, dispatchAction } = useTodos();
+  const { dispatchAction } = useTodos();
 
   const handleToggleTodo = async (event: UIEvent) => {
     event.preventDefault();
     dispatchAction({ type: TOGGLE_TODO, payload: { todoId } });
-    await toggleTodo({ userId, todoId, completed: !completed });
+    await toggleTodo({ todoId, completed: !completed });
   };
 
   return (

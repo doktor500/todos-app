@@ -1,33 +1,33 @@
 import { createTodo } from "@/actions/todos/createTodo";
+import { verifySession } from "@/authentication";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { formData } from "@/test/unit/utils/formDataUtils";
 
+vi.mock("@/authentication");
 vi.mock("@/modules/infrastructure/repositories/usersRepository");
 vi.mock("@/modules/infrastructure/web/webCache");
 
 describe("create todo action", () => {
   it.each`
     data
-    ${{ todo: "new-todo" }}
-    ${{ userId: undefined, todo: "New todo" }}
-    ${{ userId: "", todo: "New todo" }}
-    ${{ userId: "-1", todo: "New todo" }}
-    ${{ userId: "invalid", todo: "New todo" }}
-    ${{ userId: "1" }}
-    ${{ userId: "1", todo: undefined }}
-    ${{ userId: "1", todo: "" }}
-    ${{ userId: "1", todo: "-".repeat(100) }}
+    ${{}}
+    ${{ todoId: undefined }}
+    ${{ todoId: "" }}
+    ${{ todoId: "1" }}
+    ${{ todoId: "-1" }}
+    ${{ todoId: "invalid" }}
   `("returns an error when form data is invalid", async ({ data }) => {
     await expect(createTodo(formData(data))).rejects.toThrow();
   });
 
-  it("calls repository to create a todo when the form data is valid", async () => {
+  it("creates a todo when the form data is valid and the user is authenticated", async () => {
     const user = aUser();
     const newTodo = "New todo";
+    vi.mocked(verifySession).mockResolvedValueOnce({ userId: user.id });
 
-    await createTodo(formData({ userId: user.id.toString(), content: newTodo }));
+    await createTodo(formData({ content: newTodo }));
     expect(usersRepository.saveTodo).toHaveBeenCalledWith(user.id, newTodo);
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });

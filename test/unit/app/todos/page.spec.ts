@@ -59,7 +59,7 @@ describe("todos page", () => {
 
     await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
 
-    expect(createTodo).toHaveBeenCalledWith(expect.objectContaining(formData({ todo: newTodo, userId: user.id })));
+    expect(createTodo).toHaveBeenCalledWith(expect.objectContaining(formData({ todo: newTodo })));
   });
 
   it("clears the input field to create a todo when the form is submitted", async () => {
@@ -106,7 +106,7 @@ describe("todos page", () => {
     await renderAsync(Page);
 
     fireEvent.click(screen.getByRole("checkbox"));
-    expect(toggleTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id, completed: true });
+    expect(toggleTodo).toHaveBeenCalledWith({ todoId: todo.id, completed: true });
   });
 
   it.each`
@@ -139,7 +139,7 @@ describe("todos page", () => {
     fireEvent.change(todoInputField, { target: { value: newTodoContent } });
     fireEvent.blur(todoInputField);
 
-    expect(editTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id, content: newTodoContent });
+    expect(editTodo).toHaveBeenCalledWith({ todoId: todo.id, content: newTodoContent });
   });
 
   it("does not call edit todo action when the todo input looses focus and todo content has not changed", async () => {
@@ -165,7 +165,7 @@ describe("todos page", () => {
     await renderAsync(Page);
 
     fireEvent.click(screen.getByLabelText("Delete todo"));
-    expect(deleteTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id });
+    expect(deleteTodo).toHaveBeenCalledWith({ todoId: todo.id });
   });
 
   it("filters list of todos based on the text available in the search input", async () => {

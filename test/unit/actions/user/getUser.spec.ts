@@ -4,8 +4,8 @@ import { usersRepository } from "@/modules/infrastructure/repositories/usersRepo
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 
-vi.mock("@/modules/infrastructure/repositories/usersRepository");
 vi.mock("@/authentication");
+vi.mock("@/modules/infrastructure/repositories/usersRepository");
 
 describe("get user action", () => {
   it("when the user is authenticated, finds user in repository and returns the user without password", async () => {

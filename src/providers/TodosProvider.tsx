@@ -6,14 +6,12 @@ import { useOptimisticTodos } from "@/hooks/useOptimisticTodos";
 import { TodoAction } from "@/hooks/useTodos";
 import { filterTodos } from "@/modules/domain/todo";
 import { defaultTodosFilter } from "@/modules/domain/todosFilter";
-import { UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 import { todoActionReducer, TodoBaseActionType } from "@/reducers/todoActionReducer";
 import { OptimisticTodo, TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
 type TodosContextType = {
-  userId: UserId;
   pendingTransaction: boolean;
   getTodos: () => OptimisticTodo[];
   dispatchAction: Dispatch<TodoAction>;
@@ -44,8 +42,7 @@ export const TodosProvider = ({ children }: { children: React.ReactNode }) => {
       .exhaustive();
   };
 
-  const value = {
-    userId: optimisticTodosContext.userId,
+  const value: TodosContextType = {
     pendingTransaction: optimisticTodosContext.pendingTransaction,
     getTodos,
     dispatchAction,

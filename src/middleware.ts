@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 import { decrypt } from "@/authentication";
 import { authCookie } from "@/cookies/authCookie";
-import { getCookie } from "@/cookies/cookieParser";
+import cookieManager from "@/cookies/cookieManager";
 import { LOGIN_ROUTE, TODOS_ROUTE } from "@/routes";
 
 const protectedRoutes = [TODOS_ROUTE];
@@ -12,7 +12,7 @@ const middleware = async (request: NextRequest) => {
   const isProtectedRoute = protectedRoutes.includes(currentPath);
 
   if (isProtectedRoute) {
-    const cookie = await getCookie(authCookie.name);
+    const cookie = await cookieManager.getCookie(authCookie.name);
     const session = await decrypt(cookie ?? "");
     if (!session?.userId) return NextResponse.redirect(new URL(LOGIN_ROUTE, request.nextUrl));
   }

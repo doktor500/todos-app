@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRedirect } from "@/hooks/common/useRedirect";
+import { LOGIN_ROUTE } from "@/routes";
 
 type Register = UseFormRegister<{ username: string; email: string; password: string }>;
 type Errors = FieldErrors<{ username: string; email: string; password: string }>;
@@ -21,8 +22,8 @@ export const SignUpForm = () => {
   const { isLoading, errors } = formState;
 
   const onSubmit = async (data: CreateUserData) => {
-    const userId = await createUser(data);
-    redirectTo(`/users/${userId}/todos`);
+    await createUser(data);
+    redirectTo(`/todos`);
   };
 
   return (
@@ -108,7 +109,7 @@ const LoginFooter = () => {
   return (
     <p className="w-full text-center text-sm">
       Already have an account?
-      <Link href="/login" className="pl-2 text-primary hover:underline">
+      <Link href={LOGIN_ROUTE} className="pl-2 text-primary hover:underline">
         Log in
       </Link>
     </p>

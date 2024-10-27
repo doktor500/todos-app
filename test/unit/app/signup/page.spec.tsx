@@ -45,18 +45,16 @@ describe("User sign up page", () => {
 
     await waitFor(() => {
       expect(createUser).toHaveBeenCalledWith({ username, email, password });
-      expect(createUser).toHaveBeenCalledTimes(1);
+      expect(createUser).toHaveBeenCalledOnce();
     });
   });
 
   it("redirects to user's todo list page when a valid form is submitted", async () => {
-    const userId = 1;
     const username = "david";
     const email = "david@email.com";
     const password = "password";
 
     const redirectTo = vi.fn();
-    vi.mocked(createUser).mockResolvedValueOnce(userId);
     vi.mocked(useRedirect).mockImplementation(() => ({ redirectTo }));
 
     render(<Page />);
@@ -73,7 +71,7 @@ describe("User sign up page", () => {
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
-      expect(redirectTo).toHaveBeenCalledWith(`/users/${userId}/todos`);
+      expect(redirectTo).toHaveBeenCalledWith(`/todos`);
     });
   });
 });

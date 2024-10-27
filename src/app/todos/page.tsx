@@ -3,10 +3,7 @@ import { redirect } from "next/navigation";
 
 import { getUser } from "@/actions/user/getUser";
 import { Todos } from "@/components/core/todos/todos";
-import { UserId } from "@/modules/domain/user";
 import { TodosApplicationProvider } from "@/providers/todosApplicationProvider";
-
-type Props = { params: Promise<{ id: UserId }> };
 
 export const viewport: Viewport = {
   initialScale: 1,
@@ -15,8 +12,8 @@ export const viewport: Viewport = {
   width: "device-width",
 };
 
-const Page = async (props: Props) => {
-  const user = await props.params.then(({ id }) => getUser(id));
+const Page = async () => {
+  const user = await getUser();
   if (!user) return redirect("/");
 
   return (

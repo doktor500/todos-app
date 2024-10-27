@@ -1,11 +1,9 @@
 import { expect, test } from "@playwright/test";
 
-const userId = 1;
-
 test.describe.configure({ mode: "serial" });
 
 test("user can create and delete a todo", async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/users/${userId}/todos`);
+  await page.goto(`${baseURL}/todos`);
 
   await page.getByLabel("New todo").fill("Buy coffee");
   await page.getByLabel("New todo").press("Enter");
@@ -21,7 +19,7 @@ test("user can create and delete a todo", async ({ page, baseURL }) => {
 });
 
 test("the search filter reflects changes in the todo list when a user edits a todo", async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/users/${userId}/todos`);
+  await page.goto(`${baseURL}/todos`);
 
   await page.getByLabel("New todo").fill("Buy pizza");
   await page.getByLabel("New todo").press("Enter");
@@ -40,7 +38,7 @@ test("the search filter reflects changes in the todo list when a user edits a to
 });
 
 test("the input field to edit a todo looses focus when the 'Enter' key is pressed", async ({ page, baseURL }) => {
-  await page.goto(`${baseURL}/users/${userId}/todos`);
+  await page.goto(`${baseURL}/todos`);
 
   await page.getByLabel("New todo").fill("Buy milk");
   await page.getByLabel("New todo").press("Enter");

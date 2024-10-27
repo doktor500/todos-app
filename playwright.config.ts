@@ -1,12 +1,13 @@
 import { defineConfig, devices, type PlaywrightTestConfig, PlaywrightTestProject } from "@playwright/test";
 
-const { CI, PORT, TEST_DIR, LOGS_ENABLED, PLAYWRIGHT_WORKERS } = process.env;
+const { CI, PORT, LOGS_ENABLED, PLAYWRIGHT_WORKERS } = process.env;
 
+const port = PORT ?? 4000;
 const timeout = 120000;
-const baseURL = `http://localhost:${PORT}`;
-const nextDev = `next dev --turbo -p ${PORT}`;
+const baseURL = `http://localhost:${port}`;
+const nextDev = `next dev --turbo -p ${port}`;
 const testDir = "test/browser";
-const command = `${nextDev} &>/dev/null`;
+const command = LOGS_ENABLED ? nextDev : `${nextDev} &>/dev/null`;
 
 const browserTestSetupProjectName = "browser-test-setup";
 
@@ -22,7 +23,7 @@ const browserTests: PlaywrightTestProject = {
     ...devices["Desktop Chrome"],
     viewport: { height: 844, width: 390 },
   },
-  testDir: TEST_DIR,
+  testDir,
 };
 
 const localWebServer: PlaywrightTestConfig = {

@@ -1,14 +1,15 @@
 import { createEnv } from "@t3-oss/env-nextjs";
-import * as process from "process";
 import { z } from "zod";
 
 const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
+    AUTH_SECRET_KEY: z.string().min(1),
     ENVIRONMENT: z.string().optional(),
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
+    AUTH_SECRET_KEY: process.env.AUTH_SECRET_KEY,
     ENVIRONMENT: process.env.ENVIRONMENT,
   },
   skipValidation: process.env.SKIP_ENV_VALIDATION === "true",

@@ -1,7 +1,9 @@
 import { createUser } from "@/actions/user/createUser";
+import { createSession } from "@/modules/domain/utils/auth";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
 vi.mock("@/modules/infrastructure/repositories/usersRepository");
+vi.mock("@/modules/domain/utils/auth");
 
 describe("create user action", () => {
   it("returns validation errors when the data is invalid", async () => {
@@ -19,10 +21,22 @@ describe("create user action", () => {
     });
   });
 
-  it("calls user repository to create a user when the data is valid", async () => {
+  it("stores the new user in the repository when the data is valid", async () => {
     const data = { username: "david", email: "David@email.com", password: "password" };
     await createUser(data);
 
     expect(usersRepository.createUser).toHaveBeenCalledWith("david", "david@email.com", expect.any(String));
+    expect(usersRepository.createUser).toHaveBeenCalledOnce();
+  });
+
+  it("creates a user session when the data is valid", async () => {
+    const userId = 1;
+    const data = { username: "david", email: "David@email.com", password: "password" };
+    vi.mocked(usersRepository.createUser).mockResolvedValueOnce(userId);
+
+    await createUser(data);
+
+    expect(createSession).toHaveBeenCalledWith(userId);
+    expect(createSession).toHaveBeenCalledOnce();
   });
 });

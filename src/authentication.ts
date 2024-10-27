@@ -6,7 +6,7 @@ import cookieManager from "@/modules/domain/shared/cookieManager";
 import env from "@/modules/domain/shared/env";
 import logger from "@/modules/domain/shared/logger";
 import { UserId } from "@/modules/domain/user";
-import { LOGIN_ROUTE } from "@/routes";
+import { LOGIN_ROUTE, TODOS_ROUTE } from "@/routes";
 
 const ENCRYPTION_ALGORITHM = "HS256" as const;
 
@@ -17,7 +17,7 @@ export const createSession = async (userId: UserId) => {
   const session = await encrypt({ userId, expires });
 
   await cookieManager.setCookie(authCookie.name, session, { ...authCookie.options, expires });
-  redirect(`/todos`);
+  redirect(TODOS_ROUTE);
 };
 
 export const verifySession = async () => {

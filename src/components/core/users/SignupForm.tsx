@@ -11,7 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useRedirect } from "@/hooks/common/useRedirect";
-import { LOGIN_ROUTE } from "@/routes";
+import { LOGIN_ROUTE, TODOS_ROUTE } from "@/routes";
 
 type Register = UseFormRegister<{ username: string; email: string; password: string }>;
 type Errors = FieldErrors<{ username: string; email: string; password: string }>;
@@ -23,7 +23,7 @@ export const SignUpForm = () => {
 
   const onSubmit = async (data: CreateUserData) => {
     await createUser(data);
-    redirectTo(`/todos`);
+    redirectTo(TODOS_ROUTE);
   };
 
   return (

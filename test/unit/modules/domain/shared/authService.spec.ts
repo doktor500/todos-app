@@ -18,7 +18,7 @@ describe("auth service", () => {
 
     await authService.createSession(userId);
 
-    expect(encrypt).toHaveBeenCalledWith({ userId, expires: expect.any(Date) });
+    expect(encrypt).toHaveBeenCalledWith({ userId, expires: expect.any(Date) }, authCookie.duration);
     expect(cookieManager.setCookie).toHaveBeenCalledWith(
       authCookie.name,
       session,

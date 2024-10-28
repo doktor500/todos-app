@@ -1,5 +1,5 @@
 const clock = {
-  now: () => new Date(),
+  now: (): Date => new Date(),
 };
 
 export default clock;

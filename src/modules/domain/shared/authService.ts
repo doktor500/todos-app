@@ -1,5 +1,6 @@
 import cookieManager from "@/modules/domain/shared/cookieManager";
 import { UserId } from "@/modules/domain/user";
+import { toMillis } from "@/modules/domain/utils/durationUtils";
 import { decrypt, encrypt } from "@/modules/domain/utils/encryptionUtils";
 import appRouter, { Route } from "@/router/appRouter";
 
@@ -8,12 +9,12 @@ const { HOME, LOGIN } = Route;
 export const authCookie = {
   name: "session",
   options: { httpOnly: true, secure: true, samesite: "strict", path: "/" },
-  duration: 24 * 60 * 60 * 1000,
+  duration: { days: 1 },
 };
 
 const createSession = async (userId: UserId) => {
-  const expires = new Date(Date.now() + authCookie.duration);
-  const session = await encrypt({ userId, expires });
+  const expires = new Date(Date.now() + toMillis(authCookie.duration));
+  const session = await encrypt({ userId, expires }, authCookie.duration);
   await cookieManager.setCookie(authCookie.name, session, { ...authCookie.options, expires });
   appRouter.redirectTo(HOME);
 };

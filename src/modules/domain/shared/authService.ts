@@ -3,7 +3,7 @@ import { UserId } from "@/modules/domain/user";
 import { decrypt, encrypt } from "@/modules/domain/utils/encryptionUtils";
 import appRouter, { Route } from "@/router/appRouter";
 
-const { TODOS, LOGIN } = Route;
+const { HOME, LOGIN } = Route;
 
 export const authCookie = {
   name: "session",
@@ -14,9 +14,8 @@ export const authCookie = {
 const createSession = async (userId: UserId) => {
   const expires = new Date(Date.now() + authCookie.duration);
   const session = await encrypt({ userId, expires });
-
   await cookieManager.setCookie(authCookie.name, session, { ...authCookie.options, expires });
-  appRouter.redirectTo(TODOS);
+  appRouter.redirectTo(HOME);
 };
 
 const verifySession = async () => {

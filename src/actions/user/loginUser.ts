@@ -1,18 +1,18 @@
 "use server";
 
-import { CreateUserData, CreateUserErrors, createUserSchema } from "@/actions/user/schemas/createUserSchema";
+import { LoginUserData, LoginUserErrors, loginUserSchema } from "@/actions/user/schemas/loginUserSchema";
 import authService from "@/modules/domain/shared/authService";
 import { hash } from "@/modules/domain/utils/encryptionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
-export const createUser = async (data: CreateUserData): Promise<Optional<CreateUserErrors>> => {
-  const result = createUserSchema.safeParse(data);
+export const loginUser = async (data: LoginUserData): Promise<Optional<LoginUserErrors>> => {
+  const result = loginUserSchema.safeParse(data);
   if (!result.success) return result.error.flatten();
 
-  const { username, email, password } = result.data;
+  const { email, password } = result.data;
   const hashedPassword = await hash(password);
 
-  const userId = await usersRepository.createUser(username.toLowerCase(), email.toLowerCase(), hashedPassword);
+  const userId = await usersRepository.getUserIdBy({ email: email.toLowerCase(), hashedPassword });
   await authService.createSession(userId);
 };

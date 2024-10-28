@@ -20,6 +20,12 @@ export const usersRepository: UsersRepository = {
       where: (user) => eq(user.id, userId),
     });
   },
+  getUserIdBy: async (query: { email: string; hashedPassword: string }): Promise<Optional<UserId>> => {
+    return db.query.UsersTable.findFirst({
+      columns: { id: true },
+      where: (user) => and(eq(user.email, query.email), eq(user.password, query.hashedPassword)),
+    }).then((data) => data?.id);
+  },
   createUser: async (username: string, email: string, hashedPassword: string) => {
     const users = await db
       .insert(UsersTable)

@@ -1,6 +1,8 @@
 import { fakeUsersRepository } from "@/fakes/modules/infrastructure/repositories/usersRepository";
+import { hash } from "@/modules/domain/utils/encryptionUtils";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser, userWithoutPassword } from "@/test/fixtures/user.fixture";
+import { randomDataGenerator } from "@/test/fixtures/utils/randomDataGenerator";
 import { usersTestRepository } from "@/test/integration/application/repositories/usersTestRepository";
 
 describe("Users repository", () => {
@@ -10,16 +12,30 @@ describe("Users repository", () => {
     name                                  | repository
     ${"fake persistent users repository"} | ${fakeUsersRepository()}
     ${"users repository"}                 | ${usersTestRepository}
-  `("$name can find a user by id", async ({ repository }) => {
+  `("$name can get a user by id", async ({ repository }) => {
     const todo1 = aTodo({ content: "Buy milk", createdAt: new Date("01/01/2024") });
     const todo2 = aTodo({ content: "Buy bread", createdAt: new Date("02/01/2024") });
-    const user = aUser({ id: 1, username: "david", todos: [todo1, todo2], password: "password" });
+    const user = aUser({ id: randomDataGenerator.aNumber(), todos: [todo1, todo2], password: "password" });
     const expectedUser = { ...user, todos: [todo2, todo1] };
 
     await repository.save(user);
     const fetchedUser = await repository.get(user.id);
 
     expect(fetchedUser).toEqual(userWithoutPassword(expectedUser));
+  });
+
+  it.each`
+    name                                  | repository
+    ${"fake persistent users repository"} | ${fakeUsersRepository()}
+    ${"users repository"}                 | ${usersTestRepository}
+  `("$name can get a user by email and password", async ({ repository }) => {
+    const hashedPassword = await hash("password");
+    const user = aUser({ id: randomDataGenerator.aNumber(), password: hashedPassword });
+
+    await repository.save(user);
+    const userId = await repository.getUserIdBy({ email: user.email, hashedPassword });
+
+    expect(userId).toEqual(user.id);
   });
 
   it.each`

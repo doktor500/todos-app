@@ -13,11 +13,11 @@ import { aUser } from "@/test/fixtures/user.fixture";
 import { formData } from "@/test/unit/utils/formDataUtils";
 import { renderAsync } from "@/test/unit/utils/reactTestUtils";
 
-vi.mock("@/actions/user/getUser");
 vi.mock("@/actions/todos/createTodo");
 vi.mock("@/actions/todos/toggleTodo");
 vi.mock("@/actions/todos/editTodo");
 vi.mock("@/actions/todos/deleteTodo");
+vi.mock("@/actions/user/getUser");
 
 describe("todos page", () => {
   it("renders user todos successfully", async () => {

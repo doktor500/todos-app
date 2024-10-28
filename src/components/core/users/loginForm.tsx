@@ -3,45 +3,42 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 
-import { createUser } from "@/actions/user/createUser";
-import { type CreateUserData, createUserSchema } from "@/actions/user/schemas/createUserSchema";
+import { loginUser } from "@/actions/user/loginUser";
+import { type LoginUserData, loginUserSchema } from "@/actions/user/schemas/loginUserSchema";
 import { EmailFormInput } from "@/components/core/users/form/emailFormInput";
 import { FormActionButton } from "@/components/core/users/form/formActionButton";
 import { FormFooter } from "@/components/core/users/form/formFooter";
 import { PasswordFormInput } from "@/components/core/users/form/passwordFormInput";
-import { UsernameFormInput } from "@/components/core/users/form/usernameFormInput";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { useRedirect } from "@/hooks/common/useRedirect";
 import { Route } from "@/router/appRouter";
 
-const { LOGIN, HOME } = Route;
+const { SIGNUP, HOME } = Route;
 
-export const SignUpForm = () => {
+export const LoginForm = () => {
   const { redirectTo } = useRedirect();
-  const { register, handleSubmit, formState } = useForm<CreateUserData>({ resolver: zodResolver(createUserSchema) });
+  const { register, handleSubmit, formState } = useForm<LoginUserData>({ resolver: zodResolver(loginUserSchema) });
   const { isLoading, errors } = formState;
 
-  const onSubmit = async (data: CreateUserData) => {
-    await createUser(data);
+  const onSubmit = async (data: LoginUserData) => {
+    await loginUser(data);
     redirectTo(HOME);
   };
 
   return (
     <Card className="mx-auto w-full max-w-md bg-gray-900">
       <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
-        <CardDescription>Create your account to get started</CardDescription>
+        <CardTitle>Log in</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <UsernameFormInput register={register} errors={errors} />
           <EmailFormInput register={register} errors={errors} />
           <PasswordFormInput register={register} errors={errors} />
-          <FormActionButton isLoading={isLoading} value="Sign Up" />
+          <FormActionButton isLoading={isLoading} value="Log in" />
         </form>
       </CardContent>
       <CardFooter>
-        <FormFooter title="Already have an account?" link={LOGIN} value="Log in" />
+        <FormFooter title="Don't have an account?" link={SIGNUP} value="Sign Up" />
       </CardFooter>
     </Card>
   );

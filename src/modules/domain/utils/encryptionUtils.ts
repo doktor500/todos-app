@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
 
 import env from "@/modules/domain/shared/env";
@@ -20,4 +21,8 @@ export const encrypt = async (payload: JWTPayload, duration: { days: number }) =
     .setIssuedAt()
     .setExpirationTime(toSeconds(duration))
     .sign(key);
+};
+
+export const hash = async (value: string) => {
+  return bcrypt.hash(value, 10);
 };

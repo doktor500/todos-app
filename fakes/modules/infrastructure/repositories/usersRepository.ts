@@ -21,6 +21,12 @@ export const fakeUsersRepository = () => {
         return { ...userWithoutPassword(user), todos };
       }
     },
+    getUserIdBy: async ({ email }: { email: string }): Promise<Optional<UserId>> => {
+      const users = await repository.getAll();
+      const user = users.find((user) => user.email === email);
+
+      return user?.id;
+    },
     createUser: async (username: string, email: string) => {
       const id = randomDataGenerator.aNumber();
       await repository.save({ id, username, email, todos: [] });

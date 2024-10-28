@@ -1,17 +1,17 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-import { createUser } from "@/actions/user/createUser";
-import Page from "@/app/signup/page";
+import { loginUser } from "@/actions/user/loginUser";
+import Page from "@/app/login/page";
 import { useRedirect } from "@/hooks/common/useRedirect";
 import { Route } from "@/router/appRouter";
 
-vi.mock("@/actions/user/createUser");
+vi.mock("@/actions/user/loginUser");
 vi.mock("@/hooks/common/useRedirect");
 
 const { HOME } = Route;
 
-describe("User sign up page", () => {
+describe("User log in page", () => {
   beforeEach(() => {
     vi.mocked(useRedirect).mockImplementation(() => ({ redirectTo: vi.fn() }));
   });
@@ -22,21 +22,16 @@ describe("User sign up page", () => {
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
-      expect(screen.getByText("Username must be at least 3 characters long")).toBeVisible();
       expect(screen.getByText("Please enter a valid email address")).toBeVisible();
       expect(screen.getByText("Password must be at least 8 characters long")).toBeVisible();
     });
   });
 
-  it("calls create user action when a valid form is submitted", async () => {
-    const username = "david";
+  it("calls login user action when a valid form is submitted", async () => {
     const email = "david@email.com";
     const password = "password";
 
     render(<Page />);
-
-    const usernameField = screen.getByLabelText("User name");
-    await userEvent.type(usernameField, username);
 
     const emailField = screen.getByLabelText("Email");
     await userEvent.type(emailField, email);
@@ -47,13 +42,12 @@ describe("User sign up page", () => {
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
-      expect(createUser).toHaveBeenCalledWith({ username, email, password });
-      expect(createUser).toHaveBeenCalledOnce();
+      expect(loginUser).toHaveBeenCalledWith({ email, password });
+      expect(loginUser).toHaveBeenCalledOnce();
     });
   });
 
   it("redirects to home page when a valid form is submitted", async () => {
-    const username = "david";
     const email = "david@email.com";
     const password = "password";
 
@@ -61,9 +55,6 @@ describe("User sign up page", () => {
     vi.mocked(useRedirect).mockImplementation(() => ({ redirectTo }));
 
     render(<Page />);
-
-    const usernameField = screen.getByLabelText("User name");
-    await userEvent.type(usernameField, username);
 
     const emailField = screen.getByLabelText("Email");
     await userEvent.type(emailField, email);

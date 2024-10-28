@@ -10,6 +10,6 @@ export default defineConfig({
   test: {
     ...rootConfig.test,
     sequence: { concurrent: false },
-    setupFiles: [...rootConfig.test.setupFiles, path.resolve(__dirname, "setup-unit-tests.ts")],
+    setupFiles: [...rootConfig.test.setupFiles, path.resolve(__dirname, "vitest-unit-tests-setup.ts")],
   },
 });

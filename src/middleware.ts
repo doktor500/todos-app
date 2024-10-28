@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { authCookie } from "@/cookies/authCookie";
+import { authCookie } from "@/modules/domain/shared/authService";
 import cookieManager from "@/modules/domain/shared/cookieManager";
 import { decrypt } from "@/modules/domain/utils/encryptionUtils";
 import { Route } from "@/router/appRouter";

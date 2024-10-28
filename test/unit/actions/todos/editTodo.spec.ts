@@ -1,11 +1,11 @@
 import { editTodo } from "@/actions/todos/editTodo";
-import { verifySession } from "@/authentication";
+import authService from "@/modules/domain/shared/authService";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 
-vi.mock("@/authentication");
+vi.mock("@/modules/domain/shared/authService");
 vi.mock("@/modules/infrastructure/repositories/usersRepository");
 vi.mock("@/modules/infrastructure/web/webCache");
 
@@ -26,7 +26,7 @@ describe("edit todo action", () => {
     const todo = aTodo();
     const user = aUser({ todos: [todo] });
     const content = "New content";
-    vi.mocked(verifySession).mockResolvedValueOnce({ userId: user.id });
+    vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: user.id });
 
     await editTodo({ todoId: todo.id, content });
     expect(usersRepository.updateTodo).toHaveBeenCalledWith(user.id, { id: todo.id, content });

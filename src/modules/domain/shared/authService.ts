@@ -1,4 +1,3 @@
-import { authCookie } from "@/cookies/authCookie";
 import cookieManager from "@/modules/domain/shared/cookieManager";
 import { UserId } from "@/modules/domain/user";
 import { decrypt, encrypt } from "@/modules/domain/utils/encryptionUtils";
@@ -6,7 +5,13 @@ import appRouter, { Route } from "@/router/appRouter";
 
 const { TODOS, LOGIN } = Route;
 
-export const createSession = async (userId: UserId) => {
+export const authCookie = {
+  name: "session",
+  options: { httpOnly: true, secure: true, samesite: "strict", path: "/" },
+  duration: 24 * 60 * 60 * 1000,
+};
+
+const createSession = async (userId: UserId) => {
   const expires = new Date(Date.now() + authCookie.duration);
   const session = await encrypt({ userId, expires });
 
@@ -14,7 +19,7 @@ export const createSession = async (userId: UserId) => {
   appRouter.redirectTo(TODOS);
 };
 
-export const verifySession = async () => {
+const verifySession = async () => {
   const cookie = await cookieManager.getCookie(authCookie.name);
 
   return cookie ? getUserId(cookie) : appRouter.redirectTo(LOGIN);
@@ -26,3 +31,7 @@ const getUserId = async (cookie: string) => {
 
   return userId ? { userId } : appRouter.redirectTo(LOGIN);
 };
+
+const authService = { createSession, verifySession };
+
+export default authService;

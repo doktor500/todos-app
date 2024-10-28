@@ -1,8 +1,8 @@
 import { createUser } from "@/actions/user/createUser";
-import { createSession } from "@/authentication";
+import authService from "@/modules/domain/shared/authService";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 
-vi.mock("@/authentication");
+vi.mock("@/modules/domain/shared/authService");
 vi.mock("@/modules/infrastructure/repositories/usersRepository");
 
 describe("create user action", () => {
@@ -36,7 +36,7 @@ describe("create user action", () => {
 
     await createUser(data);
 
-    expect(createSession).toHaveBeenCalledWith(userId);
-    expect(createSession).toHaveBeenCalledOnce();
+    expect(authService.createSession).toHaveBeenCalledWith(userId);
+    expect(authService.createSession).toHaveBeenCalledOnce();
   });
 });

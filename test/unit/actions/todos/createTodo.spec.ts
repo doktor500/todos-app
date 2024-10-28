@@ -1,11 +1,11 @@
 import { createTodo } from "@/actions/todos/createTodo";
-import { verifySession } from "@/authentication";
+import authService from "@/modules/domain/shared/authService";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { formData } from "@/test/unit/utils/formDataUtils";
 
-vi.mock("@/authentication");
+vi.mock("@/modules/domain/shared/authService");
 vi.mock("@/modules/infrastructure/repositories/usersRepository");
 vi.mock("@/modules/infrastructure/web/webCache");
 
@@ -25,7 +25,7 @@ describe("create todo action", () => {
   it("creates a todo when the form data is valid and the user is authenticated", async () => {
     const user = aUser();
     const newTodo = "New todo";
-    vi.mocked(verifySession).mockResolvedValueOnce({ userId: user.id });
+    vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: user.id });
 
     await createTodo(formData({ content: newTodo }));
     expect(usersRepository.saveTodo).toHaveBeenCalledWith(user.id, newTodo);

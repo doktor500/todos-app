@@ -7,6 +7,7 @@
             "@/fakes/*": ["./fakes/*"],
             "@/test/*": ["./test/*"],
             "@/authentication": ["./fakes/authentication"],
+            "@/modules/domain/utils/encryptionUtils": ["./fakes/modules/domain/utils/encryptionUtils"],
             "@/modules/infrastructure/repositories/usersRepository": ["./fakes/modules/infrastructure/repositories/usersRepository"]
         }
     }

@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
-import { decrypt } from "@/authentication";
 import { authCookie } from "@/cookies/authCookie";
 import cookieManager from "@/modules/domain/shared/cookieManager";
+import { decrypt } from "@/modules/domain/utils/encryptionUtils";
 import { Route } from "@/router/appRouter";
 
 const { LOGIN, TODOS } = Route;

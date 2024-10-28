@@ -9,7 +9,3 @@ export const createSession = async () => {
 export const verifySession = async () => {
   return { userId: 1 };
 };
-
-export const decrypt = async () => {
-  return { userId: 1 };
-};

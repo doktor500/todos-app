@@ -1,11 +1,11 @@
 import { NextRequest } from "next/server";
 
-import { decrypt } from "@/authentication";
 import middleware from "@/middleware";
 import cookieManager from "@/modules/domain/shared/cookieManager";
+import { decrypt } from "@/modules/domain/utils/encryptionUtils";
 import { Route } from "@/router/appRouter";
 
-vi.mock("@/authentication");
+vi.mock("@/modules/domain/utils/encryptionUtils");
 vi.mock("@/modules/domain/shared/cookieManager");
 
 const BASE_URL = "http://localhost:3000";

@@ -11,8 +11,8 @@ import { cn } from "@/lib/utils";
 import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils";
 
 export const metadata: Metadata = {
-  title: "X Todo",
-  description: "X Todo application",
+  title: "Pulse",
+  description: "Pulse Todo Application",
 };
 
 const sfProDisplay = localFont({

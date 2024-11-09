@@ -1,3 +1,4 @@
+import { NextURL } from "next/dist/server/web/next-url";
 import { NextRequest, NextResponse } from "next/server";
 
 import { authCookie } from "@/modules/domain/shared/authService";
@@ -14,14 +15,19 @@ const middleware = async (request: NextRequest) => {
   const isProtectedRoute = protectedRoutes.includes(currentPath);
 
   if (isProtectedRoute) {
-    const cookie = await cookieManager().getCookie(authCookie.name);
-    if (cookie) {
-      const session = await decrypt(cookie);
-      if (!session?.userId) return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
-    } else return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
+    const redirect = await handleProtectedRoute(request.nextUrl);
+    if (redirect) return redirect;
   }
 
   return NextResponse.next();
+};
+
+const handleProtectedRoute = async (url: NextURL) => {
+  const cookie = await cookieManager().getCookie(authCookie.name);
+  if (cookie) {
+    const session = await decrypt(cookie);
+    if (!session?.userId) return NextResponse.redirect(new URL(LOGIN, url));
+  } else return NextResponse.redirect(new URL(LOGIN, url));
 };
 
 export const config = {

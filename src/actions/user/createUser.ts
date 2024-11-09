@@ -1,18 +1,31 @@
 "use server";
 
-import { CreateUserData, CreateUserErrors, createUserSchema } from "@/actions/user/schemas/createUserSchema";
+import { CreateUserErrors, createUserSchema } from "@/actions/user/schemas/createUserSchema";
 import authService from "@/modules/domain/shared/authService";
 import { hash } from "@/modules/domain/utils/encryptionUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
+import appRouter, { Route } from "@/router/appRouter";
 
-export const createUser = async (data: CreateUserData): Promise<Optional<CreateUserErrors>> => {
-  const result = createUserSchema.safeParse(data);
-  if (!result.success) return result.error.flatten();
+type Errors = {
+  errors: CreateUserErrors["fieldErrors"];
+};
+
+const { HOME } = Route;
+
+export const createUser = async (_state: Optional<Errors>, formData: FormData): Promise<Optional<Errors>> => {
+  const result = createUserSchema.safeParse({
+    username: formData.get("username"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  if (!result.success) return { errors: result.error.flatten().fieldErrors };
 
   const { username, email, password } = result.data;
-  const hashedPassword = await hash(password);
 
-  const userId = await usersRepository.createUser(username.toLowerCase(), email.toLowerCase(), hashedPassword);
-  await authService.createSession(userId);
+  return hash(password)
+    .then((hashedPassword) => usersRepository.createUser(username.toLowerCase(), email.toLowerCase(), hashedPassword))
+    .then((userId) => authService.createSession(userId))
+    .then(() => appRouter().redirectTo(HOME));
 };

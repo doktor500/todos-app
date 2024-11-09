@@ -3,20 +3,21 @@ import userEvent from "@testing-library/user-event";
 
 import { loginUser } from "@/actions/user/loginUser";
 import Page from "@/app/login/page";
-import { useRedirect } from "@/hooks/common/useRedirect";
-import { Route } from "@/router/appRouter";
+import { formData } from "@/test/unit/utils/formDataUtils";
 
 vi.mock("@/actions/user/loginUser");
-vi.mock("@/hooks/common/useRedirect");
-
-const { HOME } = Route;
 
 describe("User log in page", () => {
-  beforeEach(() => {
-    vi.mocked(useRedirect).mockImplementation(() => ({ redirectTo: vi.fn() }));
-  });
+  const initialState = undefined;
 
   it("displays validation errors when the form is submitted with invalid values", async () => {
+    const errors = {
+      email: ["Please enter a valid email address"],
+      password: ["Password must be at least 8 characters long"],
+    };
+
+    vi.mocked(loginUser).mockResolvedValueOnce({ errors });
+
     render(<Page />);
 
     fireEvent.click(screen.getByRole("button"));
@@ -42,30 +43,8 @@ describe("User log in page", () => {
     fireEvent.click(screen.getByRole("button"));
 
     await waitFor(() => {
-      expect(loginUser).toHaveBeenCalledWith({ email, password });
+      expect(loginUser).toHaveBeenCalledWith(initialState, formData({ email, password }));
       expect(loginUser).toHaveBeenCalledOnce();
-    });
-  });
-
-  it("redirects to home page when a valid form is submitted", async () => {
-    const email = "david@email.com";
-    const password = "password";
-
-    const redirectTo = vi.fn();
-    vi.mocked(useRedirect).mockImplementation(() => ({ redirectTo }));
-
-    render(<Page />);
-
-    const emailField = screen.getByLabelText("Email");
-    await userEvent.type(emailField, email);
-
-    const passwordField = screen.getByLabelText("Password");
-    await userEvent.type(passwordField, password);
-
-    fireEvent.click(screen.getByRole("button"));
-
-    await waitFor(() => {
-      expect(redirectTo).toHaveBeenCalledWith(HOME);
     });
   });
 });

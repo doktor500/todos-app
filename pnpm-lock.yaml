@@ -12,9 +12,6 @@ importers:
 
   .:
     dependencies:
-      '@hookform/resolvers':
-        specifier: ^3.9.1
-        version: 3.9.1(react-hook-form@7.53.2(react@19.0.0-rc-65a56d0e-20241020))
       '@radix-ui/react-checkbox':
         specifier: ^1.1.2
         version: 1.1.2(react-dom@19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020))(react@19.0.0-rc-65a56d0e-20241020)(types-react-dom@19.0.0-rc.1)(types-react@19.0.0-rc.1)
@@ -87,9 +84,6 @@ importers:
       react-dom:
         specifier: 19.0.0-rc-65a56d0e-20241020
         version: 19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020)
-      react-hook-form:
-        specifier: ^7.53.2
-        version: 7.53.2(react@19.0.0-rc-65a56d0e-20241020)
       tailwind-merge:
         specifier: ^2.5.4
         version: 2.5.4
@@ -116,7 +110,7 @@ importers:
         specifier: ^9.14.0
         version: 9.14.0
       '@faker-js/faker':
-        specifier: ^9.2.0
+        specifier: ^9.0.3
         version: 9.2.0
       '@playwright/test':
         specifier: ^1.48.2
@@ -986,11 +980,6 @@ packages:
 
   '@floating-ui/utils@0.2.8':
     resolution: {integrity: sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==}
-
-  '@hookform/resolvers@3.9.1':
-    resolution: {integrity: sha512-ud2HqmGBM0P0IABqoskKWI6PEf6ZDDBZkFqe2Vnl+mTHCEHzr3ISjjZyCwTjC/qpL25JC9aIDkloQejvMeq0ug==}
-    peerDependencies:
-      react-hook-form: ^7.0.0
 
   '@humanwhocodes/module-importer@1.0.1':
     resolution: {integrity: sha512-bxveV4V8v5Yb4ncFTT3rPSgZBOpCkjfK0y4oVVVJwIuDVBRMDXrPyXRL988i5ap9m9bnyEEjWfm5WkBmtffLfA==}
@@ -3524,12 +3513,6 @@ packages:
     peerDependencies:
       react: 19.0.0-rc-65a56d0e-20241020
 
-  react-hook-form@7.53.2:
-    resolution: {integrity: sha512-YVel6fW5sOeedd1524pltpHX+jgU2u3DSDtXEaBORNdqiNrsX/nUI/iGXONegttg0mJVnfrIkiV0cmTU6Oo2xw==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      react: ^16.8.0 || ^17 || ^18 || ^19
-
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -4678,10 +4661,6 @@ snapshots:
       react-dom: 19.0.0-rc-65a56d0e-20241020(react@19.0.0-rc-65a56d0e-20241020)
 
   '@floating-ui/utils@0.2.8': {}
-
-  '@hookform/resolvers@3.9.1(react-hook-form@7.53.2(react@19.0.0-rc-65a56d0e-20241020))':
-    dependencies:
-      react-hook-form: 7.53.2(react@19.0.0-rc-65a56d0e-20241020)
 
   '@humanwhocodes/module-importer@1.0.1': {}
 
@@ -7268,10 +7247,6 @@ snapshots:
     dependencies:
       react: 19.0.0-rc-65a56d0e-20241020
       scheduler: 0.25.0-rc-65a56d0e-20241020
-
-  react-hook-form@7.53.2(react@19.0.0-rc-65a56d0e-20241020):
-    dependencies:
-      react: 19.0.0-rc-65a56d0e-20241020
 
   react-is@16.13.1: {}
 

@@ -7,11 +7,11 @@ export enum Route {
   LOGIN = "/login",
 }
 
-export type RedirectFn = (route: string) => never;
+export type RedirectFn = (route: Route) => never;
 
 const appRouter = (redirect = nextRedirect) => {
   return {
-    redirectTo: (route: string): never => {
+    redirectTo: (route: Route): never => {
       return redirect(route);
     },
   };

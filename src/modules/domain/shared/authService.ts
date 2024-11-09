@@ -1,3 +1,5 @@
+import "server-only";
+
 import cookieManager from "@/modules/domain/shared/cookieManager";
 import { UserId } from "@/modules/domain/user";
 import { toMillis } from "@/modules/domain/utils/durationUtils";

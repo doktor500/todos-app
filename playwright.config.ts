@@ -2,7 +2,7 @@ import { defineConfig, devices, type PlaywrightTestConfig, PlaywrightTestProject
 
 const { CI, PORT, LOGS_ENABLED, PLAYWRIGHT_WORKERS } = process.env;
 
-const port = PORT ?? 4000;
+const port = PORT;
 const timeout = 120000;
 const baseURL = `http://localhost:${port}`;
 const nextDev = `next dev --turbo -p ${port}`;

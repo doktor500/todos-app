@@ -2,7 +2,10 @@ import { expect, test } from "@playwright/test";
 
 test.describe.configure({ mode: "serial" });
 
-test("user can create and delete a todo", async ({ page, baseURL }) => {
+test("user can create and delete a todo", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ storageState: "playwright-storage.json" });
+  const page = await context.newPage();
+
   await page.goto(`${baseURL}/todos`);
 
   await page.getByLabel("New todo").fill("Buy coffee");
@@ -18,7 +21,10 @@ test("user can create and delete a todo", async ({ page, baseURL }) => {
   await expect(page.getByRole("textbox", { name: "Buy coffee" })).toBeHidden();
 });
 
-test("the search filter reflects changes in the todo list when a user edits a todo", async ({ page, baseURL }) => {
+test("the search filter reflects changes in the todo list when a user edits a todo", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ storageState: "playwright-storage.json" });
+  const page = await context.newPage();
+
   await page.goto(`${baseURL}/todos`);
 
   await page.getByLabel("New todo").fill("Buy pizza");
@@ -37,7 +43,10 @@ test("the search filter reflects changes in the todo list when a user edits a to
   await expect(page.getByRole("textbox", { name: "Buy wine" })).toBeVisible();
 });
 
-test("the input field to edit a todo looses focus when the 'Enter' key is pressed", async ({ page, baseURL }) => {
+test("the input field to edit a todo looses focus when the 'Enter' key is pressed", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ storageState: "playwright-storage.json" });
+  const page = await context.newPage();
+
   await page.goto(`${baseURL}/todos`);
 
   await page.getByLabel("New todo").fill("Buy milk");

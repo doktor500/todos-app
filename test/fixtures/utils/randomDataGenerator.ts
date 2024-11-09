@@ -6,5 +6,5 @@ export const randomDataGenerator = {
   aNumber: () => faker.number.int({ max: 99999999 }),
   aPassword: () => faker.internet.password(),
   aString: () => faker.lorem.words(2),
-  aUsername: () => faker.internet.userName().toLowerCase(),
+  aUsername: () => faker.internet.username().toLowerCase(),
 };

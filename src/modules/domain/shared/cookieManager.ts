@@ -1,4 +1,4 @@
-import { cookies as nextCookies } from "next/headers";
+import { cookies as nextCookies } from "next/headers.js";
 
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 

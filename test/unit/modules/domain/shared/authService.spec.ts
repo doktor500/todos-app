@@ -1,7 +1,9 @@
+import { mock } from "vitest-mock-extended";
+
 import authService, { authCookie } from "@/modules/domain/shared/authService";
 import cookieManager from "@/modules/domain/shared/cookieManager";
 import { decrypt, encrypt } from "@/modules/domain/utils/encryptionUtils";
-import appRouter, { RedirectFn, Route } from "@/router/appRouter";
+import appRouter, { Route } from "@/router/appRouter";
 
 vi.mock("@/modules/domain/shared/cookieManager");
 vi.mock("@/modules/domain/utils/encryptionUtils");
@@ -12,7 +14,7 @@ const { HOME, LOGIN } = Route;
 describe("auth service", () => {
   const userId = 1;
   const session = JSON.stringify({ userId });
-  const appRouterMock = { redirectTo: vi.fn() as unknown as RedirectFn };
+  const appRouterMock = mock(appRouter());
   const cookieManagerMock = { getCookie: () => Promise.resolve(session), setCookie: vi.fn() };
 
   it("can create an auth session cookie", async () => {

@@ -1,7 +1,9 @@
+import { mock } from "vitest-mock-extended";
+
 import { loginUser } from "@/actions/user/loginUser";
 import authService from "@/modules/domain/shared/authService";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
-import appRouter, { RedirectFn, Route } from "@/router/appRouter";
+import appRouter, { Route } from "@/router/appRouter";
 import { formData } from "@/test/unit/utils/formDataUtils";
 
 vi.mock("@/modules/domain/shared/authService");
@@ -12,7 +14,7 @@ const { HOME } = Route;
 
 describe("login user action", () => {
   const initialState = undefined;
-  const appRouterMock = { redirectTo: vi.fn() as unknown as RedirectFn };
+  const appRouterMock = mock(appRouter());
 
   it("returns validation errors when the data is invalid", async () => {
     const data = { email: "invalid", password: "invalid" };
@@ -64,5 +66,22 @@ describe("login user action", () => {
     await loginUser(initialState, formData(data));
 
     expect(appRouterMock.redirectTo).toHaveBeenCalledWith(HOME);
+  });
+
+  it("returns invalid email or password error when the user is not found", async () => {
+    const userId = undefined;
+    const data = { email: "David@email.com", password: "password" };
+    vi.mocked(usersRepository.getUserIdBy).mockResolvedValueOnce(userId);
+    vi.mocked(authService.createSession).mockResolvedValue();
+    vi.mocked(appRouter).mockImplementation(() => appRouterMock);
+
+    const errors = await loginUser(initialState, formData(data));
+
+    expect(errors).toEqual({
+      errors: {
+        email: ["Invalid email or password"],
+        password: ["Invalid email or password"],
+      },
+    });
   });
 });

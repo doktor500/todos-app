@@ -14,7 +14,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { useRedirect } from "@/hooks/common/useRedirect";
 import { Route } from "@/router/appRouter";
 
-const { LOGIN, HOME } = Route;
+const { LOGIN } = Route;
 
 export const SignUpForm = () => {
   const { redirectTo } = useRedirect();
@@ -23,7 +23,7 @@ export const SignUpForm = () => {
 
   const onSubmit = async (data: CreateUserData) => {
     await createUser(data);
-    redirectTo(HOME);
+    redirectTo("/");
   };
 
   return (

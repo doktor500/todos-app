@@ -1,9 +1,7 @@
-import appRouter, { Route } from "@/router/appRouter";
-
-const { TODOS } = Route;
+import appRouter from "@/router/appRouter";
 
 const Page = () => {
-  appRouter.redirectTo(TODOS);
+  appRouter().redirectTo("/todos");
 };
 
 export default Page;

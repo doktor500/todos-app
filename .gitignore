@@ -11,4 +11,5 @@ next-env.d.ts
 .vscode
 db/
 playwright-report/
+playwright-storage.json
 test-results/

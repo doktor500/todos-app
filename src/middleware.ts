@@ -14,9 +14,11 @@ const middleware = async (request: NextRequest) => {
   const isProtectedRoute = protectedRoutes.includes(currentPath);
 
   if (isProtectedRoute) {
-    const cookie = await cookieManager.getCookie(authCookie.name);
-    const session = await decrypt(cookie ?? "");
-    if (!session?.userId) return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
+    const cookie = await cookieManager().getCookie(authCookie.name);
+    if (cookie) {
+      const session = await decrypt(cookie);
+      if (!session?.userId) return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
+    } else return NextResponse.redirect(new URL(LOGIN, request.nextUrl));
   }
 
   return NextResponse.next();

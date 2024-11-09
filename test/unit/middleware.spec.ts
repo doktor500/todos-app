@@ -14,7 +14,7 @@ const { LOGIN, TODOS } = Route;
 describe("middleware", () => {
   it("redirects to login page when there is no auth session cookie", async () => {
     const request = new NextRequest(`${BASE_URL}${TODOS}`);
-    vi.mocked(cookieManager.getCookie).mockResolvedValueOnce(undefined);
+    vi.mocked(cookieManager).mockImplementation(() => ({ getCookie: vi.fn(), setCookie: vi.fn() }));
 
     const response = await middleware(request);
 
@@ -23,7 +23,7 @@ describe("middleware", () => {
 
   it("redirects to login page when the decrypted auth session cookie does not contain a valid user id", async () => {
     const request = new NextRequest(`${BASE_URL}${TODOS}`);
-    vi.mocked(cookieManager.getCookie).mockResolvedValueOnce("cookie");
+    vi.mocked(cookieManager).mockImplementation(() => ({ getCookie: vi.fn(), setCookie: vi.fn() }));
     vi.mocked(decrypt).mockResolvedValueOnce(undefined);
 
     const response = await middleware(request);
@@ -33,7 +33,7 @@ describe("middleware", () => {
 
   it("does not redirect user when the auth session cookie is valid", async () => {
     const request = new NextRequest(`${BASE_URL}${TODOS}`);
-    vi.mocked(cookieManager.getCookie).mockResolvedValueOnce("cookie");
+    vi.mocked(cookieManager).mockImplementation(() => ({ getCookie: vi.fn(), setCookie: vi.fn() }));
     vi.mocked(decrypt).mockResolvedValueOnce({ userId: 1 });
 
     const response = await middleware(request);

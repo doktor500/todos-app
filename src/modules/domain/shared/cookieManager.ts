@@ -1,8 +1,8 @@
-import { cookies } from "next/headers";
+import { cookies as nextCookies } from "next/headers";
 
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 
-type Options = {
+type CookieOptions = {
   httpOnly: boolean;
   secure: boolean;
   samesite: string;
@@ -10,14 +10,16 @@ type Options = {
   expires: Date;
 };
 
-const getCookie = async (name: string): Promise<Optional<string>> => {
-  return (await cookies()).get(name)?.value;
-};
+const cookieManager = (cookies = nextCookies) => {
+  const getCookie = async (name: string): Promise<Optional<string>> => {
+    return (await cookies()).get(name)?.value;
+  };
 
-const setCookie = async (name: string, value: string, options: Options): Promise<void> => {
-  (await cookies()).set(name, value, options);
-};
+  const setCookie = async (name: string, value: string, options: CookieOptions): Promise<void> => {
+    (await cookies()).set(name, value, options);
+  };
 
-const cookieManager = { getCookie, setCookie };
+  return { getCookie, setCookie };
+};
 
 export default cookieManager;

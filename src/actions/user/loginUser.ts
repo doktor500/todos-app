@@ -14,5 +14,7 @@ export const loginUser = async (data: LoginUserData): Promise<Optional<LoginUser
   const hashedPassword = await hash(password);
 
   const userId = await usersRepository.getUserIdBy({ email: email.toLowerCase(), hashedPassword });
-  await authService.createSession(userId);
+
+  if (userId) await authService.createSession(userId);
+  // @TODO handle user not found error
 };

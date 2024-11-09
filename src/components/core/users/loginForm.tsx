@@ -13,7 +13,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { useRedirect } from "@/hooks/common/useRedirect";
 import { Route } from "@/router/appRouter";
 
-const { SIGNUP, HOME } = Route;
+const { SIGNUP } = Route;
 
 export const LoginForm = () => {
   const { redirectTo } = useRedirect();
@@ -22,7 +22,7 @@ export const LoginForm = () => {
 
   const onSubmit = async (data: LoginUserData) => {
     await loginUser(data);
-    redirectTo(HOME);
+    redirectTo("/");
   };
 
   return (

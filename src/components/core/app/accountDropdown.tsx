@@ -21,10 +21,10 @@ export const AccountDropdown = () => {
           alt="logo"
           width="64"
           height="64"
-          className="opacity-80 hover:opacity-100"
+          className="cursor-pointer opacity-80 hover:opacity-100"
         />
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56">
+      <DropdownMenuContent className="w-28 dark:bg-slate-900">
         <DropdownMenuItem className="cursor-pointer" onClick={logoutUser} aria-label="Log out">
           <LogOut />
           <span>Log out</span>

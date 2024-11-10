@@ -6,6 +6,7 @@ import Page from "@/app/login/page";
 import { formData } from "@/test/unit/utils/formDataUtils";
 
 vi.mock("@/actions/user/loginUser");
+vi.mock("@/actions/user/logoutUser");
 
 describe("User log in page", () => {
   const initialState = undefined;

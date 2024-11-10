@@ -1,4 +1,4 @@
-import { cookies as nextCookies } from "next/headers.js";
+import { cookies } from "next/headers.js";
 
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 
@@ -10,7 +10,7 @@ type CookieOptions = {
   expires: Date;
 };
 
-const cookieManager = (cookies = nextCookies) => {
+const cookieManager = () => {
   const getCookie = async (name: string): Promise<Optional<string>> => {
     return (await cookies()).get(name)?.value;
   };

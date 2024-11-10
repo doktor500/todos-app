@@ -1,7 +1,7 @@
 import { test as setup } from "@playwright/test";
 
 import { usersRepositoryInstance } from "@/config/repositories/usersRepositoryInstance";
-import { authCookie } from "@/modules/domain/shared/authService";
+import { authCookie } from "@/modules/domain/shared/authCookie";
 import { encrypt } from "@/modules/domain/utils/encryptionUtils";
 import { aUser } from "@/test/fixtures/user.fixture";
 

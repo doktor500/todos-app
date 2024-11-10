@@ -1,6 +1,7 @@
 import { mock } from "vitest-mock-extended";
 
-import authService, { authCookie } from "@/modules/domain/shared/authService";
+import { authCookie } from "@/modules/domain/shared/authCookie";
+import authService from "@/modules/domain/shared/authService";
 import cookieManager from "@/modules/domain/shared/cookieManager";
 import { decrypt, encrypt } from "@/modules/domain/utils/encryptionUtils";
 import appRouter, { Route } from "@/router/appRouter";
@@ -25,7 +26,7 @@ describe("auth service", () => {
 
     await authService.createSession(userId);
 
-    expect(encrypt).toHaveBeenCalledWith({ userId, expires: expect.any(Date) });
+    expect(encrypt).toHaveBeenCalledWith({ userId });
     expect(cookieManagerMock.setCookie).toHaveBeenCalledWith(
       authCookie.name,
       session,
@@ -71,28 +72,5 @@ describe("auth service", () => {
     await authService.deleteSession();
 
     expect(cookieManagerMock.deleteCookie).toHaveBeenCalledWith(authCookie.name);
-  });
-
-  it("does not delete cookie when the session is invalid", async () => {
-    const session = JSON.stringify({ session: "invalid" });
-    vi.mocked(cookieManager).mockImplementation(() => cookieManagerMock);
-    vi.mocked(decrypt).mockResolvedValueOnce(JSON.parse(session));
-    vi.mocked(appRouter).mockImplementation(() => appRouterMock);
-    appRouterMock.redirectTo.mockRejectedValueOnce(new Error("redirect"));
-
-    await expect(authService.deleteSession()).rejects.toThrow();
-
-    expect(cookieManagerMock.deleteCookie).not.toHaveBeenCalled();
-  });
-
-  it("redirects to login page when the session cookie is deleted successfully", async () => {
-    const session = JSON.stringify({ userId });
-    vi.mocked(encrypt).mockResolvedValueOnce(session);
-    vi.mocked(cookieManager).mockImplementation(() => cookieManagerMock);
-    vi.mocked(appRouter).mockImplementation(() => appRouterMock);
-
-    await authService.deleteSession();
-
-    expect(appRouterMock.redirectTo).toHaveBeenCalledWith(LOGIN);
   });
 });

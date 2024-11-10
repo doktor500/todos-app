@@ -1,4 +1,4 @@
-import { redirect as nextRedirect } from "next/navigation.js";
+import { redirect } from "next/navigation.js";
 
 export enum Route {
   HOME = "/",
@@ -7,7 +7,7 @@ export enum Route {
   LOGIN = "/login",
 }
 
-const appRouter = (redirect = nextRedirect) => {
+const appRouter = () => {
   return {
     redirectTo: (route: Route): never => {
       return redirect(route);

@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 
 import middleware from "@/middleware";
-import { authCookie } from "@/modules/domain/shared/authService";
+import { authCookie } from "@/modules/domain/shared/authCookie";
 import { decrypt } from "@/modules/domain/utils/encryptionUtils";
 import { Route } from "@/router/appRouter";
 

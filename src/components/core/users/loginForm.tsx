@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 
 import { loginUser } from "@/actions/user/loginUser";
+import { logoutUser } from "@/actions/user/logoutUser";
 import { EmailFormInput } from "@/components/core/users/form/emailFormInput";
 import { FormActionButton } from "@/components/core/users/form/formActionButton";
 import { FormFooter } from "@/components/core/users/form/formFooter";
@@ -14,6 +15,10 @@ const { SIGNUP } = Route;
 
 export const LoginForm = () => {
   const [state, action, pending] = useActionState(loginUser, undefined);
+
+  useEffect(() => {
+    logoutUser();
+  }, []);
 
   return (
     <Card className="mx-auto w-full max-w-md bg-gray-900">

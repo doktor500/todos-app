@@ -30,4 +30,7 @@ test("a user can log in and log out successfully", async ({ page, baseURL }) => 
   await page.waitForURL(/login$/);
   await expect(page.getByLabel("Email")).toBeVisible();
   await expect(page.getByLabel("Password")).toBeVisible();
+
+  await page.goto(`${baseURL}/todos`);
+  await page.waitForURL(/login$/);
 });

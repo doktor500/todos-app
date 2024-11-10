@@ -4,7 +4,7 @@ import "./globals.css";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { VercelToolbar } from "@vercel/toolbar/next";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 
 import { cn } from "@/lib/utils";
@@ -13,6 +13,13 @@ import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils";
 export const metadata: Metadata = {
   title: "Pulse",
   description: "Pulse Todo Application",
+};
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  maximumScale: 1,
+  viewportFit: "cover",
+  width: "device-width",
 };
 
 const sfProDisplay = localFont({

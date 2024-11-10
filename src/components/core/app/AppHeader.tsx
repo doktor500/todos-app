@@ -12,7 +12,7 @@ type Props = {
 
 export const AppHeader = ({ title, isPending, showAccountMenu }: Props) => {
   return (
-    <div className={cn("flex pb-6 pt-4", { "pl-12": showAccountMenu })}>
+    <div className={cn("flex pb-6 pt-4", { "pl-12": showAccountMenu, "pt-7": !showAccountMenu })}>
       <div className="flex w-full items-center justify-center">
         <div className="h-8">
           <AppSpinner isPending={isPending ?? false} />

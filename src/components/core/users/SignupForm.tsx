@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 
 import { createUser } from "@/actions/user/createUser";
+import { AppHeader } from "@/components/core/app/appHeader";
 import { EmailFormInput } from "@/components/core/users/form/emailFormInput";
 import { FormActionButton } from "@/components/core/users/form/formActionButton";
 import { FormFooter } from "@/components/core/users/form/formFooter";
@@ -17,22 +18,25 @@ export const SignUpForm = () => {
   const [state, action, pending] = useActionState(createUser, undefined);
 
   return (
-    <Card className="mx-auto w-full max-w-md bg-gray-900">
-      <CardHeader>
-        <CardTitle>Sign Up</CardTitle>
-        <CardDescription>Create your account to get started</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <form action={action} className="space-y-4">
-          <UsernameFormInput errors={state?.errors} />
-          <EmailFormInput errors={state?.errors} />
-          <PasswordFormInput errors={state?.errors} />
-          <FormActionButton isLoading={pending} value="Sign Up" />
-        </form>
-      </CardContent>
-      <CardFooter>
-        <FormFooter title="Already have an account?" link={LOGIN} value="Log in" />
-      </CardFooter>
-    </Card>
+    <>
+      <AppHeader title="Pulse" isPending={pending} />
+      <Card className="mx-auto w-full max-w-md bg-gray-900">
+        <CardHeader>
+          <CardTitle>Sign Up</CardTitle>
+          <CardDescription>Create your account to get started</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form action={action} className="space-y-4">
+            <UsernameFormInput errors={state?.errors} />
+            <EmailFormInput errors={state?.errors} />
+            <PasswordFormInput errors={state?.errors} />
+            <FormActionButton isLoading={pending} value="Sign Up" />
+          </form>
+        </CardContent>
+        <CardFooter>
+          <FormFooter title="Already have an account?" link={LOGIN} value="Log in" />
+        </CardFooter>
+      </Card>
+    </>
   );
 };

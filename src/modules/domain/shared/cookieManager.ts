@@ -19,7 +19,11 @@ const cookieManager = (cookies = nextCookies) => {
     (await cookies()).set(name, value, options);
   };
 
-  return { getCookie, setCookie };
+  const deleteCookie = async (name: string): Promise<void> => {
+    (await cookies()).delete(name);
+  };
+
+  return { getCookie, setCookie, deleteCookie };
 };
 
 export default cookieManager;

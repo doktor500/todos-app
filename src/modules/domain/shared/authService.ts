@@ -25,6 +25,12 @@ const verifySession = async () => {
   return cookie ? getUserId(cookie) : appRouter().redirectTo(LOGIN);
 };
 
+const deleteSession = async () => {
+  await verifySession();
+  await cookieManager().deleteCookie(authCookie.name);
+  appRouter().redirectTo(LOGIN);
+};
+
 const getUserId = async (cookie: string) => {
   const session = await decrypt<{ userId: UserId }>(cookie);
   const userId = session?.userId;
@@ -32,6 +38,6 @@ const getUserId = async (cookie: string) => {
   return userId ? { userId } : appRouter().redirectTo(LOGIN);
 };
 
-const authService = { createSession, verifySession };
+const authService = { createSession, verifySession, deleteSession };
 
 export default authService;

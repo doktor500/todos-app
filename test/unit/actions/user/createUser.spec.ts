@@ -36,7 +36,11 @@ describe("create user action", () => {
 
     await createUser(initialState, formData(data));
 
-    expect(usersRepository.createUser).toHaveBeenCalledWith("david", "david@email.com", expect.any(String));
+    expect(usersRepository.createUser).toHaveBeenCalledWith({
+      username: "david",
+      email: "david@email.com",
+      hashedPassword: expect.any(String),
+    });
     expect(usersRepository.createUser).toHaveBeenCalledOnce();
   });
 

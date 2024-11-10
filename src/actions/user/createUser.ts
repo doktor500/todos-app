@@ -23,9 +23,10 @@ export const createUser = async (_state: Optional<Errors>, formData: FormData): 
   if (!result.success) return { errors: result.error.flatten().fieldErrors };
 
   const { username, email, password } = result.data;
+  const user = { username: username.toLowerCase(), email: email.toLowerCase() };
 
   return hash(password)
-    .then((hashedPassword) => usersRepository.createUser(username.toLowerCase(), email.toLowerCase(), hashedPassword))
+    .then((hashedPassword) => usersRepository.createUser({ ...user, hashedPassword }))
     .then((userId) => authService.createSession(userId))
     .then(() => appRouter().redirectTo(HOME));
 };

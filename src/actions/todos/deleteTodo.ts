@@ -16,6 +16,6 @@ const deleteTodoSchema = z.object({ todoId: z.string().min(1) });
 export const deleteTodo = async (command: Command) => {
   const session = await authService.verifySession();
   const todo = deleteTodoSchema.parse(command);
-  await usersRepository.deleteTodo(session.userId, todo.todoId);
+  await usersRepository.deleteTodo({ userId: session.userId, todoId: todo.todoId });
   webCache.revalidatePath(`users/${session.userId}`);
 };

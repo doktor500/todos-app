@@ -29,7 +29,7 @@ describe("edit todo action", () => {
     vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: user.id });
 
     await editTodo({ todoId: todo.id, content });
-    expect(usersRepository.updateTodo).toHaveBeenCalledWith(user.id, { id: todo.id, content });
+    expect(usersRepository.updateTodo).toHaveBeenCalledWith({ userId: user.id, todo: { id: todo.id, content } });
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });
 });

@@ -7,10 +7,10 @@ export type ExistingTodo = Pick<Todo, "id"> & Partial<Todo>;
 interface UsersRepository {
   get(userId: UserId): Promise<Optional<User>>;
   getUserIdBy({ email, hashedPassword }: { email: string; hashedPassword: string }): Promise<Optional<UserId>>;
-  createUser(username: string, email: string, hashedPassword: string): Promise<UserId>;
-  saveTodo(userId: UserId, content: string): Promise<void>;
-  updateTodo(userId: UserId, todo: ExistingTodo): Promise<void>;
-  deleteTodo(userId: UserId, todoId: TodoId): Promise<void>;
+  createUser(user: { username: string; email: string; hashedPassword: string }): Promise<UserId>;
+  saveTodo({ userId, content }: { userId: UserId; content: string }): Promise<void>;
+  updateTodo({ userId, todo }: { userId: UserId; todo: ExistingTodo }): Promise<void>;
+  deleteTodo({ userId, todoId }: { userId: UserId; todoId: TodoId }): Promise<void>;
 }
 
 export default UsersRepository;

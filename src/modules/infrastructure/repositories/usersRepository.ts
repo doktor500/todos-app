@@ -26,24 +26,24 @@ export const usersRepository: UsersRepository = {
       where: (user) => and(eq(user.email, query.email), eq(user.password, query.hashedPassword)),
     }).then((data) => data?.id);
   },
-  createUser: async (username: string, email: string, hashedPassword: string) => {
+  createUser: async (user: { username: string; email: string; hashedPassword: string }) => {
     const users = await db
       .insert(UsersTable)
-      .values({ username, email, password: hashedPassword })
+      .values({ username: user.username, email: user.email, password: user.hashedPassword })
       .returning({ id: UsersTable.id });
 
     return users[0].id;
   },
-  saveTodo: async (userId: UserId, content: string): Promise<void> => {
+  saveTodo: async ({ userId, content }: { userId: UserId; content: string }): Promise<void> => {
     await db.insert(TodosTable).values({ userId, content });
   },
-  updateTodo: async (userId: UserId, todo: ExistingTodo): Promise<void> => {
+  updateTodo: async ({ userId, todo }: { userId: UserId; todo: ExistingTodo }): Promise<void> => {
     await db
       .update(TodosTable)
       .set(todo)
       .where(and(eq(TodosTable.userId, userId), eq(TodosTable.id, todo.id)));
   },
-  deleteTodo: async (userId: UserId, todoId: TodoId): Promise<void> => {
+  deleteTodo: async ({ userId, todoId }: { userId: UserId; todoId: TodoId }): Promise<void> => {
     await db.delete(TodosTable).where(and(eq(TodosTable.userId, userId), eq(TodosTable.id, todoId)));
   },
 };

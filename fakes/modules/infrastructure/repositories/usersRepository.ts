@@ -27,13 +27,13 @@ export const fakeUsersRepository = () => {
 
       return user?.id;
     },
-    createUser: async (username: string, email: string) => {
+    createUser: async (user: { username: string; email: string; hashedPassword: string }) => {
       const id = randomDataGenerator.aNumber();
-      await repository.save({ id, username, email, todos: [] });
+      await repository.save({ id, username: user.username, email: user.email, todos: [] });
 
       return id;
     },
-    saveTodo: async (userId: UserId, content: string): Promise<void> => {
+    saveTodo: async ({ userId, content }: { userId: UserId; content: string }): Promise<void> => {
       const user = await repository.get(userId);
       if (user) {
         const todo: Todo = { id: uniqueIdGenerator.uuid(), content, completed: false, createdAt: new Date() };
@@ -41,14 +41,14 @@ export const fakeUsersRepository = () => {
         await repository.save(updatedUser);
       }
     },
-    updateTodo: async (userId: UserId, todo: ExistingTodo): Promise<void> => {
+    updateTodo: async ({ userId, todo }: { userId: UserId; todo: ExistingTodo }): Promise<void> => {
       const user = await repository.get(userId);
       if (user) {
         const updatedTodos = updateUserTodo(user, todo);
         await repository.save({ ...user, todos: updatedTodos });
       }
     },
-    deleteTodo: async (userId: UserId, todoId: TodoId): Promise<void> => {
+    deleteTodo: async ({ userId, todoId }: { userId: UserId; todoId: TodoId }): Promise<void> => {
       const user = await repository.get(userId);
       if (user) {
         const updatedUser = { ...user, todos: user.todos.filter((todo) => todo.id !== todoId) };

@@ -17,6 +17,6 @@ const toggleTodoSchema = z.object({ todoId: z.string().min(1), completed: z.bool
 export const toggleTodo = async (command: Command) => {
   const session = await authService.verifySession();
   const todo = toggleTodoSchema.parse(command);
-  await usersRepository.updateTodo(session.userId, { id: todo.todoId, completed: todo.completed });
+  await usersRepository.updateTodo({ userId: session.userId, todo: { id: todo.todoId, completed: todo.completed } });
   webCache.revalidatePath(`users/${session.userId}`);
 };

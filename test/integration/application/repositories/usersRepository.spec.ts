@@ -45,7 +45,11 @@ describe("Users repository", () => {
   `("$name can create a user", async ({ repository }) => {
     const user = { username: "james", email: "james@email.com", password: "password" };
 
-    const id = await repository.createUser(user.username, user.email, user.password);
+    const id = await repository.createUser({
+      username: user.username,
+      email: user.email,
+      hashedPassword: user.password,
+    });
     const fetchedUser = await repository.get(id);
     const expectedUser = aUser({ ...user, id, todos: [] });
 
@@ -61,7 +65,7 @@ describe("Users repository", () => {
     const user = aUser({ id: 2, username: "sarah", todos: [], password: "password" });
     await repository.save(user);
 
-    await repository.saveTodo(user.id, newTodo);
+    await repository.saveTodo({ userId: user.id, content: newTodo });
 
     const fetchedUser = await repository.get(user.id);
 
@@ -85,7 +89,7 @@ describe("Users repository", () => {
     const newTodoContent = "new content";
     await repository.save(user);
 
-    await repository.updateTodo(user.id, { id: todo.id, completed: true, content: newTodoContent });
+    await repository.updateTodo({ userId: user.id, todo: { id: todo.id, completed: true, content: newTodoContent } });
     const existingUserWithUpdatedTodo = await repository.get(user.id);
 
     expect(existingUserWithUpdatedTodo?.todos).toContainEqual(
@@ -107,7 +111,7 @@ describe("Users repository", () => {
     const user = aUser({ todos: [todo], password: "password" });
     await repository.save(user);
 
-    await repository.deleteTodo(user.id, todo.id);
+    await repository.deleteTodo({ userId: user.id, todoId: todo.id });
     const existingUserWithDeletedTodo = await repository.get(user.id);
 
     expect(existingUserWithDeletedTodo?.todos).toEqual([]);

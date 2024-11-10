@@ -17,6 +17,6 @@ const editTodoSchema = z.object({ todoId: z.string().min(1), content: z.string()
 export const editTodo = async (command: Command) => {
   const session = await authService.verifySession();
   const todo = editTodoSchema.parse(command);
-  await usersRepository.updateTodo(session.userId, { id: todo.todoId, content: todo.content });
+  await usersRepository.updateTodo({ userId: session.userId, todo: { id: todo.todoId, content: todo.content } });
   webCache.revalidatePath(`users/${session.userId}`);
 };

@@ -28,7 +28,7 @@ describe("create todo action", () => {
     vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: user.id });
 
     await createTodo(formData({ content: newTodo }));
-    expect(usersRepository.saveTodo).toHaveBeenCalledWith(user.id, newTodo);
+    expect(usersRepository.saveTodo).toHaveBeenCalledWith({ userId: user.id, content: newTodo });
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });
 });

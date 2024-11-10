@@ -28,7 +28,10 @@ describe("toggle todo action", () => {
     vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: user.id });
 
     await toggleTodo({ todoId: todo.id, completed: true });
-    expect(usersRepository.updateTodo).toHaveBeenCalledWith(user.id, { id: todo.id, completed: true });
+    expect(usersRepository.updateTodo).toHaveBeenCalledWith({
+      userId: user.id,
+      todo: { id: todo.id, completed: true },
+    });
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });
 });

@@ -12,6 +12,6 @@ const createTodoSchema = z.object({ content: z.string().min(1).max(MAX_LENGTH) }
 export const createTodo = async (formData: FormData) => {
   const session = await authService.verifySession();
   const data = createTodoSchema.parse({ userId: Number(formData.get("userId")), content: formData.get("content") });
-  await usersRepository.saveTodo(session.userId, data.content);
+  await usersRepository.saveTodo({ userId: session.userId, content: data.content });
   webCache.revalidatePath(`users/${session.userId}`);
 };

@@ -28,7 +28,7 @@ describe("delete todo action", () => {
     vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: user.id });
 
     await deleteTodo({ todoId: todo.id });
-    expect(usersRepository.deleteTodo).toHaveBeenCalledWith(user.id, todo.id);
+    expect(usersRepository.deleteTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id });
     expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
   });
 });

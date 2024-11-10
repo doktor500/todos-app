@@ -11,13 +11,14 @@ describe("User sign up page", () => {
   const initialState = undefined;
 
   it("displays validation errors when the form is submitted with invalid values", async () => {
+    const data = { username: "-", email: "email", password: "invalid" };
     const errors = {
       username: ["Username must be at least 3 characters long"],
       email: ["Please enter a valid email address"],
       password: ["Password must be at least 8 characters long"],
     };
 
-    vi.mocked(createUser).mockResolvedValueOnce({ errors });
+    vi.mocked(createUser).mockResolvedValueOnce({ data, errors });
 
     render(<Page />);
 

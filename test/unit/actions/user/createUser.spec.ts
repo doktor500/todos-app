@@ -22,6 +22,7 @@ describe("create user action", () => {
 
     expect(usersRepository.createUser).not.toHaveBeenCalled();
     expect(errors).toEqual({
+      data,
       errors: {
         username: ["Username must be at least 3 characters long"],
         email: ["Please enter a valid email address"],

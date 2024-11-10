@@ -27,9 +27,9 @@ export const SignUpForm = () => {
         </CardHeader>
         <CardContent>
           <form action={action} className="space-y-4">
-            <UsernameFormInput errors={state?.errors} />
-            <EmailFormInput errors={state?.errors} />
-            <PasswordFormInput errors={state?.errors} />
+            <UsernameFormInput value={state?.data?.username} errors={state?.errors.username} />
+            <EmailFormInput value={state?.data?.email} errors={state?.errors.email} />
+            <PasswordFormInput value={state?.data?.password} errors={state?.errors.password} />
             <FormActionButton isLoading={pending} value="Sign Up" />
           </form>
         </CardContent>

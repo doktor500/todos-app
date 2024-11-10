@@ -2,11 +2,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 
-type Errors = {
-  username?: Optional<Array<string>>;
+type Props = {
+  value: Optional<string>;
+  errors: Optional<Array<string>>;
 };
 
-export const UsernameFormInput = ({ errors }: { errors: Optional<Errors> }) => {
+export const UsernameFormInput = ({ value, errors }: Props) => {
   return (
     <div className="space-y-2">
       <Label htmlFor="username">User name</Label>
@@ -16,9 +17,10 @@ export const UsernameFormInput = ({ errors }: { errors: Optional<Errors> }) => {
         aria-label="User name"
         type="text"
         placeholder="johndoe"
-        aria-invalid={errors?.username ? "true" : "false"}
+        aria-invalid={errors ? "true" : "false"}
+        defaultValue={value}
       />
-      {errors?.username && <p className="text-sm text-red-500">{errors.username}</p>}
+      {errors && <p className="text-sm text-red-500">{errors}</p>}
     </div>
   );
 };

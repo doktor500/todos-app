@@ -7,15 +7,17 @@ import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import appRouter, { Route } from "@/router/appRouter";
 
-type Errors = {
+type State = {
+  data: { email: Optional<string>; password: Optional<string> };
   errors: LoginUserErrors["fieldErrors"];
 };
 
 const { HOME } = Route;
 
-export const loginUser = async (_state: Optional<Errors>, formData: FormData): Promise<Optional<Errors>> => {
-  const result = loginUserSchema.safeParse({ email: formData.get("email"), password: formData.get("password") });
-  if (!result.success) return { errors: result.error.flatten().fieldErrors };
+export const loginUser = async (_state: Optional<State>, formData: FormData): Promise<State> => {
+  const data = { email: formData.get("email")?.toString(), password: formData.get("password")?.toString() };
+  const result = loginUserSchema.safeParse(data);
+  if (!result.success) return { data, errors: result.error.flatten().fieldErrors };
 
   const { email, password } = result.data;
   const hashedPassword = await hash(password);
@@ -24,6 +26,7 @@ export const loginUser = async (_state: Optional<Errors>, formData: FormData): P
   if (userId) await authService.createSession(userId).then(() => appRouter().redirectTo(HOME));
 
   return {
+    data: result.data,
     errors: {
       email: ["Invalid email or password"],
       password: ["Invalid email or password"],

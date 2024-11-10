@@ -2,11 +2,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 
-type Errors = {
-  password?: Optional<Array<string>>;
+type Props = {
+  value: Optional<string>;
+  errors: Optional<Array<string>>;
 };
 
-export const PasswordFormInput = ({ errors }: { errors: Optional<Errors> }) => {
+export const PasswordFormInput = ({ value, errors }: Props) => {
   return (
     <div className="space-y-2">
       <Label htmlFor="password">Password</Label>
@@ -15,9 +16,10 @@ export const PasswordFormInput = ({ errors }: { errors: Optional<Errors> }) => {
         name="password"
         aria-label="Password"
         type="password"
-        aria-invalid={errors?.password ? "true" : "false"}
+        aria-invalid={errors ? "true" : "false"}
+        defaultValue={value}
       />
-      {errors?.password && <p className="text-sm text-red-500">{errors.password}</p>}
+      {errors && <p className="text-sm text-red-500">{errors}</p>}
     </div>
   );
 };

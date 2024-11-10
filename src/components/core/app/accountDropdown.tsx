@@ -18,7 +18,7 @@ export const AccountDropdown = () => {
         <Image
           aria-label="Account"
           src="/images/user-account-icon.png"
-          alt="logo"
+          alt="account"
           width="64"
           height="64"
           className="cursor-pointer opacity-80 hover:opacity-100"

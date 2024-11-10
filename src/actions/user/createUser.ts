@@ -7,20 +7,23 @@ import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import appRouter, { Route } from "@/router/appRouter";
 
-type Errors = {
+type State = {
+  data: { username: Optional<string>; email: Optional<string>; password: Optional<string> };
   errors: CreateUserErrors["fieldErrors"];
 };
 
 const { HOME } = Route;
 
-export const createUser = async (_state: Optional<Errors>, formData: FormData): Promise<Optional<Errors>> => {
-  const result = createUserSchema.safeParse({
-    username: formData.get("username"),
-    email: formData.get("email"),
-    password: formData.get("password"),
-  });
+export const createUser = async (_state: Optional<State>, formData: FormData): Promise<State> => {
+  const data = {
+    username: formData.get("username")?.toString(),
+    email: formData.get("email")?.toString(),
+    password: formData.get("password")?.toString(),
+  };
 
-  if (!result.success) return { errors: result.error.flatten().fieldErrors };
+  const result = createUserSchema.safeParse(data);
+
+  if (!result.success) return { data, errors: result.error.flatten().fieldErrors };
 
   const { username, email, password } = result.data;
   const user = { username: username.toLowerCase(), email: email.toLowerCase() };

@@ -22,6 +22,7 @@ describe("login user action", () => {
 
     expect(usersRepository.getUserIdBy).not.toHaveBeenCalled();
     expect(errors).toEqual({
+      data,
       errors: {
         email: ["Please enter a valid email address"],
         password: ["Password must be at least 8 characters long"],
@@ -78,6 +79,7 @@ describe("login user action", () => {
     const errors = await loginUser(initialState, formData(data));
 
     expect(errors).toEqual({
+      data,
       errors: {
         email: ["Invalid email or password"],
         password: ["Invalid email or password"],

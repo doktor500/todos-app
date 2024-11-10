@@ -30,8 +30,8 @@ export const LoginForm = () => {
         </CardHeader>
         <CardContent>
           <form action={action} className="space-y-4">
-            <EmailFormInput errors={state?.errors} />
-            <PasswordFormInput errors={state?.errors} />
+            <EmailFormInput value={state?.data?.email} errors={state?.errors.email} />
+            <PasswordFormInput value={state?.data?.password} errors={state?.errors.password} />
             <FormActionButton isLoading={pending} value="Log in" />
           </form>
         </CardContent>

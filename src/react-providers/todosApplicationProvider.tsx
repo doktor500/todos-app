@@ -4,7 +4,7 @@ import { createContext, Dispatch, useOptimistic, useTransition } from "react";
 
 import { Todo } from "@/modules/domain/todo";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { TodosProvider } from "@/providers/todosProvider";
+import { TodosProvider } from "@/react-providers/todosProvider";
 import { TodoOptimisticAction, todoOptimisticActionReducer } from "@/reducers/todoOptimisticActionReducer";
 
 type TodosApplicationContextType = {

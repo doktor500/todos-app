@@ -1,9 +1,9 @@
 "use client";
 
-import { Combobox } from "@/components/ui/combobox";
 import { useTodos } from "@/hooks/useTodos";
 import { defaultTodosFilter, TodosFilter } from "@/modules/domain/todosFilter";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
+import { Combobox } from "@/react-components/ui/combobox";
 import { TodoBaseActionType } from "@/reducers/todoActionReducer";
 
 const { SET_TODOS_FILTER } = TodoBaseActionType;

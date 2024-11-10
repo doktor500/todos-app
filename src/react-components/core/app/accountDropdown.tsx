@@ -9,7 +9,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/react-components/ui/dropdown-menu";
 
 export const AccountDropdown = () => {
   return (

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { TodosContext } from "@/providers/todosProvider";
+import { TodosContext } from "@/react-providers/todosProvider";
 import { TodoBaseAction } from "@/reducers/todoActionReducer";
 import { TodoOptimisticAction } from "@/reducers/todoOptimisticActionReducer";
 

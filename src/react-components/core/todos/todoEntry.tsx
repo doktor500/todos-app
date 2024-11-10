@@ -1,11 +1,11 @@
 "use client";
 
-import { DeleteTodoButton } from "@/components/core/todos/deleteTodoButton";
-import { TodoCheckBox } from "@/components/core/todos/todoCheckBox";
-import { TodoInput } from "@/components/core/todos/todoInput";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { cn } from "@/lib/utils";
 import { TodoId } from "@/modules/domain/todo";
+import { DeleteTodoButton } from "@/react-components/core/todos/deleteTodoButton";
+import { TodoCheckBox } from "@/react-components/core/todos/todoCheckBox";
+import { TodoInput } from "@/react-components/core/todos/todoInput";
 
 type Props = {
   todoId: TodoId;

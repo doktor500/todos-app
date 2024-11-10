@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/react-components/ui/button";
 
 export const FormActionButton = ({ isLoading, value }: { isLoading: boolean; value: string }) => {
   return (

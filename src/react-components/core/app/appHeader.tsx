@@ -1,8 +1,8 @@
-import { AccountDropdown } from "@/components/core/app/accountDropdown";
-import { AppLogo } from "@/components/core/app/appLogo";
-import { AppSpinner } from "@/components/core/app/appSpinner";
-import { AppTitle } from "@/components/core/app/appTitle";
 import { cn } from "@/lib/utils";
+import { AccountDropdown } from "@/react-components/core/app/accountDropdown";
+import { AppLogo } from "@/react-components/core/app/appLogo";
+import { AppSpinner } from "@/react-components/core/app/appSpinner";
+import { AppTitle } from "@/react-components/core/app/appTitle";
 
 type Props = {
   title?: string;

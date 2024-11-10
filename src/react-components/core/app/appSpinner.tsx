@@ -1,7 +1,7 @@
 "use client";
 
-import { Spinner } from "@/components/ui/spinner";
 import { useIsServer } from "@/hooks/common/useIsServer";
+import { Spinner } from "@/react-components/ui/spinner";
 
 export const AppSpinner = ({ isPending }: { isPending: boolean }) => {
   const isServer = useIsServer();

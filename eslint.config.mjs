@@ -144,7 +144,7 @@ export default [
     },
   },
   {
-    files: ["src/components/ui/**/*.tsx"],
+    files: ["src/react-components/ui/**/*.tsx"],
     rules: {
       "react/prop-types": "off",
     },

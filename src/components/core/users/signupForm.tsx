@@ -3,13 +3,13 @@
 import { useActionState } from "react";
 
 import { createUser } from "@/actions/user/createUser";
-import { AppHeader } from "@/react-components/core/app/appHeader";
-import { EmailFormInput } from "@/react-components/core/users/form/emailFormInput";
-import { FormActionButton } from "@/react-components/core/users/form/formActionButton";
-import { FormFooter } from "@/react-components/core/users/form/formFooter";
-import { PasswordFormInput } from "@/react-components/core/users/form/passwordFormInput";
-import { UsernameFormInput } from "@/react-components/core/users/form/usernameFormInput";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/react-components/ui/card";
+import { AppHeader } from "@/components/core/app/appHeader";
+import { EmailFormInput } from "@/components/core/users/form/emailFormInput";
+import { FormActionButton } from "@/components/core/users/form/formActionButton";
+import { FormFooter } from "@/components/core/users/form/formFooter";
+import { PasswordFormInput } from "@/components/core/users/form/passwordFormInput";
+import { UsernameFormInput } from "@/components/core/users/form/usernameFormInput";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Route } from "@/router/appRouter";
 
 const { LOGIN } = Route;

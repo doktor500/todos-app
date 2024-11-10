@@ -1,10 +1,10 @@
 import { Viewport } from "next";
 
 import { getUser } from "@/actions/user/getUser";
+import { Todos } from "@/components/core/todos/todos";
 import { User } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { Todos } from "@/react-components/core/todos/todos";
-import { TodosApplicationProvider } from "@/react-providers/todosApplicationProvider";
+import { TodosApplicationProvider } from "@/providers/todosApplicationProvider";
 import appRouter, { Route } from "@/router/appRouter";
 
 export const viewport: Viewport = {

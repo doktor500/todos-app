@@ -1,7 +1,7 @@
 "use client";
 
+import { TodoEntry } from "@/components/core/todos/todoEntry";
 import { useTodos } from "@/hooks/useTodos";
-import { TodoEntry } from "@/react-components/core/todos/todoEntry";
 
 export const TodoList = () => {
   const { getTodos } = useTodos();

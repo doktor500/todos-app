@@ -1,10 +1,10 @@
 "use client";
 
+import { AppHeader } from "@/components/core/app/appHeader";
+import { CreateTodoForm } from "@/components/core/todos/createTodoForm";
+import { TodoList } from "@/components/core/todos/todoList";
+import { TodosSearchBar } from "@/components/core/todos/todosSearchBar";
 import { useTodos } from "@/hooks/useTodos";
-import { AppHeader } from "@/react-components/core/app/appHeader";
-import { CreateTodoForm } from "@/react-components/core/todos/createTodoForm";
-import { TodoList } from "@/react-components/core/todos/todoList";
-import { TodosSearchBar } from "@/react-components/core/todos/todosSearchBar";
 
 export const Todos = () => {
   const { pendingTransaction } = useTodos();

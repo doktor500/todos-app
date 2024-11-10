@@ -3,11 +3,11 @@
 import { PlusIcon } from "lucide-react";
 
 import { createTodo } from "@/actions/todos/createTodo";
+import { CreateTodoInput } from "@/components/core/todos/createTodoInput";
 import { useForm } from "@/hooks/common/useForm";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
-import { CreateTodoInput } from "@/react-components/core/todos/createTodoInput";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
 const { CREATE_TODO } = TodoOptimisticActionType;

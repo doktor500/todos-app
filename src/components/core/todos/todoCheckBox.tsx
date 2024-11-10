@@ -3,9 +3,9 @@
 import { UIEvent } from "react";
 
 import { toggleTodo } from "@/actions/todos/toggleTodo";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useTodos } from "@/hooks/useTodos";
 import { TodoId } from "@/modules/domain/todo";
-import { Checkbox } from "@/react-components/ui/checkbox";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
 type Props = {

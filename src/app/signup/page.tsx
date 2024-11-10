@@ -1,4 +1,4 @@
-import { SignUpForm } from "@/react-components/core/users/signupForm";
+import { SignUpForm } from "@/components/core/users/signupForm";
 
 const Page = () => {
   return (

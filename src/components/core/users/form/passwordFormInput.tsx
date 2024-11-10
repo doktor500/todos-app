@@ -1,22 +1,21 @@
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
-import { Input } from "@/react-components/ui/input";
-import { Label } from "@/react-components/ui/label";
 
 type Props = {
   value: Optional<string>;
   errors: Optional<Array<string>>;
 };
 
-export const UsernameFormInput = ({ value, errors }: Props) => {
+export const PasswordFormInput = ({ value, errors }: Props) => {
   return (
     <div className="space-y-2">
-      <Label htmlFor="username">User name</Label>
+      <Label htmlFor="password">Password</Label>
       <Input
-        id="username"
-        name="username"
-        aria-label="User name"
-        type="text"
-        placeholder="johndoe"
+        id="password"
+        name="password"
+        aria-label="Password"
+        type="password"
         aria-invalid={errors ? "true" : "false"}
         defaultValue={value}
       />

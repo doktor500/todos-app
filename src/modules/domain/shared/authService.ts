@@ -1,3 +1,5 @@
+import "server-only";
+
 import { authCookie } from "@/modules/domain/shared/authCookie";
 import cookieManager from "@/modules/domain/shared/cookieManager";
 import { UserId } from "@/modules/domain/user";

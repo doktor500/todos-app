@@ -2,14 +2,14 @@
 import path from "path";
 import { defineConfig } from "vitest/config";
 
-import { rootConfig } from "../../vitest.config.mjs";
+import { rootConfig } from "../../vitest.config";
 
 export default defineConfig({
   ...rootConfig,
   root: "./test/integration",
   test: {
     ...rootConfig.test,
-    setupFiles: [...rootConfig.test.setupFiles],
-    globalSetup: [path.resolve(__dirname, "vitest-integration-tests-setup.ts")],
+    setupFiles: [path.resolve(__dirname, "vitest-integration-tests-setup.ts")],
+    globalSetup: [path.resolve(__dirname, "vitest-integration-global-tests-setup.ts")],
   },
 });

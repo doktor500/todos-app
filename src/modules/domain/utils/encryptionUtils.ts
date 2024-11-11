@@ -1,3 +1,5 @@
+import "server-only";
+
 import bcrypt from "bcryptjs";
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
 

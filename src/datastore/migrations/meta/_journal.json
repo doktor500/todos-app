@@ -71,6 +71,13 @@
       "when": 1729962325500,
       "tag": "0009_giant_master_chief",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1731357343380,
+      "tag": "0010_tiresome_giant_man",
+      "breakpoints": true
     }
   ]
 }

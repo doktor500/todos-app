@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
+import { MAX_PASSWORD_LENGTH } from "@/modules/domain/utils/stringUtils";
 
 type Props = {
   value: Optional<string>;
@@ -17,6 +18,7 @@ export const PasswordFormInput = ({ value, errors }: Props) => {
         aria-label="Password"
         type="password"
         aria-invalid={errors ? "true" : "false"}
+        maxLength={MAX_PASSWORD_LENGTH}
         defaultValue={value}
       />
       {errors && <p className="text-sm text-red-500">{errors}</p>}

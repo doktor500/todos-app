@@ -3,7 +3,7 @@ import "dotenv/config";
 import { relations } from "drizzle-orm";
 import { boolean, index, integer, pgTable, serial, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
-import { MAX_LENGTH } from "@/modules/domain/utils/stringUtils";
+import { MAX_LENGTH, MAX_PASSWORD_LENGTH } from "@/modules/domain/utils/stringUtils";
 
 export const UsersTable = pgTable(
   "users",
@@ -11,7 +11,7 @@ export const UsersTable = pgTable(
     id: serial("id").primaryKey(),
     username: varchar("username", { length: MAX_LENGTH }).notNull().unique(),
     email: varchar("email", { length: MAX_LENGTH }).notNull().unique(),
-    password: varchar("password", { length: MAX_LENGTH }).notNull(),
+    password: varchar("password", { length: MAX_PASSWORD_LENGTH }).notNull(),
   },
   (table) => {
     return {

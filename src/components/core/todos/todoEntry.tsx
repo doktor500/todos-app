@@ -22,7 +22,7 @@ export const TodoEntry = ({ todoId, content, completed, stale }: Props) => {
     <div
       className={cn(
         "flex items-center h-11 overflow-x-hidden dark:text-white rounded-sm pl-5 dark:bg-slate-700/60 dark:hover:bg-slate-800",
-        { "cursor-wait": disabled }
+        { "cursor-wait": disabled, "animate-pulse": disabled }
       )}
     >
       <TodoCheckBox todoId={todoId} completed={completed} disabled={disabled} />

@@ -222,4 +222,18 @@ describe("todos page", () => {
       expect(screen.queryByLabelText(`Edit todo ${todo2.content}`)).toBeInTheDocument();
     });
   });
+
+  it("does not display the add todo form when the filter status is set to done", async () => {
+    const user = aUser();
+    vi.mocked(getUser).mockResolvedValueOnce(user);
+
+    await renderAsync(Page);
+
+    fireEvent.click(screen.getByRole("combobox"));
+    fireEvent.click(screen.getByRole("option", { name: "Done" }));
+
+    await waitFor(() => {
+      expect(screen.queryByLabelText("New todo")).not.toBeInTheDocument();
+    });
+  });
 });

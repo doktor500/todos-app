@@ -3,6 +3,7 @@
 /out/
 /build
 .DS_Store
+.env
 .env*.local
 .vercel
 *.tsbuildinfo

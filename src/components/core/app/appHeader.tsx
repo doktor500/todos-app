@@ -12,15 +12,15 @@ type Props = {
 
 export const AppHeader = ({ title, isPending, showAccountMenu }: Props) => {
   return (
-    <div className={cn("flex pb-6 pt-4", { "pl-12": showAccountMenu, "pt-7": !showAccountMenu })}>
+    <div className={cn("flex pb-14", { "pl-12 pt-4": showAccountMenu, "pt-7": !showAccountMenu })}>
       <div className="flex w-full items-center justify-center">
-        <div className="h-8">
+        <div className="mt-4 h-8">
           <AppSpinner isPending={isPending ?? false} />
           <AppLogo />
         </div>
         <AppTitle title={title} />
       </div>
-      <div className="pt-2">{showAccountMenu && <AccountDropdown />}</div>
+      {showAccountMenu && <AccountDropdown />}
     </div>
   );
 };

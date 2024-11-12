@@ -28,16 +28,17 @@ export const CreateTodoForm = () => {
 
   return (
     <div
-      className={cn("h-11 rounded-lg pl-6 pt-2 dark:bg-slate-900 dark:hover:bg-slate-800 border dark:border-gray-600", {
-        "opacity-50": isServer,
-      })}
+      className={cn(
+        "flex items-center dark:text-white h-11 rounded-lg pl-6 dark:bg-slate-900 dark:hover:bg-slate-800 border dark:border-gray-600",
+        {
+          "opacity-50": isServer,
+        }
+      )}
     >
-      <div className="flex items-center dark:text-white">
-        <PlusIcon className={cn("size-5", { "cursor-wait": isServer })} />
-        <form ref={formRef} action={handleCreateTodo} aria-label="Create todo" className="w-full pr-6">
-          <CreateTodoInput disabled={isServer} />
-        </form>
-      </div>
+      <PlusIcon className={cn("size-5", { "cursor-wait": isServer })} />
+      <form ref={formRef} action={handleCreateTodo} aria-label="Create todo" className="w-full pr-6">
+        <CreateTodoInput disabled={isServer} />
+      </form>
     </div>
   );
 };

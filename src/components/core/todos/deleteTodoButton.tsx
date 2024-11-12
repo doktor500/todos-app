@@ -26,7 +26,7 @@ export const DeleteTodoButton = ({ todoId, disabled }: Props) => {
   };
 
   return (
-    <div className={cn("text-slate-200 hover:text-white pr-3.5", { "opacity-50": disabled })}>
+    <div className={cn("pr-3.5", { "opacity-50": disabled })}>
       <button
         id={`delete-todo${todoId}`}
         aria-label="Delete todo"

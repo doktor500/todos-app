@@ -21,9 +21,11 @@ type Props = {
   initialSelectedItem?: string;
   onItemSelected: FilterSelectedHandler;
   disabled: boolean;
+  className?: string;
 };
 
-export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelectFilter, disabled }: Props) => {
+export const Combobox = (props: Props) => {
+  const { items, initialSelectedItem, onItemSelected: setSelectFilter, disabled, className } = props;
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(initialSelectedItem ?? items.at(0)?.value);
   const selectedItem = items.find((item) => item.value === value)?.label;
@@ -36,33 +38,35 @@ export const Combobox = ({ items, initialSelectedItem, onItemSelected: setSelect
   };
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild disabled={disabled} className="disabled:cursor-wait">
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[98px] justify-between border-none bg-transparent"
-        >
-          {selectedItem}
-          <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[98px] p-0">
-        <Command>
-          <CommandInput />
-          <CommandList>
-            <CommandGroup>
-              {items.map((item) => (
-                <CommandItem key={item.value} value={item.value} onSelect={handleOnSelectedItem}>
-                  <Check className={cn("mr-2 h-4 w-4", { "opacity-0": value !== item.value })} />
-                  {item.label}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <div className={className}>
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild disabled={disabled} className="disabled:cursor-wait">
+          <Button
+            variant="outline"
+            role="combobox"
+            aria-expanded={open}
+            className="w-[100px] justify-between border-none bg-transparent"
+          >
+            {selectedItem}
+            <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="mt-1 w-[102px] p-0">
+          <Command>
+            <CommandInput />
+            <CommandList>
+              <CommandGroup>
+                {items.map((item) => (
+                  <CommandItem key={item.value} value={item.value} onSelect={handleOnSelectedItem}>
+                    <Check className={cn("mr-1 h-4 w-4", { "opacity-0": value !== item.value })} />
+                    {item.label}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </CommandList>
+          </Command>
+        </PopoverContent>
+      </Popover>
+    </div>
   );
 };

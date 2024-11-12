@@ -41,9 +41,11 @@ const sfProDisplay = localFont({
 const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
-      <body className={cn("h-screen bg-slate-900 antialiased", sfProDisplay.variable)}>
+      <body
+        className={cn("h-screen bg-gradient-to-b from-slate-900/80 to-slate-900 antialiased", sfProDisplay.variable)}
+      >
         <main role="main" className="container mx-auto max-w-2xl items-center justify-center px-4">
-          <div className="sticky top-0 z-50 bg-slate-900 pb-6">{children}</div>
+          <div className="sticky top-0 z-50 pb-6">{children}</div>
         </main>
         {isLocalEnvironment() && <VercelToolbar />}
         <Analytics />

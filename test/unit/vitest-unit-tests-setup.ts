@@ -1,3 +1,4 @@
+import "vitest-webgl-canvas-mock";
 import "core-js/features/promise/with-resolvers";
 
 import * as matchers from "@testing-library/jest-dom/vitest";

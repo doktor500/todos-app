@@ -38,6 +38,7 @@
     "@vercel/speed-insights": "^1.1.0",
     "@vercel/toolbar": "^0.1.26",
     "bcryptjs": "^2.4.3",
+    "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "1.0.4",
@@ -68,6 +69,7 @@
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@types/bcryptjs": "^2.4.6",
+    "@types/canvas-confetti": "^1.6.4",
     "@types/luxon": "^3.4.2",
     "@types/node": "^22",
     "@types/ramda": "^0.30.2",
@@ -105,7 +107,8 @@
     "typescript": "^5",
     "vite-tsconfig-paths": "^5.1.2",
     "vitest": "^2.1.4",
-    "vitest-mock-extended": "^2.0.2"
+    "vitest-mock-extended": "^2.0.2",
+    "vitest-webgl-canvas-mock": "^1.1.0"
   },
   "pnpm": {
     "overrides": {

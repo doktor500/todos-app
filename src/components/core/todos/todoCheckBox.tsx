@@ -1,5 +1,6 @@
 "use client";
 
+import confetti from "canvas-confetti";
 import { UIEvent } from "react";
 
 import { toggleTodo } from "@/actions/todos/toggleTodo";
@@ -21,6 +22,7 @@ export const TodoCheckBox = ({ todoId, completed, disabled }: Props) => {
 
   const handleToggleTodo = async (event: UIEvent) => {
     event.preventDefault();
+    if (!completed) confetti();
     dispatchAction({ type: TOGGLE_TODO, payload: { todoId } });
     await toggleTodo({ todoId, completed: !completed });
   };

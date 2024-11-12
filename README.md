@@ -2,6 +2,16 @@
 
 Install `pnpm`
 
+Create a .env file with the following values
+
+```
+DATABASE_URL=postgresql://postgres:password@localhost:5432/todos_db
+AUTH_SECRET_KEY=<an auth secret key>
+ENCRYPTION_SALT=<an encryption sault>
+```
+
+An encryption salt can be created using `await bcrypt.genSalt()`
+
 Start database with docker compose:
 
 ```bash

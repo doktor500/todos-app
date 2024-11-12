@@ -1,15 +1,16 @@
-"use client";
-
 import { LogOut } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-import { logoutUser } from "@/actions/user/logoutUser";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Route } from "@/router/appRouter";
+
+const { LOGOUT } = Route;
 
 export const AccountDropdown = () => {
   return (
@@ -26,10 +27,12 @@ export const AccountDropdown = () => {
           />
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-28 dark:bg-slate-900">
-          <DropdownMenuItem className="cursor-pointer" onClick={logoutUser} aria-label="Log out">
-            <LogOut />
-            <span>Log out</span>
-          </DropdownMenuItem>
+          <Link href={LOGOUT}>
+            <DropdownMenuItem className="cursor-pointer" aria-label="Log out">
+              <LogOut />
+              <span>Log out</span>
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

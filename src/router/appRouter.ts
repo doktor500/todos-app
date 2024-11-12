@@ -5,6 +5,7 @@ export enum Route {
   TODOS = "/todos",
   SIGNUP = "/signup",
   LOGIN = "/login",
+  LOGOUT = "/logout",
 }
 
 const appRouter = () => {

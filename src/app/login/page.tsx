@@ -1,9 +1,8 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 
 import { loginUser } from "@/actions/user/loginUser";
-import { logoutUser } from "@/actions/user/logoutUser";
 import { AppHeader } from "@/components/core/app/appHeader";
 import { EmailFormInput } from "@/components/core/users/form/emailFormInput";
 import { FormActionButton } from "@/components/core/users/form/formActionButton";
@@ -16,10 +15,6 @@ const { SIGNUP } = Route;
 
 const Page = () => {
   const [state, action, pending] = useActionState(loginUser, undefined);
-
-  useEffect(() => {
-    logoutUser();
-  }, []);
 
   return (
     <>

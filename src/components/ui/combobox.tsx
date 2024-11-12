@@ -31,7 +31,7 @@ export const Combobox = (props: Props) => {
   const selectedItem = items.find((item) => item.value === value)?.label;
 
   const handleOnSelectedItem = (seletecdValue: string) => {
-    const newSelectedValue = seletecdValue === value ? items.at(0)?.value : seletecdValue;
+    const newSelectedValue = seletecdValue === value ? undefined : seletecdValue;
     setValue(seletecdValue);
     setSelectFilter(newSelectedValue);
     setOpen(false);

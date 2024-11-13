@@ -11,10 +11,7 @@ const { LOGIN } = Route;
 
 const Page = () => {
   const { redirectTo } = useRedirect();
-
-  useEffect(() => {
-    logoutUser().then(() => redirectTo(LOGIN));
-  }, [redirectTo]);
+  useEffect(() => void logoutUser().then(() => redirectTo(LOGIN)), [redirectTo]);
 
   return <AppHeader isPending={true} />;
 };

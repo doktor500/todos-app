@@ -1,4 +1,3 @@
-import { Todo } from "@/modules/domain/todo";
 import { findTodoFilter, TodosFilter } from "@/modules/domain/todosFilter";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
@@ -15,7 +14,6 @@ export type TodoBaseAction =
 export type DispatchTodoAction = (action: TodoBaseAction) => void;
 
 type TodosState = {
-  todos: Todo[];
   searchTerm: Optional<string>;
   todosFilter: TodosFilter;
 };

@@ -14,7 +14,7 @@ import { OptimisticTodo, TodoOptimisticActionType } from "@/reducers/todoOptimis
 type TodosContextType = {
   pendingTransaction: boolean;
   todosFilter: TodosFilter;
-  getTodos: () => OptimisticTodo[];
+  todos: OptimisticTodo[];
   dispatchAction: Dispatch<TodoAction>;
 };
 
@@ -26,11 +26,8 @@ export const TodosContext = createContext<Optional<TodosContextType>>(undefined)
 export const TodosProvider = ({ children }: { children: React.ReactNode }) => {
   const optimisticTodosContext = useOptimisticTodos();
   const initialFilerOptions = { searchTerm: undefined, todosFilter: defaultTodosFilter };
-  const filteredTodos = filterTodos(optimisticTodosContext.todos).by(initialFilerOptions);
-  const initialState = { todos: filteredTodos, ...initialFilerOptions };
-  const [state, dispatch] = useReducer(todoActionReducer, initialState);
-
-  const getTodos = () => filterTodos(optimisticTodosContext.todos).by(state);
+  const [state, dispatch] = useReducer(todoActionReducer, initialFilerOptions);
+  const todos = filterTodos(optimisticTodosContext.todos).by(state);
 
   const dispatchAction: Dispatch<TodoAction> = (action: TodoAction) => {
     return match(action)
@@ -46,7 +43,7 @@ export const TodosProvider = ({ children }: { children: React.ReactNode }) => {
   const value: TodosContextType = {
     pendingTransaction: optimisticTodosContext.pendingTransaction,
     todosFilter: state.todosFilter,
-    getTodos,
+    todos,
     dispatchAction,
   };
 

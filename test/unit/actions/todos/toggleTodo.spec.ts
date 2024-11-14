@@ -32,6 +32,6 @@ describe("toggle todo action", () => {
       userId: user.id,
       todo: { id: todo.id, completed: true },
     });
-    expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
+    expect(webCache.revalidatePath).toHaveBeenCalledWith("/todos");
   });
 });

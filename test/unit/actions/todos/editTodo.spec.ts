@@ -30,6 +30,6 @@ describe("edit todo action", () => {
 
     await editTodo({ todoId: todo.id, content });
     expect(usersRepository.updateTodo).toHaveBeenCalledWith({ userId: user.id, todo: { id: todo.id, content } });
-    expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
+    expect(webCache.revalidatePath).toHaveBeenCalledWith("/todos");
   });
 });

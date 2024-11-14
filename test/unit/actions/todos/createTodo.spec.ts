@@ -29,6 +29,6 @@ describe("create todo action", () => {
 
     await createTodo(formData({ content: newTodo }));
     expect(usersRepository.saveTodo).toHaveBeenCalledWith({ userId: user.id, content: newTodo });
-    expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
+    expect(webCache.revalidatePath).toHaveBeenCalledWith("/todos");
   });
 });

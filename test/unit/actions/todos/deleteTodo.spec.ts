@@ -29,6 +29,6 @@ describe("delete todo action", () => {
 
     await deleteTodo({ todoId: todo.id });
     expect(usersRepository.deleteTodo).toHaveBeenCalledWith({ userId: user.id, todoId: todo.id });
-    expect(webCache.revalidatePath).toHaveBeenCalledWith(`users/${user.id}`);
+    expect(webCache.revalidatePath).toHaveBeenCalledWith("/todos");
   });
 });

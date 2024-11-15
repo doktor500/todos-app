@@ -6,7 +6,7 @@ export const aTodo = (todo?: Partial<Todo>): Todo => {
     id: randomDataGenerator.anId(),
     content: randomDataGenerator.aString(),
     completed: false,
-    createdAt: new Date(),
+    index: randomDataGenerator.aNumber(),
     ...todo,
   };
 };

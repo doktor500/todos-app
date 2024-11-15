@@ -19,6 +19,7 @@ describe("toggle todo action", () => {
     ${{ todoId: "-1", completed: true }}
     ${{ todoId: "invalid", completed: true }}
   `("returns an error when the command is invalid", async ({ data }) => {
+    vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: 1 });
     await expect(toggleTodo(data)).rejects.toThrow();
   });
 

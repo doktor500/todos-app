@@ -1,4 +1,3 @@
-import clock from "@/modules/domain/shared/clock";
 import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
 import { Todo, TodoId, toggle } from "@/modules/domain/todo";
 import { replace } from "@/modules/domain/utils/collectionUtils";
@@ -11,15 +10,17 @@ export enum TodoOptimisticActionType {
   TOGGLE_TODO = "TOGGLE_TODO",
   EDIT_TODO = "EDIT_TODO",
   DELETE_TODO = "DELETE_TODO",
+  SORT_TODOS = "SORT_TODOS",
 }
 
-const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
+const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO, SORT_TODOS } = TodoOptimisticActionType;
 
 export type TodoOptimisticAction =
   | { type: TodoOptimisticActionType.CREATE_TODO; payload: { content: string } }
   | { type: TodoOptimisticActionType.TOGGLE_TODO; payload: { todoId: TodoId } }
   | { type: TodoOptimisticActionType.EDIT_TODO; payload: { todoId: TodoId; content: string } }
-  | { type: TodoOptimisticActionType.DELETE_TODO; payload: { todoId: TodoId } };
+  | { type: TodoOptimisticActionType.DELETE_TODO; payload: { todoId: TodoId } }
+  | { type: TodoOptimisticActionType.SORT_TODOS; payload: { todos: Todo[] } };
 
 export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisticAction): OptimisticTodo[] => {
   return match(action)
@@ -27,6 +28,7 @@ export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisti
     .with({ type: TOGGLE_TODO }, ({ payload }) => toggleTodo(state, payload.todoId))
     .with({ type: EDIT_TODO }, ({ payload }) => editTodo(state, payload.todoId, payload.content))
     .with({ type: DELETE_TODO }, ({ payload }) => deleteTodo(state, payload.todoId))
+    .with({ type: SORT_TODOS }, ({ payload }) => payload.todos)
     .exhaustive();
 };
 
@@ -35,7 +37,7 @@ const addTodo = (todos: Todo[], content: string) => {
     id: uniqueIdGenerator.uuid(),
     content,
     completed: false,
-    createdAt: clock.now(),
+    index: todos.length + 1,
     stale: true,
   };
 

@@ -1,0 +1,1 @@
+ALTER TABLE "todos" ADD COLUMN "index" integer DEFAULT 0;

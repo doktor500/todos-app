@@ -1,7 +1,6 @@
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import { expect } from "vitest";
-import { mock } from "vitest-mock-extended";
 
 import { createTodo } from "@/actions/todos/createTodo";
 import { deleteTodo } from "@/actions/todos/deleteTodo";
@@ -9,7 +8,6 @@ import { editTodo } from "@/actions/todos/editTodo";
 import { toggleTodo } from "@/actions/todos/toggleTodo";
 import { getUser } from "@/actions/user/getUser";
 import Page from "@/app/todos/page";
-import { useRedirect } from "@/hooks/common/useRedirect";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
 import { formData } from "@/test/unit/utils/formDataUtils";
@@ -20,13 +18,8 @@ vi.mock("@/actions/todos/toggleTodo");
 vi.mock("@/actions/todos/editTodo");
 vi.mock("@/actions/todos/deleteTodo");
 vi.mock("@/actions/user/getUser");
-vi.mock("@/hooks/common/useRedirect");
 
 describe("todos page", () => {
-  const useRedirectMock = mock(useRedirect());
-
-  beforeEach(() => vi.mocked(useRedirect).mockImplementation(() => useRedirectMock));
-
   it("renders user todos successfully", async () => {
     const todo = aTodo();
     const user = aUser({ id: 1, todos: [todo] });
@@ -55,7 +48,7 @@ describe("todos page", () => {
   });
 
   it("calls create todo action when the form is submitted", async () => {
-    const user = aUser();
+    const user = aUser({ todos: [] });
     const newTodo = "New todo content";
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
@@ -66,7 +59,7 @@ describe("todos page", () => {
 
     await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
 
-    expect(createTodo).toHaveBeenCalledWith(expect.objectContaining(formData({ todo: newTodo })));
+    expect(createTodo).toHaveBeenCalledWith(formData({ content: newTodo, index: 1 }));
   });
 
   it("clears the input field to create a todo when the form is submitted", async () => {

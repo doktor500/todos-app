@@ -28,7 +28,7 @@ describe("todo optimistic actions reducer", () => {
     expect(updatedTodos).toContainEqual({
       id: newTodoId,
       content: newTodo,
-      createdAt: currentDate,
+      index: 2,
       completed: false,
       stale: true,
     });

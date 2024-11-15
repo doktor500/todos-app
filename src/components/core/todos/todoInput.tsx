@@ -37,7 +37,7 @@ export const TodoInput = ({ todoId, content, disabled }: Props) => {
 
   return (
     <div className="w-full">
-      <label className="hidden" htmlFor={`todo-${todoId}`}>
+      <label className="hidden" htmlFor={`todo-${todoId}`} aria-label="todo">
         {content}
       </label>
       <input

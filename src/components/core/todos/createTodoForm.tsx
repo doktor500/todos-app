@@ -15,12 +15,13 @@ const { CREATE_TODO } = TodoOptimisticActionType;
 
 export const CreateTodoForm = () => {
   const isServer = useIsServer();
-  const { dispatchAction, todosFilter } = useTodos();
+  const { dispatchAction, todosFilter, allTodos } = useTodos();
   const { formRef, resetForm } = useForm();
   const display = todosFilter !== TodosFilter.COMPLETED;
 
   const handleCreateTodo = async (formData: FormData) => {
     const content = formData.get("content")?.toString();
+    formData.append("index", (allTodos.length + 1).toString());
     if (content) {
       dispatchAction({ type: CREATE_TODO, payload: { content } });
       resetForm();
@@ -32,7 +33,7 @@ export const CreateTodoForm = () => {
     display && (
       <div
         className={cn(
-          "flex items-center dark:text-white h-11 rounded-lg pl-6 dark:bg-slate-900 dark:hover:bg-slate-800 border dark:border-gray-600",
+          "flex items-center dark:text-white h-11 rounded-lg pl-5 dark:bg-slate-900 dark:hover:bg-slate-800 border dark:border-gray-600",
           {
             "opacity-50": isServer,
           }

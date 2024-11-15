@@ -149,4 +149,10 @@ export default [
       "react/prop-types": "off",
     },
   },
+  {
+    files: ["test/**", "fakes/**"],
+    rules: {
+      "no-await-in-loop": "off"
+    }
+  },
 ];

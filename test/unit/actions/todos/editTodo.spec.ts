@@ -19,6 +19,7 @@ describe("edit todo action", () => {
     ${{ todoId: "-1", content: "new-content" }}
     ${{ todoId: "invalid", content: "new-content" }}
   `("returns an error when the command is invalid", async ({ data }) => {
+    vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: 1 });
     await expect(editTodo(data)).rejects.toThrow();
   });
 

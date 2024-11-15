@@ -1,8 +1,11 @@
-import { expect, test } from "@playwright/test";
+import { expect, Page, test } from "@playwright/test";
+
+import { isNotEmpty } from "@/modules/domain/utils/stringUtils";
+import { dragAndDrop } from "@/test/browser/utils/dragAndDropUtils";
 
 test.describe.configure({ mode: "serial" });
 
-test("user can create and delete a todo", async ({ browser, baseURL }) => {
+test("a user can create and delete a todo", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ storageState: "playwright-storage.json" });
   const page = await context.newPage();
 
@@ -21,7 +24,20 @@ test("user can create and delete a todo", async ({ browser, baseURL }) => {
   await expect(page.getByRole("textbox", { name: "Buy coffee" })).toBeHidden();
 });
 
-test("the search filter reflects changes in the todo list when a user edits a todo", async ({ browser, baseURL }) => {
+test("a user can sort todos", async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ storageState: "playwright-storage.json" });
+  const page = await context.newPage();
+  const todos = ["0", "1", "2", "3", "4"];
+
+  await page.goto(`${baseURL}/todos`);
+  await createAllTodos(page, todos);
+  expect(await getAllTodos(page)).toEqual(todos.reverse());
+
+  await dragAndDrop(page, "svg[aria-label='Drag todo 0']", "svg[aria-label='Drag todo 4']");
+  expect(await getAllTodos(page)).toEqual(["0", "4", "3", "2", "1"]);
+});
+
+test("when a user edits a todo the search filter reflects changes in the todo list", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ storageState: "playwright-storage.json" });
   const page = await context.newPage();
 
@@ -43,7 +59,7 @@ test("the search filter reflects changes in the todo list when a user edits a to
   await expect(page.getByRole("textbox", { name: "Buy wine" })).toBeVisible();
 });
 
-test("the input field to edit a todo looses focus when the 'Enter' key is pressed", async ({ browser, baseURL }) => {
+test("when a user presses 'Enter' editing a todo, the input field looses its focus", async ({ browser, baseURL }) => {
   const context = await browser.newContext({ storageState: "playwright-storage.json" });
   const page = await context.newPage();
 
@@ -59,3 +75,19 @@ test("the input field to edit a todo looses focus when the 'Enter' key is presse
 
   await expect(page.getByRole("textbox", { name: "Buy milk" })).not.toBeFocused();
 });
+
+const createAllTodos = async (page: Page, todos: string[]) => {
+  for (const todo in todos) {
+    await createTodo(page, todo);
+  }
+};
+
+const createTodo = async (page: Page, content: string) => {
+  await page.getByLabel("New todo").fill(content);
+  await page.getByLabel("New todo").press("Enter");
+  await page.getByLabel("Loading spinner").waitFor({ state: "hidden" });
+};
+
+const getAllTodos = async (page: Page) => {
+  return (await page.getByLabel("todo").allTextContents()).map((todo) => todo.toString()).filter(isNotEmpty);
+};

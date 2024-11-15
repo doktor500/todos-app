@@ -19,16 +19,18 @@ describe("create todo action", () => {
     ${{ todoId: "-1" }}
     ${{ todoId: "invalid" }}
   `("returns an error when form data is invalid", async ({ data }) => {
+    vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: 1 });
     await expect(createTodo(formData(data))).rejects.toThrow();
   });
 
   it("creates a todo when the form data is valid and the user is authenticated", async () => {
-    const user = aUser();
+    const user = aUser({ todos: [] });
     const newTodo = "New todo";
+    const index = 1;
     vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: user.id });
 
-    await createTodo(formData({ content: newTodo }));
-    expect(usersRepository.saveTodo).toHaveBeenCalledWith({ userId: user.id, content: newTodo });
+    await createTodo(formData({ content: newTodo, index: index.toString() }));
+    expect(usersRepository.saveTodo).toHaveBeenCalledWith({ userId: user.id, content: newTodo, index });
     expect(webCache.revalidatePath).toHaveBeenCalledWith("/todos");
   });
 });

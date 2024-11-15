@@ -20,6 +20,10 @@ type TodosState = {
 
 const { SET_SEARCH_TERM, SET_TODOS_FILTER } = TodoBaseActionType;
 
+const handleSetSearchTerm = (state: TodosState, searchTerm: string): TodosState => {
+  return { ...state, searchTerm };
+};
+
 const handleSetTodosFilter = (state: TodosState, todosFilter: Optional<string>): TodosState => {
   const filter = findTodoFilter(todosFilter);
 
@@ -28,7 +32,7 @@ const handleSetTodosFilter = (state: TodosState, todosFilter: Optional<string>):
 
 export const todoActionReducer = (state: TodosState, action: TodoBaseAction): TodosState => {
   return match(action)
-    .with({ type: SET_SEARCH_TERM }, ({ payload }) => ({ ...state, searchTerm: payload.searchTerm }))
+    .with({ type: SET_SEARCH_TERM }, ({ payload }) => handleSetSearchTerm(state, payload.searchTerm))
     .with({ type: SET_TODOS_FILTER }, ({ payload }) => handleSetTodosFilter(state, payload.todosFilter))
     .exhaustive();
 };

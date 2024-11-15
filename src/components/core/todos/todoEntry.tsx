@@ -1,5 +1,8 @@
 "use client";
 
+import { GripVertical } from "lucide-react";
+import { Dispatch, SetStateAction } from "react";
+
 import { DeleteTodoButton } from "@/components/core/todos/deleteTodoButton";
 import { TodoCheckBox } from "@/components/core/todos/todoCheckBox";
 import { TodoInput } from "@/components/core/todos/todoInput";
@@ -12,19 +15,27 @@ type Props = {
   content: string;
   completed: boolean;
   stale: boolean;
+  isGrabbed: boolean;
+  setIsGrabbed: Dispatch<SetStateAction<boolean>>;
 };
 
-export const TodoEntry = ({ todoId, content, completed, stale }: Props) => {
+export const TodoEntry = ({ todoId, content, completed, stale, isGrabbed, setIsGrabbed }: Props) => {
   const isServer = useIsServer();
   const disabled = isServer || stale;
 
   return (
     <div
       className={cn(
-        "flex items-center h-11 overflow-x-hidden dark:text-white rounded-sm pl-5 dark:bg-slate-700/60 dark:hover:bg-slate-800",
+        "flex cursor-default items-center h-11 overflow-x-hidden dark:text-white rounded-sm pl-3 dark:bg-slate-700/60 dark:hover:bg-slate-800",
         { "cursor-wait": disabled, "animate-pulse": stale }
       )}
     >
+      <GripVertical
+        aria-label={`Drag todo ${content}`}
+        className={cn("size-5", { "cursor-grabbing": isGrabbed, "cursor-grab": !isGrabbed })}
+        onMouseDown={() => setIsGrabbed(true)}
+        onMouseUp={() => setIsGrabbed(false)}
+      />
       <TodoCheckBox todoId={todoId} completed={completed} disabled={disabled} />
       <TodoInput todoId={todoId} content={content} disabled={disabled} />
       <DeleteTodoButton todoId={todoId} disabled={disabled} />

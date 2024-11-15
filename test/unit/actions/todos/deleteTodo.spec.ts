@@ -19,6 +19,7 @@ describe("delete todo action", () => {
     ${{ todoId: "-1" }}
     ${{ todoId: "invalid" }}
   `("returns an error when the command is invalid", async ({ data }) => {
+    vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: 1 });
     await expect(deleteTodo(data)).rejects.toThrow();
   });
 

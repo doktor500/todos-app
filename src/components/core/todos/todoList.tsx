@@ -1,21 +1,76 @@
 "use client";
 
+import SortableList, { SortableItem } from "@reyhappen/react-easy-sort";
+import { useState } from "react";
+
+import { sortTodos } from "@/actions/todos/sortTodos";
 import { TodoEntry } from "@/components/core/todos/todoEntry";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTodos } from "@/hooks/useTodos";
+import { cn } from "@/lib/utils";
+import { Todo, toTodoEntry } from "@/modules/domain/todo";
+import { moveItemFrom } from "@/modules/domain/utils/collectionUtils";
+import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
+
+const { SORT_TODOS } = TodoOptimisticActionType;
 
 export const TodoList = () => {
-  const { todos } = useTodos();
+  const { filteredTodos, allTodos, dispatchAction } = useTodos();
+  const [isGrabbed, setIsGrabbed] = useState(false);
+
+  const handleSortEnd = async (oldIndex: number, newIndex: number) => {
+    setIsGrabbed(false);
+    document.getSelection()?.empty();
+    await updateTodosSorting(oldIndex, newIndex);
+  };
+
+  const updateTodosSorting = async (oldIndex: number, newIndex: number) => {
+    const sourceTodoId = filteredTodos.at(oldIndex)?.id;
+    const destinationTodoId = filteredTodos.at(newIndex)?.id;
+    const previousIndex = allTodos.findIndex((todo) => todo.id === sourceTodoId);
+    const nextIndex = allTodos.findIndex((todo) => todo.id === destinationTodoId);
+    const sortedTodos = updateTodosIndex(previousIndex, nextIndex, allTodos);
+    const updatedTodos = getChangedTodos(previousIndex, nextIndex, sortedTodos);
+
+    dispatchAction({ type: SORT_TODOS, payload: { todos: sortedTodos } });
+    await sortTodos({ todos: updatedTodos });
+  };
+
+  const updateTodosIndex = (previousIndex: number, nextIndex: number, todos: Todo[]) => {
+    return moveItemFrom(todos)
+      .at(previousIndex)
+      .to(nextIndex)
+      .map((todo, index) => ({ ...todo, index: todos.length - index }));
+  };
+
+  const getChangedTodos = (previousIndex: number, nextIndex: number, todos: Todo[]) => {
+    const start = Math.min(previousIndex, nextIndex);
+    const end = start + Math.max(previousIndex, nextIndex) + 1;
+
+    return todos.slice(start, end).map(toTodoEntry);
+  };
 
   return (
     <ScrollArea className="mt-6 h-[calc(100vh-292px)] w-[calc(100%+1rem)] rounded-md">
-      <ol className="pr-4">
-        {todos.map(({ id, content, completed, stale }) => (
-          <li key={id} className="[&:not(:first-child)]:pt-1">
-            <TodoEntry todoId={id} content={content} completed={completed} stale={Boolean(stale)} />
-          </li>
+      <SortableList
+        className={cn("pr-4", { "cursor-grabbing selection:text-white": isGrabbed, "cursor-grab": !isGrabbed })}
+        onSortEnd={handleSortEnd}
+      >
+        {filteredTodos.map(({ id, content, completed, stale }) => (
+          <SortableItem key={id}>
+            <div className="[&:not(:first-child)]:pt-1">
+              <TodoEntry
+                todoId={id}
+                content={content}
+                completed={completed}
+                stale={Boolean(stale)}
+                isGrabbed={isGrabbed}
+                setIsGrabbed={setIsGrabbed}
+              />
+            </div>
+          </SortableItem>
         ))}
-      </ol>
+      </SortableList>
     </ScrollArea>
   );
 };

@@ -13,9 +13,9 @@ type Command = {
   completed: boolean;
 };
 
-const toggleTodoSchema = z.object({ todoId: z.string().min(1), completed: z.boolean() });
-
 const { TODOS } = Route;
+
+const toggleTodoSchema = z.object({ todoId: z.string().uuid(), completed: z.boolean() });
 
 export const toggleTodo = async (command: Command) => {
   const session = await authService.verifySession();

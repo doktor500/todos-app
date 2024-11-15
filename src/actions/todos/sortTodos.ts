@@ -3,23 +3,24 @@
 import z from "zod";
 
 import authService from "@/modules/domain/shared/authService";
-import { TodoId } from "@/modules/domain/todo";
+import { TodoEntry } from "@/modules/domain/todo";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { Route } from "@/router/appRouter";
 
 type Command = {
-  todoId: TodoId;
-  content: string;
+  todos: TodoEntry[];
 };
 
 const { TODOS } = Route;
 
-const editTodoSchema = z.object({ todoId: z.string().uuid(), content: z.string().min(1) });
+const todoSchema = z.object({ id: z.string().uuid(), index: z.number().positive() });
+const sortTodosSchema = z.object({ todos: z.array(todoSchema).min(1) });
 
-export const editTodo = async (command: Command) => {
+export const sortTodos = async (command: Command) => {
   const session = await authService.verifySession();
-  const todo = editTodoSchema.parse(command);
-  await usersRepository.updateTodo({ userId: session.userId, todo: { id: todo.todoId, content: todo.content } });
+  const { todos } = sortTodosSchema.parse(command);
+
+  await usersRepository.sortTodos({ userId: session.userId, todos });
   webCache.revalidatePath(TODOS);
 };

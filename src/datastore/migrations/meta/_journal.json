@@ -78,6 +78,27 @@
       "when": 1731357343380,
       "tag": "0010_tiresome_giant_man",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1731608391807,
+      "tag": "0011_famous_gargoyle",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1731608490983,
+      "tag": "0012_large_punisher",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "7",
+      "when": 1731610160597,
+      "tag": "0013_fresh_wendigo",
+      "breakpoints": true
     }
   ]
 }

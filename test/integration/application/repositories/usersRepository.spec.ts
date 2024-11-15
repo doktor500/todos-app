@@ -13,8 +13,8 @@ describe("Users repository", () => {
     ${"fake persistent users repository"} | ${fakeUsersRepository()}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can get a user by id", async ({ repository }) => {
-    const todo1 = aTodo({ content: "Buy milk", createdAt: new Date("01/01/2024") });
-    const todo2 = aTodo({ content: "Buy bread", createdAt: new Date("02/01/2024") });
+    const todo1 = aTodo({ content: "Buy milk", index: 1 });
+    const todo2 = aTodo({ content: "Buy bread", index: 2 });
     const user = aUser({ id: randomDataGenerator.aNumber(), todos: [todo1, todo2], password: "password" });
     const expectedUser = { ...user, todos: [todo2, todo1] };
 
@@ -62,10 +62,11 @@ describe("Users repository", () => {
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can save a todo successfully", async ({ repository }) => {
     const newTodo = "New todo";
+    const index = 1;
     const user = aUser({ id: 2, username: "sarah", todos: [], password: "password" });
     await repository.save(user);
 
-    await repository.saveTodo({ userId: user.id, content: newTodo });
+    await repository.saveTodo({ userId: user.id, content: newTodo, index });
 
     const fetchedUser = await repository.get(user.id);
 
@@ -74,7 +75,7 @@ describe("Users repository", () => {
         id: expect.any(String),
         content: newTodo,
         completed: false,
-        createdAt: expect.any(Date),
+        index,
       })
     );
   });
@@ -84,7 +85,7 @@ describe("Users repository", () => {
     ${"fake persistent users repository"} | ${fakeUsersRepository()}
     ${"users repository"}                 | ${usersTestRepository}
   `("$name can update a todo successfully", async ({ repository }) => {
-    const todo = aTodo({ completed: false, content: "original content" });
+    const todo = aTodo({ completed: false, content: "original content", index: 1 });
     const user = aUser({ todos: [todo], password: "password" });
     const newTodoContent = "new content";
     await repository.save(user);
@@ -97,7 +98,7 @@ describe("Users repository", () => {
         id: todo.id,
         content: newTodoContent,
         completed: true,
-        createdAt: todo.createdAt,
+        index: 1,
       })
     );
   });
@@ -115,5 +116,25 @@ describe("Users repository", () => {
     const existingUserWithDeletedTodo = await repository.get(user.id);
 
     expect(existingUserWithDeletedTodo?.todos).toEqual([]);
+  });
+
+  it.each`
+    name                                  | repository
+    ${"fake persistent users repository"} | ${fakeUsersRepository()}
+    ${"users repository"}                 | ${usersTestRepository}
+  `("$name can update a list of todos successfully", async ({ repository }) => {
+    const todo1 = aTodo({ completed: false, content: "A", index: 1 });
+    const todo2 = aTodo({ completed: false, content: "B", index: 2 });
+    const user = aUser({ todos: [todo1, todo2], password: "password" });
+    const updatedTodo1 = { ...todo1, index: 2 };
+    const updatedTodo2 = { ...todo2, index: 1 };
+
+    await repository.save(user);
+
+    await repository.sortTodos({ userId: user.id, todos: [updatedTodo1, updatedTodo2] });
+    const existingUserWithUpdatedTodo = await repository.get(user.id);
+
+    expect(existingUserWithUpdatedTodo?.todos).toContainEqual(expect.objectContaining({ id: todo1.id, index: 2 }));
+    expect(existingUserWithUpdatedTodo?.todos).toContainEqual(expect.objectContaining({ id: todo2.id, index: 1 }));
   });
 });

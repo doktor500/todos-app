@@ -8,8 +8,11 @@ export type Todo = {
   id: TodoId;
   content: string;
   completed: boolean;
-  createdAt: Date;
+  index: number;
 };
+
+export type ExistingTodo = Pick<Todo, "id"> & Partial<Todo>;
+export type TodoEntry = { id: TodoId; index: number };
 
 export const toggle = (todo: Todo): Todo => {
   return { ...todo, completed: !todo.completed };
@@ -24,6 +27,8 @@ export const filterTodos = (todos: Todo[]) => {
     },
   };
 };
+
+export const toTodoEntry = (todo: Todo) => ({ id: todo.id, index: todo.index });
 
 const filter = (todos: Todo[]) => {
   return {

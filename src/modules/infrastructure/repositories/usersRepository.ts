@@ -1,8 +1,8 @@
-import { and, eq } from "drizzle-orm";
+import { and, eq, inArray, SQL, sql } from "drizzle-orm";
 
 import { TodosTable, UsersTable } from "@/datastore/schema";
-import UsersRepository, { ExistingTodo } from "@/modules/application/repositories/usersRepository";
-import { TodoId } from "@/modules/domain/todo";
+import UsersRepository from "@/modules/application/repositories/usersRepository";
+import { ExistingTodo, TodoEntry, TodoId } from "@/modules/domain/todo";
 import { User, UserId } from "@/modules/domain/user";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { db } from "@/modules/infrastructure/repositories/db";
@@ -13,8 +13,8 @@ export const usersRepository: UsersRepository = {
       columns: { id: true, username: true, email: true },
       with: {
         todos: {
-          columns: { id: true, content: true, completed: true, createdAt: true },
-          orderBy: (todo, { desc }) => [desc(todo.createdAt)],
+          columns: { id: true, content: true, completed: true, index: true },
+          orderBy: (todo, { desc }) => [desc(todo.index)],
         },
       },
       where: (user) => eq(user.id, userId),
@@ -34,8 +34,9 @@ export const usersRepository: UsersRepository = {
 
     return users[0].id;
   },
-  saveTodo: async ({ userId, content }: { userId: UserId; content: string }): Promise<void> => {
-    await db.insert(TodosTable).values({ userId, content });
+  saveTodo: async (props: { userId: UserId; content: string; index: number }): Promise<void> => {
+    const { userId, content, index } = props;
+    await db.insert(TodosTable).values({ userId, content, index });
   },
   updateTodo: async ({ userId, todo }: { userId: UserId; todo: ExistingTodo }): Promise<void> => {
     await db
@@ -46,4 +47,24 @@ export const usersRepository: UsersRepository = {
   deleteTodo: async ({ userId, todoId }: { userId: UserId; todoId: TodoId }): Promise<void> => {
     await db.delete(TodosTable).where(and(eq(TodosTable.userId, userId), eq(TodosTable.id, todoId)));
   },
+  sortTodos: async ({ userId, todos }: { userId: UserId; todos: TodoEntry[] }): Promise<void> => {
+    const query = getSortTodosQuery(todos);
+
+    await db
+      .update(TodosTable)
+      .set({ index: query.setIndexStatement })
+      .where(and(eq(TodosTable.userId, userId), inArray(TodosTable.id, query.ids)));
+  },
+};
+
+const getSortTodosQuery = (todos: ExistingTodo[]) => {
+  const initialValue: { ids: TodoId[]; chunks: SQL[] } = { ids: [], chunks: [] };
+  const toChunk = (todo: ExistingTodo) => sql`when id = ${todo.id} then cast(${todo.index} as int)`;
+
+  const query = todos.reduce(
+    (result, todo) => ({ ids: [...result.ids, todo.id], chunks: [...result.chunks, toChunk(todo)] }),
+    initialValue
+  );
+
+  return { setIndexStatement: sql.join([sql`(case`, ...query.chunks, sql`end)`], sql.raw(" ")), ids: query.ids };
 };

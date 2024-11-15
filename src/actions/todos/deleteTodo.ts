@@ -12,9 +12,9 @@ type Command = {
   todoId: TodoId;
 };
 
-const deleteTodoSchema = z.object({ todoId: z.string().min(1) });
-
 const { TODOS } = Route;
+
+const deleteTodoSchema = z.object({ todoId: z.string().uuid() });
 
 export const deleteTodo = async (command: Command) => {
   const session = await authService.verifySession();

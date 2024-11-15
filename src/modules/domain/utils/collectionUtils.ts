@@ -1,4 +1,17 @@
+import { arrayMoveImmutable } from "array-move";
 import { equals, find, indexOf, insert, isEmpty, prop, sortBy, without } from "ramda";
+
+const moveItemFrom = <T extends object>(items: T[]) => {
+  return {
+    at: (sourceIndex: number) => {
+      return {
+        to: (destinationIndex: number): T[] => {
+          return arrayMoveImmutable(items, sourceIndex, destinationIndex);
+        },
+      };
+    },
+  };
+};
 
 const sort = <T extends object>(items: T[]) => {
   return {
@@ -19,4 +32,4 @@ const replace = <TYPE>(item: TYPE) => {
   };
 };
 
-export { isEmpty, replace, sort };
+export { isEmpty, moveItemFrom, replace, sort };

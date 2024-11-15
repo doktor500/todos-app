@@ -8,8 +8,8 @@ import { aUser } from "@/test/fixtures/user.fixture";
 const usersRepository = usersRepositoryInstance();
 
 const seed = async () => {
-  const todo1 = aTodo({ id: uniqueIdGenerator.uuid(), content: "Buy milk" });
-  const todo2 = aTodo({ id: uniqueIdGenerator.uuid(), content: "Buy bread", completed: true });
+  const todo1 = aTodo({ id: uniqueIdGenerator.uuid(), content: "Buy milk", index: 1 });
+  const todo2 = aTodo({ id: uniqueIdGenerator.uuid(), content: "Buy bread", completed: true, index: 2 });
   const hashedPassword = await hash("password", process.env.ENCRYPTION_SALT);
   const user = aUser({
     id: 1,

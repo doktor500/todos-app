@@ -10,6 +10,7 @@
 next-env.d.ts
 .eslintcache
 .vscode
+.idea
 db/
 playwright-report/
 playwright-storage.json

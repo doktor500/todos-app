@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
 import { Todo, toTodoEntry } from "@/modules/domain/todo";
-import { moveItemFrom } from "@/modules/domain/utils/collectionUtils";
+import { moveItemIn } from "@/modules/domain/utils/collectionUtils";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
 const { SORT_TODOS } = TodoOptimisticActionType;
@@ -37,8 +37,8 @@ export const TodoList = () => {
   };
 
   const updateTodosIndex = (previousIndex: number, nextIndex: number, todos: Todo[]) => {
-    return moveItemFrom(todos)
-      .at(previousIndex)
+    return moveItemIn(todos)
+      .from(previousIndex)
       .to(nextIndex)
       .map((todo, index) => ({ ...todo, index: todos.length - index }));
   };

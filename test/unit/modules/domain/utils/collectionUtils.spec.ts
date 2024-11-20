@@ -1,4 +1,4 @@
-import { moveItemFrom, replace, sort } from "@/modules/domain/utils/collectionUtils";
+import { moveItemIn, replace, sort } from "@/modules/domain/utils/collectionUtils";
 
 describe("collection utils", () => {
   it("can move an item from one position to another in the array", () => {
@@ -7,14 +7,14 @@ describe("collection utils", () => {
     const item2 = { value: "C" };
     const items = [item0, item1, item2];
 
-    expect(moveItemFrom(items).at(0).to(0)).toEqual(items);
-    expect(moveItemFrom(items).at(0).to(1)).toEqual([item1, item0, item2]);
-    expect(moveItemFrom(items).at(0).to(2)).toEqual([item1, item2, item0]);
-    expect(moveItemFrom(items).at(0).to(3)).toEqual([item1, item2, item0]);
-    expect(moveItemFrom(items).at(1).to(2)).toEqual([item0, item2, item1]);
-    expect(moveItemFrom(items).at(1).to(3)).toEqual([item0, item2, item1]);
-    expect(moveItemFrom(items).at(2).to(0)).toEqual([item2, item0, item1]);
-    expect(moveItemFrom(items).at(2).to(1)).toEqual([item0, item2, item1]);
+    expect(moveItemIn(items).from(0).to(0)).toEqual(items);
+    expect(moveItemIn(items).from(0).to(1)).toEqual([item1, item0, item2]);
+    expect(moveItemIn(items).from(0).to(2)).toEqual([item1, item2, item0]);
+    expect(moveItemIn(items).from(0).to(3)).toEqual([item1, item2, item0]);
+    expect(moveItemIn(items).from(1).to(2)).toEqual([item0, item2, item1]);
+    expect(moveItemIn(items).from(1).to(3)).toEqual([item0, item2, item1]);
+    expect(moveItemIn(items).from(2).to(0)).toEqual([item2, item0, item1]);
+    expect(moveItemIn(items).from(2).to(1)).toEqual([item0, item2, item1]);
   });
 
   it("can replace an item in array", () => {

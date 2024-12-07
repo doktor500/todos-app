@@ -31,9 +31,9 @@ export const Combobox = (props: Props) => {
   const [value, setValue] = useState(initialSelectedItem ?? items.at(0)?.value);
   const selectedItem = items.find((item) => item.value === value)?.label;
 
-  const handleOnSelectedItem = (seletecdValue: string) => {
-    const newSelectedValue = seletecdValue === value ? undefined : seletecdValue;
-    setValue(seletecdValue);
+  const handleOnSelectedItem = (selectedValue: string) => {
+    const newSelectedValue = selectedValue === value ? undefined : selectedValue;
+    setValue(selectedValue);
     setSelectFilter(newSelectedValue);
     setOpen(false);
   };

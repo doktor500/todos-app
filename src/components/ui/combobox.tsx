@@ -2,6 +2,7 @@
 
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useState } from "react";
+import { isMobile } from "react-device-detect";
 
 import { Button } from "@/components/ui/button";
 import { Command, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
@@ -53,7 +54,7 @@ export const Combobox = (props: Props) => {
         </PopoverTrigger>
         <PopoverContent className="mt-1 w-[102px] p-0">
           <Command>
-            <CommandInput />
+            {!isMobile && <CommandInput />}
             <CommandList>
               <CommandGroup>
                 {items.map((item) => (

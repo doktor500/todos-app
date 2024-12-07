@@ -53,12 +53,15 @@ export const TodoList = () => {
   return (
     <ScrollArea className="mt-6 h-[calc(100vh-292px)] w-[calc(100%+1rem)] rounded-md">
       <SortableList
-        className={cn("pr-4", { "cursor-grabbing selection:text-white": isGrabbed, "cursor-grab": !isGrabbed })}
+        className={cn("pr-4", {
+          "cursor-grabbing selection:text-white": isGrabbed,
+          "cursor-grab": !isGrabbed,
+        })}
         onSortEnd={handleSortEnd}
       >
         {filteredTodos.map(({ id, content, completed, stale }) => (
           <SortableItem key={id}>
-            <div className="[&:not(:first-child)]:pt-1">
+            <div className="cursor-default [&:not(:first-child)]:pt-1">
               <TodoEntry
                 todoId={id}
                 content={content}

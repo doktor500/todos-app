@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, Dispatch, useReducer } from "react";
+import { createContext, Dispatch, ReactNode, useReducer } from "react";
 
 import { useOptimisticTodos } from "@/hooks/useOptimisticTodos";
 import { TodoAction } from "@/hooks/useTodos";
@@ -24,7 +24,7 @@ const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO, SORT_TODOS } = TodoOpt
 
 export const TodosContext = createContext<Optional<TodosContextType>>(undefined);
 
-export const TodosProvider = ({ children }: { children: React.ReactNode }) => {
+export const TodosProvider = ({ children }: { children: ReactNode }) => {
   const { todos: allTodos, dispatch: dispatchOptimisticAction, pendingTransaction } = useOptimisticTodos();
   const initialState = { searchTerm: undefined, todosFilter: defaultTodosFilter };
   const [state, dispatch] = useReducer(todoActionReducer, initialState);

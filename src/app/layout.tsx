@@ -6,6 +6,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { VercelToolbar } from "@vercel/toolbar/next";
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 import { isLocalEnvironment } from "@/modules/infrastructure/systemUtils";
@@ -41,7 +42,7 @@ const sfProDisplay = localFont({
   variable: "--font-sf-pro-display",
 });
 
-const RootLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
+const RootLayout = ({ children }: Readonly<{ children: ReactNode }>) => {
   return (
     <html lang="en" className="dark" suppressHydrationWarning>
       <body

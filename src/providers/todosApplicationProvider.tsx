@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, Dispatch, useOptimistic, useTransition } from "react";
+import { createContext, Dispatch, ReactNode, useOptimistic, useTransition } from "react";
 
 import { Todo } from "@/modules/domain/todo";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
@@ -15,7 +15,7 @@ type TodosApplicationContextType = {
 
 type Props = {
   todos: Todo[];
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
 export const TodosApplicationContext = createContext<Optional<TodosApplicationContextType>>(undefined);

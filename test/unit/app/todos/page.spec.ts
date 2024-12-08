@@ -18,6 +18,7 @@ vi.mock("@/actions/todos/toggleTodo");
 vi.mock("@/actions/todos/editTodo");
 vi.mock("@/actions/todos/deleteTodo");
 vi.mock("@/actions/user/getUser");
+vi.mock("@/hooks/common/useAppRouter");
 
 describe("todos page", () => {
   it("renders user todos successfully", async () => {

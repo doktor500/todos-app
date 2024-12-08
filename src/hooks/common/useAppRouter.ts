@@ -1,8 +1,9 @@
 import { useRouter } from "next/navigation.js";
 
-export const useRedirect = () => {
+export const useAppRouter = () => {
   const router = useRouter();
   const redirectTo = (path: string) => router.push(path);
+  const refresh = () => router.refresh();
 
-  return { redirectTo };
+  return { redirectTo, refresh };
 };

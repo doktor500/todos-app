@@ -1,4 +1,4 @@
-import { filterTodos, getNextTodoIndex, toggle } from "@/modules/domain/todo";
+import { filterTodos, getNextTodoIndex, Todo, toggle } from "@/modules/domain/todo";
 import { TodosFilter } from "@/modules/domain/todosFilter";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 
@@ -39,5 +39,10 @@ describe("todo", () => {
   `("gets next todo index", ({ highestTodoIndex, nextTodoIndex }) => {
     const todos = [aTodo({ index: 0 }), aTodo({ index: highestTodoIndex })];
     expect(getNextTodoIndex(todos)).toBe(nextTodoIndex);
+  });
+
+  it("returns 0 as next index when the user has no todos", () => {
+    const todos: Todo[] = [];
+    expect(getNextTodoIndex(todos)).toBe(0);
   });
 });

@@ -1,4 +1,5 @@
 import { TodosFilter } from "@/modules/domain/todosFilter";
+import { isInfinite } from "@/modules/domain/utils/numberUtils";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
@@ -29,7 +30,9 @@ export const filterTodos = (todos: Todo[]) => {
 };
 
 export const getNextTodoIndex = (todos: Todo[]) => {
-  return Math.max(...todos.map((todo) => todo.index)) + 1;
+  const index = Math.max(...todos.map((todo) => todo.index)) + 1;
+
+  return isInfinite(index) ? 0 : index;
 };
 
 export const toTodoEntry = (todo: Todo) => ({ id: todo.id, index: todo.index });

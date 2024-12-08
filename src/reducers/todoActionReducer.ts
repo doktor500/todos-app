@@ -11,8 +11,6 @@ export type TodoBaseAction =
   | { type: TodoBaseActionType.SET_SEARCH_TERM; payload: { searchTerm: string } }
   | { type: TodoBaseActionType.SET_TODOS_FILTER; payload: { todosFilter: Optional<string> } };
 
-export type DispatchTodoAction = (action: TodoBaseAction) => void;
-
 type TodosState = {
   searchTerm: Optional<string>;
   todosFilter: TodosFilter;

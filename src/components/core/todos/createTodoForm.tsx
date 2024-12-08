@@ -8,6 +8,7 @@ import { useForm } from "@/hooks/common/useForm";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
+import { getNextTodoIndex } from "@/modules/domain/todo";
 import { TodosFilter } from "@/modules/domain/todosFilter";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
@@ -21,7 +22,7 @@ export const CreateTodoForm = () => {
 
   const handleCreateTodo = async (formData: FormData) => {
     const content = formData.get("content")?.toString();
-    formData.append("index", (allTodos.length + 1).toString());
+    formData.append("index", getNextTodoIndex(allTodos).toString());
     if (content) {
       dispatchAction({ type: CREATE_TODO, payload: { content } });
       resetForm();

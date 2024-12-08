@@ -1,4 +1,4 @@
-import { filterTodos, toggle } from "@/modules/domain/todo";
+import { filterTodos, getNextTodoIndex, toggle } from "@/modules/domain/todo";
 import { TodosFilter } from "@/modules/domain/todosFilter";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 
@@ -11,7 +11,7 @@ describe("todo", () => {
     expect(toggle(todo2).completed).toBeFalsy();
   });
 
-  it("can filter todos by search term readrles off casing", () => {
+  it("can filter todos by search term regardless off casing", () => {
     const todo1 = aTodo({ content: "Buy milk" });
     const todo2 = aTodo({ content: "Buy coffee" });
     const todos = [todo1, todo2];
@@ -30,5 +30,14 @@ describe("todo", () => {
     expect(filterTodos(todos).by({ searchTerm: "Buy", todosFilter: TodosFilter.NONE })).toEqual(todos);
     expect(filterTodos(todos).by({ searchTerm: "Buy", todosFilter: TodosFilter.COMPLETED })).toEqual([todo1]);
     expect(filterTodos(todos).by({ searchTerm: "Buy", todosFilter: TodosFilter.ACTIVE })).toEqual([todo2]);
+  });
+
+  it.each`
+    highestTodoIndex | nextTodoIndex
+    ${1}             | ${2}
+    ${2}             | ${3}
+  `("gets next todo index", ({ highestTodoIndex, nextTodoIndex }) => {
+    const todos = [aTodo({ index: 0 }), aTodo({ index: highestTodoIndex })];
+    expect(getNextTodoIndex(todos)).toBe(nextTodoIndex);
   });
 });

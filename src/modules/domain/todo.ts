@@ -28,6 +28,10 @@ export const filterTodos = (todos: Todo[]) => {
   };
 };
 
+export const getNextTodoIndex = (todos: Todo[]) => {
+  return Math.max(...todos.map((todo) => todo.index)) + 1;
+};
+
 export const toTodoEntry = (todo: Todo) => ({ id: todo.id, index: todo.index });
 
 const filter = (todos: Todo[]) => {

@@ -1,5 +1,5 @@
 import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
-import { Todo, TodoId, toggle } from "@/modules/domain/todo";
+import { getNextTodoIndex, Todo, TodoId, toggle } from "@/modules/domain/todo";
 import { replace } from "@/modules/domain/utils/collectionUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
@@ -35,9 +35,9 @@ export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisti
 const addTodo = (todos: Todo[], content: string) => {
   const newTodo: OptimisticTodo = {
     id: uniqueIdGenerator.uuid(),
+    index: getNextTodoIndex(todos),
     content,
     completed: false,
-    index: todos.length + 1,
     stale: true,
   };
 

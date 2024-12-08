@@ -14,7 +14,7 @@ vi.mock("@/modules/domain/shared/clock");
 
 describe("todo optimistic actions reducer", () => {
   it("can add a todo to an existing list of todos", () => {
-    const todo = aTodo();
+    const todo = aTodo({ index: 9 });
     const todos = [todo];
     const newTodo = "New todo";
     const newTodoId = uniqueIdGenerator.uuid();
@@ -28,7 +28,7 @@ describe("todo optimistic actions reducer", () => {
     expect(updatedTodos).toContainEqual({
       id: newTodoId,
       content: newTodo,
-      index: 2,
+      index: 10,
       completed: false,
       stale: true,
     });

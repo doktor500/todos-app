@@ -49,7 +49,7 @@ describe("todos page", () => {
   });
 
   it("calls create todo action when the form is submitted", async () => {
-    const user = aUser({ todos: [] });
+    const user = aUser({ todos: [aTodo({ index: 9 })] });
     const newTodo = "New todo content";
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
@@ -60,7 +60,7 @@ describe("todos page", () => {
 
     await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
 
-    expect(createTodo).toHaveBeenCalledWith(formData({ content: newTodo, index: 1 }));
+    expect(createTodo).toHaveBeenCalledWith(formData({ content: newTodo, index: 10 }));
   });
 
   it("clears the input field to create a todo when the form is submitted", async () => {

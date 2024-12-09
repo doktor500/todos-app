@@ -20,7 +20,6 @@ export const CreateTodoInput = ({ disabled }: { disabled: boolean }) => {
       className="w-full border-none bg-transparent pl-2.5 text-sm outline-none placeholder:text-white/80 disabled:cursor-wait"
       disabled={disabled}
       maxLength={MAX_LENGTH}
-      autoFocus={!isMobile}
       required
     />
   );

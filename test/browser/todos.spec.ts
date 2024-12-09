@@ -16,7 +16,6 @@ test("a user can create and delete a todo", async ({ browser, baseURL }) => {
   await page.getByLabel("Loading spinner").waitFor({ state: "hidden" });
 
   await expect(page.getByRole("textbox", { name: "Buy coffee" })).toBeVisible();
-  await expect(page.getByLabel("New todo")).toHaveAttribute("autofocus");
 
   await page.getByLabel("Delete todo").click();
   await page.getByLabel("Loading spinner").waitFor({ state: "hidden" });

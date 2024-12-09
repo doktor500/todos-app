@@ -14,7 +14,7 @@ describe("User log out page", () => {
   it("calls log out user action and redirects user to log in page", async () => {
     const redirectTo = vi.fn();
     vi.mocked(logoutUser).mockResolvedValueOnce();
-    vi.mocked(useAppRouter).mockImplementationOnce(() => ({ redirectTo }));
+    vi.mocked(useAppRouter).mockImplementationOnce(() => ({ redirectTo, refresh: vi.fn() }));
 
     render(<Page />);
 

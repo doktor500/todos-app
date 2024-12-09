@@ -2,6 +2,7 @@ import { expect, Page, test } from "@playwright/test";
 
 import { isNotEmpty } from "@/modules/domain/utils/stringUtils";
 import { dragAndDrop } from "@/test/browser/utils/dragAndDropUtils";
+import { backOff } from "@/test/utils/promiseUtils";
 
 test.describe.configure({ mode: "serial" });
 
@@ -30,10 +31,10 @@ test("a user can sort todos", async ({ browser, baseURL }) => {
 
   await page.goto(`${baseURL}/todos`);
   await createAllTodos(page, todos);
-  expect(await getAllTodos(page)).toEqual(todos.reverse());
+  void backOff(async () => expect(await getAllTodos(page)).toEqual(todos.reverse()));
 
   await dragAndDrop(page, "svg[aria-label='Drag todo 0']", "svg[aria-label='Drag todo 4']");
-  expect(await getAllTodos(page)).toEqual(["0", "4", "3", "2", "1"]);
+  void backOff(async () => expect(await getAllTodos(page)).toEqual(["0", "4", "3", "2", "1"]));
 });
 
 test("when a user edits a todo the search filter reflects changes in the todo list", async ({ browser, baseURL }) => {

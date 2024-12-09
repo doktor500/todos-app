@@ -15,8 +15,9 @@ import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer
 const { SORT_TODOS } = TodoOptimisticActionType;
 
 export const TodoList = () => {
-  const { filteredTodos, allTodos, dispatchAction } = useTodos();
+  const { filteredTodos, allTodos, dispatchAction, pendingTransaction } = useTodos();
   const [isGrabbed, setIsGrabbed] = useState(false);
+  const allowDrag = !pendingTransaction;
 
   const handleSortEnd = async (oldIndex: number, newIndex: number) => {
     setIsGrabbed(false);
@@ -53,9 +54,10 @@ export const TodoList = () => {
   return (
     <ScrollArea className="mt-6 h-[calc(100vh-292px)] w-[calc(100%+1rem)] rounded-md">
       <SortableList
+        allowDrag={allowDrag}
         className={cn("pr-4", {
-          "cursor-grabbing selection:text-white": isGrabbed,
-          "cursor-grab": !isGrabbed,
+          "cursor-grabbing selection:text-white": allowDrag && isGrabbed,
+          "cursor-grab": allowDrag && !isGrabbed,
         })}
         onSortEnd={handleSortEnd}
       >
@@ -67,6 +69,7 @@ export const TodoList = () => {
                 content={content}
                 completed={completed}
                 stale={Boolean(stale)}
+                allowDrag={allowDrag}
                 isGrabbed={isGrabbed}
                 setIsGrabbed={setIsGrabbed}
               />

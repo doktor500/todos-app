@@ -15,11 +15,12 @@ type Props = {
   content: string;
   completed: boolean;
   stale: boolean;
+  allowDrag: boolean;
   isGrabbed: boolean;
   setIsGrabbed: Dispatch<SetStateAction<boolean>>;
 };
 
-export const TodoEntry = ({ todoId, content, completed, stale, isGrabbed, setIsGrabbed }: Props) => {
+export const TodoEntry = ({ todoId, content, completed, stale, allowDrag, isGrabbed, setIsGrabbed }: Props) => {
   const isServer = useIsServer();
   const disabled = isServer || stale;
 
@@ -32,7 +33,7 @@ export const TodoEntry = ({ todoId, content, completed, stale, isGrabbed, setIsG
     >
       <GripVertical
         aria-label={`Drag todo ${content}`}
-        className={cn("size-5", { "cursor-grabbing": isGrabbed, "cursor-grab": !isGrabbed })}
+        className={cn("size-5", { "cursor-grabbing": allowDrag && isGrabbed, "cursor-grab": allowDrag && !isGrabbed })}
         onMouseDown={() => setIsGrabbed(true)}
         onMouseUp={() => setIsGrabbed(false)}
       />

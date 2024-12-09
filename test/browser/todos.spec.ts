@@ -31,10 +31,10 @@ test("a user can sort todos", async ({ browser, baseURL }) => {
 
   await page.goto(`${baseURL}/todos`);
   await createAllTodos(page, todos);
-  void backOff(async () => expect(await getAllTodos(page)).toEqual(todos.reverse()));
+  await backOff(async () => expect(await getAllTodos(page)).toEqual(todos.reverse()));
 
   await dragAndDrop(page, "svg[aria-label='Drag todo 0']", "svg[aria-label='Drag todo 4']");
-  void backOff(async () => expect(await getAllTodos(page)).toEqual(["0", "4", "3", "2", "1"]));
+  await backOff(async () => expect(await getAllTodos(page)).toEqual(["0", "4", "3", "2", "1"]));
 });
 
 test("when a user edits a todo the search filter reflects changes in the todo list", async ({ browser, baseURL }) => {
@@ -86,6 +86,13 @@ const createTodo = async (page: Page, content: string) => {
   await page.getByLabel("New todo").fill(content);
   await page.getByLabel("New todo").press("Enter");
   await page.getByLabel("Loading spinner").waitFor({ state: "hidden" });
+
+  await backOff(async () => {
+    return page
+      .getByLabel(`Edit todo ${content}`)
+      .getAttribute("disabled")
+      .then((disabled) => (disabled === null ? Promise.resolve() : Promise.reject()));
+  });
 };
 
 const getAllTodos = async (page: Page) => {

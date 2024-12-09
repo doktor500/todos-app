@@ -16,16 +16,16 @@ const { CREATE_TODO } = TodoOptimisticActionType;
 
 export const CreateTodoForm = () => {
   const isServer = useIsServer();
-  const { dispatchAction, todosFilter, allTodos } = useTodos();
+  const { dispatchAction, todosFilter, allTodos, pendingTransaction } = useTodos();
   const { formRef, resetForm } = useForm();
   const display = todosFilter !== TodosFilter.COMPLETED;
 
   const handleCreateTodo = async (formData: FormData) => {
     const content = formData.get("content")?.toString();
-    formData.append("index", getNextTodoIndex(allTodos).toString());
-    if (content) {
-      dispatchAction({ type: CREATE_TODO, payload: { content } });
+    if (content && !pendingTransaction) {
       resetForm();
+      dispatchAction({ type: CREATE_TODO, payload: { content } });
+      formData.append("index", getNextTodoIndex(allTodos).toString());
       await createTodo(formData);
     }
   };
@@ -42,7 +42,7 @@ export const CreateTodoForm = () => {
       >
         <PlusIcon className={cn("size-5", { "cursor-wait": isServer })} />
         <form ref={formRef} action={handleCreateTodo} aria-label="Create todo" className="w-full pr-6">
-          <CreateTodoInput disabled={isServer} />
+          <CreateTodoInput disabled={isServer || pendingTransaction} />
         </form>
       </div>
     )

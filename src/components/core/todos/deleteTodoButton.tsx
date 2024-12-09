@@ -28,7 +28,6 @@ export const DeleteTodoButton = ({ todoId, disabled }: Props) => {
   return (
     <div className={cn("pr-3", { "opacity-50": disabled })}>
       <button
-        id={`delete-todo${todoId}`}
         aria-label="Delete todo"
         className="flex w-8 cursor-pointer items-center justify-center outline-gray-300 disabled:cursor-wait"
         disabled={disabled}

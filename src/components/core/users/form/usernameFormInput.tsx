@@ -18,6 +18,7 @@ export const UsernameFormInput = ({ value, errors }: Props) => {
         aria-label="User name"
         type="text"
         placeholder="johndoe"
+        autoComplete="username"
         aria-invalid={errors ? "true" : "false"}
         defaultValue={value}
       />

@@ -18,6 +18,7 @@ export const PasswordFormInput = ({ value, errors }: Props) => {
         name="password"
         aria-label="Password"
         type="password"
+        autoComplete="current-password"
         aria-invalid={errors ? "true" : "false"}
         maxLength={MAX_PASSWORD_LENGTH}
         defaultValue={value}

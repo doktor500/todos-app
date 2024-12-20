@@ -18,6 +18,7 @@ export const EmailFormInput = ({ value, errors }: Props) => {
         aria-label="Email"
         type="email"
         placeholder="john@example.com"
+        autoComplete="email"
         aria-invalid={errors ? "true" : "false"}
         defaultValue={value}
       />

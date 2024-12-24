@@ -22,7 +22,7 @@ describe("todo optimistic actions reducer", () => {
     vi.mocked(uniqueIdGenerator.uuid).mockImplementationOnce(() => newTodoId);
     vi.mocked(clock.now).mockImplementationOnce(() => currentDate);
 
-    const action: TodoOptimisticAction = { type: CREATE_TODO, payload: { content: newTodo } };
+    const action: TodoOptimisticAction = { type: CREATE_TODO, payload: { todoId: newTodoId, content: newTodo } };
     const updatedTodos = todoOptimisticActionReducer(todos, action);
 
     expect(updatedTodos).toContainEqual({

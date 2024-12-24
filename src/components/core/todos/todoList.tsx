@@ -6,6 +6,7 @@ import { useState } from "react";
 import { sortTodos } from "@/actions/todos/sortTodos";
 import { TodoEntry } from "@/components/core/todos/todoEntry";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useAtomicAnimations } from "@/hooks/common/useAutomaticAnimations";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
 import { Todo, toTodoEntry } from "@/modules/domain/todo";
@@ -17,12 +18,14 @@ const { SORT_TODOS } = TodoOptimisticActionType;
 export const TodoList = () => {
   const { filteredTodos, allTodos, dispatchAction, pendingTransaction } = useTodos();
   const [isGrabbed, setIsGrabbed] = useState(false);
+  const [animationsContainerRef, setEnableAnimations] = useAtomicAnimations();
   const allowDrag = !pendingTransaction;
 
   const handleSortEnd = async (oldIndex: number, newIndex: number) => {
     setIsGrabbed(false);
     document.getSelection()?.empty();
     await updateTodosSorting(oldIndex, newIndex);
+    setEnableAnimations(true);
   };
 
   const updateTodosSorting = async (oldIndex: number, newIndex: number) => {
@@ -59,23 +62,26 @@ export const TodoList = () => {
           "cursor-grabbing selection:text-white": allowDrag && isGrabbed,
           "cursor-grab": allowDrag && !isGrabbed,
         })}
+        onTransitionStart={() => setEnableAnimations(false)}
         onSortEnd={handleSortEnd}
       >
-        {filteredTodos.map(({ id, content, completed, stale }) => (
-          <SortableItem key={id}>
-            <div className="cursor-default [&:not(:first-child)]:pt-1">
-              <TodoEntry
-                todoId={id}
-                content={content}
-                completed={completed}
-                stale={Boolean(stale)}
-                allowDrag={allowDrag}
-                isGrabbed={isGrabbed}
-                setIsGrabbed={setIsGrabbed}
-              />
-            </div>
-          </SortableItem>
-        ))}
+        <div ref={animationsContainerRef}>
+          {filteredTodos.map(({ id, content, completed, stale }) => (
+            <SortableItem key={id}>
+              <div className="cursor-default [&:not(:first-child)]:pt-1">
+                <TodoEntry
+                  todoId={id}
+                  content={content}
+                  completed={completed}
+                  stale={Boolean(stale)}
+                  allowDrag={allowDrag}
+                  isGrabbed={isGrabbed}
+                  setIsGrabbed={setIsGrabbed}
+                />
+              </div>
+            </SortableItem>
+          ))}
+        </div>
       </SortableList>
     </ScrollArea>
   );

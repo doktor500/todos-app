@@ -2,7 +2,8 @@
 import { Page } from "@playwright/test";
 
 // see https://stackoverflow.com/questions/64718915/playwright-drag-and-drop
-export const dragAndDrop = async (page: Page, originSelector: string, destinationSelector: string) => {
+// eslint-disable-next-line max-params
+export const dragAndDrop = async (page: Page, originSelector: string, destinationSelector: string, offset = 20) => {
   const originElement = await page.waitForSelector(originSelector);
   const destinationElement = await page.waitForSelector(destinationSelector);
   const originElementBox = await originElement.boundingBox();
@@ -14,7 +15,7 @@ export const dragAndDrop = async (page: Page, originSelector: string, destinatio
 
   await page.mouse.move(
     originElementBox.x + originElementBox.width / 2,
-    originElementBox.y + originElementBox.height / 2
+    originElementBox.y + originElementBox.height / 2 + offset
   );
 
   await page.mouse.down();

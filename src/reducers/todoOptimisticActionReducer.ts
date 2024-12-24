@@ -1,4 +1,3 @@
-import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
 import { getNextTodoIndex, Todo, TodoId, toggle } from "@/modules/domain/todo";
 import { replace } from "@/modules/domain/utils/collectionUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
@@ -16,7 +15,7 @@ export enum TodoOptimisticActionType {
 const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO, SORT_TODOS } = TodoOptimisticActionType;
 
 export type TodoOptimisticAction =
-  | { type: TodoOptimisticActionType.CREATE_TODO; payload: { content: string } }
+  | { type: TodoOptimisticActionType.CREATE_TODO; payload: { todoId: TodoId; content: string } }
   | { type: TodoOptimisticActionType.TOGGLE_TODO; payload: { todoId: TodoId } }
   | { type: TodoOptimisticActionType.EDIT_TODO; payload: { todoId: TodoId; content: string } }
   | { type: TodoOptimisticActionType.DELETE_TODO; payload: { todoId: TodoId } }
@@ -24,7 +23,7 @@ export type TodoOptimisticAction =
 
 export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisticAction): OptimisticTodo[] => {
   return match(action)
-    .with({ type: CREATE_TODO }, ({ payload }) => addTodo(state, payload.content))
+    .with({ type: CREATE_TODO }, ({ payload }) => addTodo(state, payload.todoId, payload.content))
     .with({ type: TOGGLE_TODO }, ({ payload }) => toggleTodo(state, payload.todoId))
     .with({ type: EDIT_TODO }, ({ payload }) => editTodo(state, payload.todoId, payload.content))
     .with({ type: DELETE_TODO }, ({ payload }) => deleteTodo(state, payload.todoId))
@@ -32,9 +31,9 @@ export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisti
     .exhaustive();
 };
 
-const addTodo = (todos: Todo[], content: string) => {
+const addTodo = (todos: Todo[], todoId: TodoId, content: string) => {
   const newTodo: OptimisticTodo = {
-    id: uniqueIdGenerator.uuid(),
+    id: todoId,
     index: getNextTodoIndex(todos),
     content,
     completed: false,

@@ -8,6 +8,7 @@ import { useForm } from "@/hooks/common/useForm";
 import { useIsServer } from "@/hooks/common/useIsServer";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
+import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
 import { getNextTodoIndex } from "@/modules/domain/todo";
 import { TodosFilter } from "@/modules/domain/todosFilter";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
@@ -22,10 +23,12 @@ export const CreateTodoForm = () => {
 
   const handleCreateTodo = async (formData: FormData) => {
     const content = formData.get("content")?.toString();
+    const todoId = uniqueIdGenerator.uuid();
     if (content && !pendingTransaction) {
       resetForm();
-      dispatchAction({ type: CREATE_TODO, payload: { content } });
-      formData.append("index", getNextTodoIndex(allTodos).toString());
+      dispatchAction({ type: CREATE_TODO, payload: { todoId, content } });
+      formData.set("index", getNextTodoIndex(allTodos).toString());
+      formData.set("todoId", todoId);
       await createTodo(formData);
     }
   };

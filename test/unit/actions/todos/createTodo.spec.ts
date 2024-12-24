@@ -3,6 +3,7 @@ import authService from "@/modules/domain/shared/authService";
 import { usersRepository } from "@/modules/infrastructure/repositories/usersRepository";
 import { webCache } from "@/modules/infrastructure/web/webCache";
 import { aUser } from "@/test/fixtures/user.fixture";
+import { randomDataGenerator } from "@/test/fixtures/utils/randomDataGenerator";
 import { formData } from "@/test/unit/utils/formDataUtils";
 
 vi.mock("@/modules/domain/shared/authService");
@@ -25,12 +26,16 @@ describe("create todo action", () => {
 
   it("creates a todo when the form data is valid and the user is authenticated", async () => {
     const user = aUser({ todos: [] });
-    const newTodo = "New todo";
-    const index = 1;
+    const newTodo = { id: randomDataGenerator.anId(), content: "New todo", index: 1 };
     vi.mocked(authService.verifySession).mockResolvedValueOnce({ userId: user.id });
 
-    await createTodo(formData({ content: newTodo, index: index.toString() }));
-    expect(usersRepository.saveTodo).toHaveBeenCalledWith({ userId: user.id, content: newTodo, index });
+    await createTodo(formData({ todoId: newTodo.id, content: newTodo.content, index: newTodo.index.toString() }));
+    expect(usersRepository.saveTodo).toHaveBeenCalledWith({
+      userId: user.id,
+      todoId: newTodo.id,
+      content: newTodo.content,
+      index: newTodo.index,
+    });
     expect(webCache.revalidatePath).toHaveBeenCalledWith("/todos");
   });
 });

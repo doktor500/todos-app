@@ -34,9 +34,9 @@ export const usersRepository: UsersRepository = {
 
     return users[0].id;
   },
-  saveTodo: async (props: { userId: UserId; content: string; index: number }): Promise<void> => {
-    const { userId, content, index } = props;
-    await db.insert(TodosTable).values({ userId, content, index });
+  saveTodo: async (props: { userId: UserId; todoId: TodoId; content: string; index: number }): Promise<void> => {
+    const { userId, todoId, content, index } = props;
+    await db.insert(TodosTable).values({ userId, id: todoId, content, index });
   },
   updateTodo: async ({ userId, todo }: { userId: UserId; todo: ExistingTodo }): Promise<void> => {
     await db

@@ -1,6 +1,6 @@
 import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { expect } from "vitest";
+import { expect, Mock } from "vitest";
 
 import { createTodo } from "@/actions/todos/createTodo";
 import { deleteTodo } from "@/actions/todos/deleteTodo";
@@ -8,9 +8,11 @@ import { editTodo } from "@/actions/todos/editTodo";
 import { toggleTodo } from "@/actions/todos/toggleTodo";
 import { getUser } from "@/actions/user/getUser";
 import Page from "@/app/todos/page";
+import { useAtomicAnimations } from "@/hooks/common/useAutomaticAnimations";
+import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 import { aUser } from "@/test/fixtures/user.fixture";
-import { formData } from "@/test/unit/utils/formDataUtils";
+import { randomDataGenerator } from "@/test/fixtures/utils/randomDataGenerator";
 import { renderAsync } from "@/test/unit/utils/reactTestUtils";
 
 vi.mock("@/actions/todos/createTodo");
@@ -19,8 +21,12 @@ vi.mock("@/actions/todos/editTodo");
 vi.mock("@/actions/todos/deleteTodo");
 vi.mock("@/actions/user/getUser");
 vi.mock("@/hooks/common/useAppRouter");
+vi.mock("@/hooks/common/useAutomaticAnimations");
+vi.mock("@/modules/domain/shared/uniqueIdGenerator");
 
 describe("todos page", () => {
+  beforeEach(() => vi.mocked(useAtomicAnimations).mockReturnValue([vi.fn(), vi.fn()]));
+
   it("renders user todos successfully", async () => {
     const todo = aTodo();
     const user = aUser({ id: 1, todos: [todo] });
@@ -50,7 +56,9 @@ describe("todos page", () => {
 
   it("calls create todo action when the form is submitted", async () => {
     const user = aUser({ todos: [aTodo({ index: 9 })] });
+    const todoId = randomDataGenerator.anId();
     const newTodo = "New todo content";
+    vi.mocked(uniqueIdGenerator.uuid).mockReturnValue(todoId);
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -60,7 +68,12 @@ describe("todos page", () => {
 
     await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
 
-    expect(createTodo).toHaveBeenCalledWith(formData({ content: newTodo, index: 10 }));
+    expect(createTodo).toHaveBeenCalledWith(expect.any(FormData));
+    expect(Object.fromEntries((createTodo as Mock).mock.calls[0][0])).toEqual({
+      todoId,
+      content: newTodo,
+      index: "10",
+    });
   });
 
   it("clears the input field to create a todo when the form is submitted", async () => {

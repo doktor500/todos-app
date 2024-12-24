@@ -34,11 +34,11 @@ export const fakeUsersRepository = () => {
     return id;
   };
 
-  const saveTodo = async (props: { userId: UserId; content: string; index: number }): Promise<void> => {
-    const { userId, content, index } = props;
+  const saveTodo = async (props: { userId: UserId; todoId: TodoId; content: string; index: number }): Promise<void> => {
+    const { userId, todoId, content, index } = props;
     const user = await repository.get(userId);
     if (user) {
-      const todo: Todo = { id: uniqueIdGenerator.uuid(), content, completed: false, index };
+      const todo: Todo = { id: todoId ?? uniqueIdGenerator.uuid(), content, completed: false, index };
       const updatedUser: User = { ...user, todos: [...user.todos, todo] };
       await repository.save(updatedUser);
     }

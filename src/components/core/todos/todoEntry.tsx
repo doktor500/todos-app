@@ -28,7 +28,7 @@ export const TodoEntry = ({ todoId, content, completed, stale, allowDrag, isGrab
     <div
       className={cn(
         "flex cursor-default items-center h-11 overflow-x-hidden dark:text-white rounded-sm pl-3 dark:bg-slate-700/60 dark:hover:bg-slate-800",
-        { "cursor-wait": disabled, "animate-pulse": stale }
+        { "cursor-wait": disabled }
       )}
     >
       <GripVertical

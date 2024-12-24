@@ -25,11 +25,14 @@ vi.mock("@/hooks/common/useAutomaticAnimations");
 vi.mock("@/modules/domain/shared/uniqueIdGenerator");
 
 describe("todos page", () => {
-  beforeEach(() => vi.mocked(useAtomicAnimations).mockReturnValue([vi.fn(), vi.fn()]));
+  beforeEach(() => {
+    vi.mocked(uniqueIdGenerator.uuid).mockReturnValue(randomDataGenerator.anId());
+    vi.mocked(useAtomicAnimations).mockReturnValue([vi.fn(), vi.fn()]);
+  });
 
   it("renders user todos successfully", async () => {
     const todo = aTodo();
-    const user = aUser({ id: 1, todos: [todo] });
+    const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -43,7 +46,7 @@ describe("todos page", () => {
     ${false}
   `("marks completed todos as checked '$completed' when the list of todos is rendered", async ({ completed }) => {
     const todo = aTodo({ completed });
-    const user = aUser({ id: 1, todos: [todo] });
+    const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -91,7 +94,7 @@ describe("todos page", () => {
   });
 
   it("disables the todo entry while the form is being submitted", async () => {
-    const user = aUser({ id: 1, todos: [] });
+    const user = aUser({ todos: [] });
     const newTodo = "New todo content";
     const { promise, resolve } = Promise.withResolvers<void>();
 
@@ -109,12 +112,13 @@ describe("todos page", () => {
       expect(screen.getByRole("checkbox")).toHaveAttribute("disabled");
       expect(screen.getByLabelText("Delete todo")).toHaveAttribute("disabled");
     });
+
     await act(() => resolve());
   });
 
   it("calls toggle todo action when the todo checkbox is clicked", async () => {
     const todo = aTodo();
-    const user = aUser({ id: 1, todos: [todo] });
+    const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -129,7 +133,7 @@ describe("todos page", () => {
     ${false}
   `("toggles todo completed state to checked '$completed' when the checkbox is clicked", async ({ completed }) => {
     const todo = aTodo({ completed });
-    const user = aUser({ id: 1, todos: [todo] });
+    const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -144,7 +148,7 @@ describe("todos page", () => {
   it("calls edit todo action when the todo input looses focus and todo content has been changed", async () => {
     const todo = aTodo({ content: "original content" });
     const newTodoContent = "new content";
-    const user = aUser({ id: 1, todos: [todo] });
+    const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -158,7 +162,7 @@ describe("todos page", () => {
 
   it("does not call edit todo action when the todo input looses focus and todo content has not changed", async () => {
     const todo = aTodo({ content: "original content" });
-    const user = aUser({ id: 1, todos: [todo] });
+    const user = aUser({ todos: [todo] });
 
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
@@ -173,7 +177,7 @@ describe("todos page", () => {
 
   it("calls delete todo action when the trash icon is clicked", async () => {
     const todo = aTodo();
-    const user = aUser({ id: 1, todos: [todo] });
+    const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -185,7 +189,7 @@ describe("todos page", () => {
   it("filters list of todos based on the text available in the search input", async () => {
     const todo1 = aTodo({ content: "Buy milk" });
     const todo2 = aTodo({ content: "Pay rent" });
-    const user = aUser({ id: 1, todos: [todo1, todo2] });
+    const user = aUser({ todos: [todo1, todo2] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -205,7 +209,7 @@ describe("todos page", () => {
   it("filters list of todos based on the status", async () => {
     const todo1 = aTodo({ content: "Buy milk", completed: true });
     const todo2 = aTodo({ content: "Pay rent", completed: false });
-    const user = aUser({ id: 1, todos: [todo1, todo2] });
+    const user = aUser({ todos: [todo1, todo2] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
     await renderAsync(Page);
@@ -242,5 +246,29 @@ describe("todos page", () => {
     await waitFor(() => {
       expect(screen.queryByLabelText("New todo")).not.toBeInTheDocument();
     });
+  });
+
+  it("prevents double submit", async () => {
+    const user = aUser({ todos: [] });
+    const newTodo = "New todo content!";
+    const { promise, resolve } = Promise.withResolvers<void>();
+
+    vi.mocked(getUser).mockResolvedValueOnce(user);
+    vi.mocked(createTodo).mockImplementation(() => promise);
+
+    await renderAsync(Page);
+
+    const newTodoInputField = screen.getByLabelText("New todo");
+    await userEvent.type(newTodoInputField, newTodo);
+    await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
+
+    await waitFor(() => {
+      expect(screen.getByLabelText(`Edit todo ${newTodo}`)).toHaveAttribute("disabled");
+    });
+
+    await act(() => fireEvent.submit(screen.getByLabelText("Create todo")));
+
+    expect(createTodo).toHaveBeenCalledTimes(1);
+    await act(() => resolve());
   });
 });

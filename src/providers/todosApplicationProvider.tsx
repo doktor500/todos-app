@@ -1,24 +1,16 @@
 "use client";
 
-import { createContext, Dispatch, ReactNode, useOptimistic, useTransition } from "react";
+import { ReactNode, useOptimistic, useTransition } from "react";
 
 import { Todo } from "@/modules/domain/todo";
-import { Optional } from "@/modules/domain/utils/optionalUtils";
+import { TodosApplicationContext, TodosApplicationContextType } from "@/providers/context/todosApplicationContext";
 import { TodosProvider } from "@/providers/todosProvider";
 import { TodoOptimisticAction, todoOptimisticActionReducer } from "@/reducers/todoOptimisticActionReducer";
-
-type TodosApplicationContextType = {
-  todos: Todo[];
-  pendingTransaction: boolean;
-  dispatch: Dispatch<TodoOptimisticAction>;
-};
 
 type Props = {
   todos: Todo[];
   children: ReactNode;
 };
-
-export const TodosApplicationContext = createContext<Optional<TodosApplicationContextType>>(undefined);
 
 export const TodosApplicationProvider = ({ todos: userTodos, children }: Props) => {
   const [pendingTransaction, startTransition] = useTransition();

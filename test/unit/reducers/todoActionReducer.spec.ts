@@ -1,5 +1,5 @@
-import { TodoAction } from "@/hooks/useTodos";
 import { TodosFilter } from "@/modules/domain/todosFilter";
+import { TodoAction } from "@/providers/context/todosContext";
 import { todoActionReducer, TodoBaseActionType } from "@/reducers/todoActionReducer";
 import { aTodo } from "@/test/fixtures/todo.fixture";
 

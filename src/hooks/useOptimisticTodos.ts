@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { TodosApplicationContext } from "@/providers/todosApplicationProvider";
+import { TodosApplicationContext } from "@/providers/context/todosApplicationContext";
 
 export const useOptimisticTodos = () => {
   const context = useContext(TodosApplicationContext);

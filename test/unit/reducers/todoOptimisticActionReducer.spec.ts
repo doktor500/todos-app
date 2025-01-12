@@ -1,4 +1,3 @@
-import clock from "@/modules/domain/shared/clock";
 import uniqueIdGenerator from "@/modules/domain/shared/uniqueIdGenerator";
 import {
   TodoOptimisticAction,
@@ -10,7 +9,6 @@ import { aTodo } from "@/test/fixtures/todo.fixture";
 const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO } = TodoOptimisticActionType;
 
 vi.mock("@/modules/domain/shared/uniqueIdGenerator");
-vi.mock("@/modules/domain/shared/clock");
 
 describe("todo optimistic actions reducer", () => {
   it("can add a todo to an existing list of todos", () => {
@@ -18,9 +16,7 @@ describe("todo optimistic actions reducer", () => {
     const todos = [todo];
     const newTodo = "New todo";
     const newTodoId = uniqueIdGenerator.uuid();
-    const currentDate = new Date();
     vi.mocked(uniqueIdGenerator.uuid).mockImplementationOnce(() => newTodoId);
-    vi.mocked(clock.now).mockImplementationOnce(() => currentDate);
 
     const action: TodoOptimisticAction = { type: CREATE_TODO, payload: { todoId: newTodoId, content: newTodo } };
     const updatedTodos = todoOptimisticActionReducer(todos, action);

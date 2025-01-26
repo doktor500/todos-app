@@ -2,21 +2,23 @@ import { findTodoFilter, TodosFilter } from "@/modules/domain/todosFilter";
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
-export enum TodoBaseActionType {
-  SET_SEARCH_TERM = "SET_SEARCH_TERM",
-  SET_TODOS_FILTER = "SET_TODOS_FILTER",
-}
+export const TodoBaseActionType = {
+  SET_SEARCH_TERM: "SET_SEARCH_TERM",
+  SET_TODOS_FILTER: "SET_TODOS_FILTER",
+} as const;
+
+export type TodoBaseActionType = (typeof TodoBaseActionType)[keyof typeof TodoBaseActionType];
+
+const { SET_SEARCH_TERM, SET_TODOS_FILTER } = TodoBaseActionType;
 
 export type TodoBaseAction =
-  | { type: TodoBaseActionType.SET_SEARCH_TERM; payload: { searchTerm: string } }
-  | { type: TodoBaseActionType.SET_TODOS_FILTER; payload: { todosFilter: Optional<string> } };
+  | { type: "SET_SEARCH_TERM"; payload: { searchTerm: string } }
+  | { type: "SET_TODOS_FILTER"; payload: { todosFilter: Optional<string> } };
 
 type TodosState = {
   searchTerm: Optional<string>;
   todosFilter: TodosFilter;
 };
-
-const { SET_SEARCH_TERM, SET_TODOS_FILTER } = TodoBaseActionType;
 
 const handleSetSearchTerm = (state: TodosState, searchTerm: string): TodosState => {
   return { ...state, searchTerm };

@@ -4,22 +4,24 @@ import { match } from "@/modules/domain/utils/patternMatchingUtils";
 
 export type OptimisticTodo = Todo & { stale?: boolean };
 
-export enum TodoOptimisticActionType {
-  CREATE_TODO = "CREATE_TODO",
-  TOGGLE_TODO = "TOGGLE_TODO",
-  EDIT_TODO = "EDIT_TODO",
-  DELETE_TODO = "DELETE_TODO",
-  SORT_TODOS = "SORT_TODOS",
-}
+export const TodoOptimisticActionType = {
+  CREATE_TODO: "CREATE_TODO",
+  TOGGLE_TODO: "TOGGLE_TODO",
+  EDIT_TODO: "EDIT_TODO",
+  DELETE_TODO: "DELETE_TODO",
+  SORT_TODOS: "SORT_TODOS",
+} as const;
+
+export type TodoOptimisticActionType = (typeof TodoOptimisticActionType)[keyof typeof TodoOptimisticActionType];
 
 const { CREATE_TODO, TOGGLE_TODO, EDIT_TODO, DELETE_TODO, SORT_TODOS } = TodoOptimisticActionType;
 
 export type TodoOptimisticAction =
-  | { type: TodoOptimisticActionType.CREATE_TODO; payload: { todoId: TodoId; content: string } }
-  | { type: TodoOptimisticActionType.TOGGLE_TODO; payload: { todoId: TodoId } }
-  | { type: TodoOptimisticActionType.EDIT_TODO; payload: { todoId: TodoId; content: string } }
-  | { type: TodoOptimisticActionType.DELETE_TODO; payload: { todoId: TodoId } }
-  | { type: TodoOptimisticActionType.SORT_TODOS; payload: { todos: Todo[] } };
+  | { type: "CREATE_TODO"; payload: { todoId: TodoId; content: string } }
+  | { type: "TOGGLE_TODO"; payload: { todoId: TodoId } }
+  | { type: "EDIT_TODO"; payload: { todoId: TodoId; content: string } }
+  | { type: "DELETE_TODO"; payload: { todoId: TodoId } }
+  | { type: "SORT_TODOS"; payload: { todos: Todo[] } };
 
 export const todoOptimisticActionReducer = (state: Todo[], action: TodoOptimisticAction): OptimisticTodo[] => {
   return match(action)

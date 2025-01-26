@@ -1,10 +1,12 @@
 import { Optional } from "@/modules/domain/utils/optionalUtils";
 
-export enum TodosFilter {
-  NONE = "NONE",
-  ACTIVE = "ACTIVE",
-  COMPLETED = "COMPLETED",
-}
+export const TodosFilter = {
+  NONE: "NONE",
+  ACTIVE: "ACTIVE",
+  COMPLETED: "COMPLETED",
+} as const;
+
+export type TodosFilter = (typeof TodosFilter)[keyof typeof TodosFilter];
 
 export const defaultTodosFilter = TodosFilter.ACTIVE;
 

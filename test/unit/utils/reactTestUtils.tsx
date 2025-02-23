@@ -1,17 +1,16 @@
 import { act, render } from "@testing-library/react";
-import React from "react";
+import { JSX } from "react";
 
-type Component<PROPS> = (props: PROPS) => Promise<React.ReactNode | undefined | null>;
-
-// Temporary solution for async rendering until https://github.com/testing-library/react-testing-library/issues/1209 is resolved
-export const renderAsync = async <PROPS extends object>(component: Component<PROPS>, props?: PROPS) => {
-  const RenderedComponent = await renderComponent(component, props);
-
-  return act(() => render(<RenderedComponent />));
+// Follow <https://github.com/testing-library/react-testing-library/issues/1209>
+export const renderAsync = async (node: JSX.Element) => {
+  await act(async () => render(await getNearestClientComponent(node)));
 };
 
-const renderComponent = async <PROPS extends object>(component: Component<PROPS>, props = {}) => {
-  const RenderedComponent = await component(props as PROPS);
+const getNearestClientComponent = async (node: JSX.Element) => {
+  if (!isAsyncFunction(node.type)) return node;
+  const nodeReturnValue = await node.type({ ...node.props });
 
-  return (): React.ReactNode => RenderedComponent as React.ReactNode;
+  return getNearestClientComponent(nodeReturnValue);
 };
+
+const isAsyncFunction = (value: unknown): boolean => Object.prototype.toString.call(value) === "[object AsyncFunction]";

@@ -35,7 +35,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     expect(screen.getByLabelText(`Edit todo ${todo.content}`)).toBeInTheDocument();
   });
@@ -49,7 +49,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     fireEvent.click(screen.getByRole("combobox"));
     fireEvent.click(screen.getByRole("option", { name: "All" }));
@@ -64,7 +64,7 @@ describe("todos page", () => {
     vi.mocked(uniqueIdGenerator.uuid).mockReturnValue(todoId);
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     const newTodoInputField = screen.getByLabelText("New todo");
     await userEvent.type(newTodoInputField, newTodo);
@@ -84,7 +84,7 @@ describe("todos page", () => {
     const newTodo = "New todo content";
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     const newTodoInputField = screen.getByLabelText("New todo");
     await userEvent.type(newTodoInputField, newTodo);
@@ -101,7 +101,7 @@ describe("todos page", () => {
     vi.mocked(getUser).mockResolvedValueOnce(user);
     vi.mocked(createTodo).mockImplementationOnce(() => promise);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     const newTodoInputField = screen.getByLabelText("New todo");
     await userEvent.type(newTodoInputField, newTodo);
@@ -121,7 +121,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     fireEvent.click(screen.getByRole("checkbox"));
     expect(toggleTodo).toHaveBeenCalledWith({ todoId: todo.id, completed: true });
@@ -136,7 +136,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     fireEvent.click(screen.getByRole("combobox"));
     fireEvent.click(screen.getByRole("option", { name: "All" }));
@@ -151,7 +151,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     const todoInputField = screen.getByLabelText(`Edit todo ${todo.content}`);
     fireEvent.change(todoInputField, { target: { value: newTodoContent } });
@@ -166,7 +166,7 @@ describe("todos page", () => {
 
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     const todoInputField = screen.getByLabelText(`Edit todo ${todo.content}`);
     fireEvent.change(todoInputField, { target: { value: todo.content } });
@@ -180,7 +180,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     fireEvent.click(screen.getByLabelText("Delete todo"));
     expect(deleteTodo).toHaveBeenCalledWith({ todoId: todo.id });
@@ -192,7 +192,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo1, todo2] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     expect(screen.queryByLabelText(`Edit todo ${todo1.content}`)).toBeInTheDocument();
     expect(screen.queryByLabelText(`Edit todo ${todo2.content}`)).toBeInTheDocument();
@@ -212,7 +212,7 @@ describe("todos page", () => {
     const user = aUser({ todos: [todo1, todo2] });
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     expect(screen.queryByLabelText(`Edit todo ${todo1.content}`)).not.toBeInTheDocument();
     expect(screen.queryByLabelText(`Edit todo ${todo2.content}`)).toBeInTheDocument();
@@ -238,7 +238,7 @@ describe("todos page", () => {
     const user = aUser();
     vi.mocked(getUser).mockResolvedValueOnce(user);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     fireEvent.click(screen.getByRole("combobox"));
     fireEvent.click(screen.getByRole("option", { name: "Done" }));
@@ -256,7 +256,7 @@ describe("todos page", () => {
     vi.mocked(getUser).mockResolvedValueOnce(user);
     vi.mocked(createTodo).mockImplementation(() => promise);
 
-    await renderAsync(Page);
+    await renderAsync(<Page />);
 
     const newTodoInputField = screen.getByLabelText("New todo");
     await userEvent.type(newTodoInputField, newTodo);

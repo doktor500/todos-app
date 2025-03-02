@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useAtomicAnimations } from "@/hooks/common/useAutomaticAnimations";
 import { useTodos } from "@/hooks/useTodos";
 import { cn } from "@/lib/utils";
-import { Todo, toTodoEntry } from "@/modules/domain/todo";
+import { Todo } from "@/modules/domain/todo";
 import { moveItemIn } from "@/modules/domain/utils/collectionUtils";
 import { TodoOptimisticActionType } from "@/reducers/todoOptimisticActionReducer";
 
@@ -34,10 +34,9 @@ export const TodoList = () => {
     const previousIndex = allTodos.findIndex((todo) => todo.id === sourceTodoId);
     const nextIndex = allTodos.findIndex((todo) => todo.id === destinationTodoId);
     const sortedTodos = updateTodosIndex(previousIndex, nextIndex, allTodos);
-    const updatedTodos = getChangedTodos(previousIndex, nextIndex, sortedTodos);
 
     dispatchAction({ type: SORT_TODOS, payload: { todos: sortedTodos } });
-    await sortTodos({ todos: updatedTodos });
+    await sortTodos({ todos: sortedTodos });
   };
 
   const updateTodosIndex = (previousIndex: number, nextIndex: number, todos: Todo[]) => {
@@ -45,13 +44,6 @@ export const TodoList = () => {
       .from(previousIndex)
       .to(nextIndex)
       .map((todo, index) => ({ ...todo, index: todos.length - index }));
-  };
-
-  const getChangedTodos = (previousIndex: number, nextIndex: number, todos: Todo[]) => {
-    const start = Math.min(previousIndex, nextIndex);
-    const end = start + Math.max(previousIndex, nextIndex) + 1;
-
-    return todos.slice(start, end).map(toTodoEntry);
   };
 
   return (

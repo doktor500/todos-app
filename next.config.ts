@@ -7,11 +7,12 @@ import { isLocalEnvironment } from "./src/modules/infrastructure/systemUtils";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  experimental: {
-    turbo: {
-      resolveAlias: isLocalEnvironment() ? localMappings : {},
-      resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],
-    },
+  turbopack: {
+    resolveAlias: isLocalEnvironment() ? localMappings : {},
+    resolveExtensions: [".mdx", ".tsx", ".ts", ".jsx", ".js", ".mjs", ".json"],
+  },
+  typescript: {
+    tsconfigPath: isLocalEnvironment() ? "tsconfig.local.json" : "tsconfig.json",
   },
 };
 

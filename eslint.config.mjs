@@ -29,7 +29,6 @@ export default [
     "plugin:import/typescript",
     "plugin:prettier/recommended",
     "plugin:react-hooks/recommended",
-    "plugin:tailwindcss/recommended"
   )),
   {
     ignores: ["**/eslint.config.mjs", ".next/**", "playwright-report/**"],
@@ -57,9 +56,6 @@ export default [
         }
       },
       react: { version: "detect" },
-      tailwindcss: {
-        callees: ["classnames", "clsx", "cva", "cx", "tw", "twx", "classMerge", "ctl"]
-      }
     },
     rules: {
       ...eslintReact.configs.recommended.rules,
